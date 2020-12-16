@@ -1,5 +1,5 @@
 <?php
 
-print("Website Hosting Test");
+print("Website Hosting Test 2");
 
 ?>
