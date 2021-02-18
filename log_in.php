@@ -24,7 +24,7 @@
         $email = mysqli_real_escape_string($conn,$_POST['email']);
         $password = mysqli_real_escape_string($conn,$_POST['password']);
 
-        $user_check_query = "SELECT * FROM user WHERE email='$email' LIMIT 1";
+        $user_check_query = "SELECT * FROM User WHERE email='$email' LIMIT 1";
         $result = mysqli_query($conn, $user_check_query);
         $user = mysqli_fetch_assoc($result);
 

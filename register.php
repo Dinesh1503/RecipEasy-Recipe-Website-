@@ -15,7 +15,7 @@
                 <input type='email' name='email' id='email' required><br><br>
                 <label>Password:</label><br>
                 <input type='password' name='password' required><br><br>
-                <button style="margin-right: 5px;">Register</button><a href="log_in.php">Log in</a>
+                <button style="margin-right: 5px;"s>Register</button><a href="log_in.php">Log in</a>
             </form>
         </div>
     </body>
@@ -32,7 +32,7 @@
         $password = mysqli_real_escape_string($conn,$_POST['password']);
 
         $password = password_hash("newPassword", PASSWORD_DEFAULT);   
-        $sql = "INSERT INTO user(first_name, last_name, email, password)
+        $sql = "INSERT INTO User(first_name, last_name, email, password)
                 VALUES ('$first_name', '$last_name', '$email', '$password')";
         if($conn->query($sql)){
             echo("Successfuly registered");
