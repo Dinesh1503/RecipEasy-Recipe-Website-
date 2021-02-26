@@ -1,5 +1,5 @@
 <?php
-	$localSQL = false;
+	$localSQL = true;
 	if ($localSQL) {
 		$servername = "localhost";
 		$username   = "root";
@@ -12,7 +12,7 @@
 		$database   = "2020_comp10120_y14";
 	}
 
-	$conn = mysqli_connect($servername, $username, $password, $database);
+	$conn = mysqli_connect($servername, $username, $password);
 
 	$sql = "CREATE DATABASE recipeasy" ;
 	$conn->query($sql);
@@ -26,6 +26,9 @@
 			password VARCHAR(128) NOT NULL
 		)
 	";
+	$conn->query($sql);
+
+	$sql = "USE $database";
 	$conn->query($sql);
 
 	$sql = "
@@ -54,6 +57,7 @@
 		CREATE TABLE Recipe(
 			id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 			title VARCHAR(256) NOT NULL,
+			cuisine_type VARCHAR(128) NOT NULL,
 			image_url TEXT NOT NULL,
 			original_site_url TEXT NOT NULL,
 			number_of_servings INT(6) NOT NULL,
@@ -63,6 +67,7 @@
 			total_daily TEXT NOT NULL,
 			diet_labels TEXT NOT NULL,
 			health_labels TEXT NOT NULL,
+			description TEXT NOT NULL,
 			user_id INT(8) REFERENCES User(id)
 		)
 	";
