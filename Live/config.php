@@ -17,6 +17,9 @@
 	$sql = "CREATE DATABASE recipeasy" ;
 	$conn->query($sql);
 
+	$sql = "USE $database";
+	$conn->query($sql);
+
 	$sql = "
 		CREATE TABLE User(
 			id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -26,9 +29,6 @@
 			password VARCHAR(128) NOT NULL
 		)
 	";
-	$conn->query($sql);
-
-	$sql = "USE $database";
 	$conn->query($sql);
 
 	$sql = "
