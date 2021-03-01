@@ -31,9 +31,6 @@
 	";
 	$conn->query($sql);
 
-	$sql = "USE $database";
-	$conn->query($sql);
-
 	$sql = "
 		CREATE TABLE Food(
 			id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
