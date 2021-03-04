@@ -3,12 +3,11 @@
 COMP10120 Y14 group project.
 
 Angel:
-Currently all we have is contained in the directories DB, Debug, Static, UserLogin
-I have left the other files just in case I have missed something
-I have commented Yunyi's upload processing file because as we are now going to change the database this block of code is not going to work
-If you find something that I have made wrong please message me
-Also what I have put is what was pushed in gitlab. If you have more recent versions please push them
-And try to work on it as it is now, because everything is connected. We should try to stick as sooner as possible to a signle design that everyone should use
+Currently all we have is contained in the directories DB, Debug, Static, UserLogin.
+I have left the other files just in case I have missed something.
+I have commented Yunyi's upload processing file because as we are now going to change the database this block of code is not going to work,
+If you find something that I have made wrong please message me,
+Also what I have put is what was pushed in gitlab. If you have more recent versions please push them and try to work on it as it is now, because everything is connected. We should try to stick as sooner as possible to a signle design that everyone should use
 
 Sam: 14/02/21
 From what I've figured out the Edamam API uses a RESTful API meaning it uses HTTP requests to send and recieve information. This basically means you have to send a "packet of internet" where you fill it with the request information according to their documentation. It will then send their own packet back in the form of a JSON load that we will have to parse and display.
