@@ -1,0 +1,15 @@
+.search-container{
+	width: 60%;
+	margin-left: 20%;
+	padding-top: 30px;
+}
+
+.search-container h2 b{
+	margin: 0px;
+	width: 15%;
+	padding-right: 3%;
+}
+
+.search-container input{
+	width: 82%;
+}
