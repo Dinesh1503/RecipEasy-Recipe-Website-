@@ -1,6 +1,5 @@
-
 <?php
-    $localSQL = true;
+    $localSQL = false;
 	if ($localSQL) {
 		$servername = "localhost";
 		$username   = "root";
