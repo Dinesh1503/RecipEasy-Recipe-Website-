@@ -3,7 +3,7 @@
 <head>
 	<title>Login Page</title>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="temp.css">
+	<link rel="stylesheet" type="text/css" href="temp-login.css">
 </head>
 
 <body>
@@ -26,7 +26,7 @@
 		<br>
 		<a href="signUp.php">Sign Up</a>
 		<br>
-		<a href="resetPassword.html">Reset Password</a>
+		<a href="resetPassword.php">Reset Password</a>
 		<br>
 		<a href="../Static/index.html">Return to Main Page</a>
 	</main>
