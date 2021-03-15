@@ -2,6 +2,12 @@
 
 COMP10120 Y14 group project.
 
+Directories:
+@ DB - A directory containing the database logic.
+@ Debug - Most of the things that are being tested right now. Working with the API.
+@ Static - Currently contains all the main pages of our webiste. Most of the work should be done here.
+@ UserLogin - The user login and register pages with their styling. User authentication, email validation or password reset should be implemented here. 
+
 Angel:
 Currently all we have is contained in the directories DB, Debug, Static, UserLogin.
 I have left the other files just in case I have missed something.
