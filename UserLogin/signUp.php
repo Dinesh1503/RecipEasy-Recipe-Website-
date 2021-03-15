@@ -35,6 +35,9 @@
 		<a href="resetPassword.php">Reset Password</a>
 		<br>
 		<a href="../Static/index.html">Return to Main Page</a>
+		<br>
+		<a href="contactUs.html">Contact Us</a>
+		<br>
 	</main>
 </body>
 </html>

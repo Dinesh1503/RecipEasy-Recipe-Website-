@@ -30,6 +30,9 @@
 		<a href="signUp.php">Sign Up</a>
 		<br>
 		<a href="../Static/index.html">Return to Main Page</a>
+		<br>
+		<a href="contactUs.html">Contact Us</a>
+		<br>
 	</main>
 </body>
 </html>
