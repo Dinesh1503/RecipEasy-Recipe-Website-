@@ -12,7 +12,7 @@
 		$database   = "2020_comp10120_y14";
 	}
 
-	$conn = mysqli_connect($servername, $username, $password, $database);
+	$conn = mysqli_connect($servername, $username, $password);
 
 	$sql = "CREATE DATABASE recipeasy" ;
 	$conn->query($sql);
@@ -32,23 +32,23 @@
 	$conn->query($sql);
 
 	$sql = "
-		CREATE TABLE Food(
+		CREATE TABLE Ingredient(
 			id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-			name VARCHAR(128) NOT NULL
+			name VARCHAR(128) NOT NULL,
+			image TEXT NOT NULL,
+			extended_ingredient_id INT(8) REFERENCES ExtendedIngredient(id)
 		)
 	";
 	$conn->query($sql);
 
 	$sql = "
-		CREATE TABLE Ingredient(
+		CREATE TABLE ExtendedIngredient(
 			id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 			name VARCHAR(128) NOT NULL,
-			quantity FLOAT(8) NOT NULL,
-			weight FLOAT(8) NOT NULL,
-			category VARCHAR(128) NOT NULL,
-			recipe_id INT(8) REFERENCES Recipe(id),
-			food_id INT(8) REFERENCES Food(id),
-			CONSTRAINT ingredient_food UNIQUE(food_id)
+			amount FLOAT(8) NOT NULL,
+			original TEXT NOT NULL,
+			unit VARCHAR(16) NOT NULL,
+			recipe_id INT(8) REFERENCES Recipe(id)
 		)
 	";
 	$conn->query($sql);
@@ -59,14 +59,25 @@
 			title VARCHAR(256) NOT NULL,
 			cuisine_type VARCHAR(128) NOT NULL,
 			image_url TEXT NOT NULL,
-			original_site_url TEXT NOT NULL,
+			image_type VARCHAR(12) NOT NULL,
 			number_of_servings INT(6) NOT NULL,
+			ready_in_minutes INT(6) NOT NULL,
+			license TEXT,
+			source_name VARCHAR(128),
+			source_site_url TEXT NOT NULL,
+			aggregate_lies INT(6),
+			health_score INT(6),
+			price_per_serving FLOAT(6),
+			cheap TINYINT(1),
+			dairy_free TINYINT(1),
+			gluten_free TINYINT(1),
+			ketogenic TINYINT(1),
+			sustainable TINYINT(1),
+			vegan TINYINT(1),
+			vegetarian TINYINT(1),
+			very_healthy TINYINT(1),
+			very_popular TINYINT(1),
 			calories FLOAT(5) NOT NULL,
-			total_weight FLOAT(8) NOT NULL,
-			total_nutrients TEXT NOT NULL,
-			total_daily TEXT NOT NULL,
-			diet_labels TEXT NOT NULL,
-			health_labels TEXT NOT NULL,
 			description TEXT NOT NULL,
 			user_id INT(8) REFERENCES User(id)
 		)
