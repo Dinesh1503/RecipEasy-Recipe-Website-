@@ -52,9 +52,9 @@
         $email = mysqli_real_escape_string($conn,$_POST['email']);
         $password = mysqli_real_escape_string($conn,$_POST['password']);
 
-        $password = password_hash("newPassword", PASSWORD_DEFAULT);   
+        $hash = password_hash($password, PASSWORD_DEFAULT);   
         $sql = "INSERT INTO User(first_name, last_name, email, password)
-                VALUES ('$first_name', '$last_name', '$email', '$password')";
+                VALUES ('$first_name', '$last_name', '$email', '$hash')";
         if($conn->query($sql)){
             echo("Successfuly registered");
         }

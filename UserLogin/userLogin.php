@@ -48,10 +48,16 @@
         $user = mysqli_fetch_assoc($result);
 
         if($user){
-            echo($user['first_name']." ".$user['last_name']);
+            if(password_verify($password, $user['password']))
+            {
+            	echo($user['first_name']." ".$user['last_name']);
+            }
+            else{
+            	echo("Incorrect Details. Please try again!");
+            }
         }
         else{
-            echo("Try again!");
+            echo("Email not found. Please try again!");
         }
     }
 
