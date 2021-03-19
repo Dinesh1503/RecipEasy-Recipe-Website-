@@ -3,7 +3,7 @@
 <head>
 	<title>Sign Up</title>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="temp.css">
+	<link rel="stylesheet" type="text/css" href="temp-login.css">
 </head>
 
 <body>
@@ -32,9 +32,12 @@
 		<br>
 		<a href="userLogin.php">Login</a>
 		<br>
-		<a href="resetPassword.html">Reset Password</a>
+		<a href="resetPassword.php">Reset Password</a>
 		<br>
 		<a href="../Static/index.html">Return to Main Page</a>
+		<br>
+		<a href="contactUs.html">Contact Us</a>
+		<br>
 	</main>
 </body>
 </html>
@@ -49,9 +52,9 @@
         $email = mysqli_real_escape_string($conn,$_POST['email']);
         $password = mysqli_real_escape_string($conn,$_POST['password']);
 
-        $password = password_hash("newPassword", PASSWORD_DEFAULT);   
+        $hash = password_hash($password, PASSWORD_DEFAULT);   
         $sql = "INSERT INTO User(first_name, last_name, email, password)
-                VALUES ('$first_name', '$last_name', '$email', '$password')";
+                VALUES ('$first_name', '$last_name', '$email', '$hash')";
         if($conn->query($sql)){
             echo("Successfuly registered");
         }

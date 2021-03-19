@@ -26,6 +26,14 @@ body {
 	text-align:center;
 }
 
+.header4 {
+	height:80px;
+	padding-bottom:40px;
+	background: url(contactHeader.png) no-repeat center;
+	background-size: 500px 120px;
+	text-align:center;
+}
+
 main {
 	padding-top: 30px;
 	text-align:center;
@@ -51,10 +59,10 @@ main {
 	display: inline-block;
 }
 
-.registerForm {
+.resetForm {
 	border: 0.1px solid #404040;
 	width: 350px;
-	height: 250px;
+	height: 270px;
 	border-radius: 0.5px;
 	background-color: #f7eda6;
 	padding:20px;
@@ -80,5 +88,5 @@ h1 {
 .submitButton {
 	background-color: #f9f5e4;
 	width:100px;
-	height:30px;
+	height:40px;
 }

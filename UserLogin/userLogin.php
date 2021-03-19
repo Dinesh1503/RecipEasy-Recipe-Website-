@@ -3,7 +3,7 @@
 <head>
 	<title>Login Page</title>
 	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="temp.css">
+	<link rel="stylesheet" type="text/css" href="temp-login.css">
 </head>
 
 <body>
@@ -26,9 +26,12 @@
 		<br>
 		<a href="signUp.php">Sign Up</a>
 		<br>
-		<a href="resetPassword.html">Reset Password</a>
+		<a href="resetPassword.php">Reset Password</a>
 		<br>
 		<a href="../Static/index.html">Return to Main Page</a>
+		<br>
+		<a href="contactUs.html">Contact Us</a>
+		<br>
 	</main>
 </body>
 </html>
@@ -45,10 +48,16 @@
         $user = mysqli_fetch_assoc($result);
 
         if($user){
-            echo($user['first_name']." ".$user['last_name']);
+            if(password_verify($password, $user['password']))
+            {
+            	echo($user['first_name']." ".$user['last_name']);
+            }
+            else{
+            	echo("Incorrect Details. Please try again!");
+            }
         }
         else{
-            echo("Try again!");
+            echo("Email not found. Please try again!");
         }
     }
 
