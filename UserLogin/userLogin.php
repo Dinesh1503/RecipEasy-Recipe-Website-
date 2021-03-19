@@ -50,7 +50,7 @@
         if($user){
             if(password_verify($password, $user['password']))
             {
-            	echo($user['first_name']." ".$user['last_name']);
+            	echo("Successfully logged in as " . $user['first_name']." ".$user['last_name']);
             }
             else{
             	echo("Incorrect Details. Please try again!");
