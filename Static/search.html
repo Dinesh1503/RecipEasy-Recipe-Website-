@@ -31,7 +31,12 @@
  		<!-- MAIN AREA -->
  		<main>
  			<div class="search-container">
- 				<h2><b>Search :</b><input type="text" value="" class="mytxt" /></h2>
+ 				<form action="db_search.php" method="GET">
+ 				<h2>
+					<b>Search :</b><input type="text" name="query" />
+				</h2>
+				<input type="submit" value="Search" />
+			</form>
  			</div>
  		</main>
 
