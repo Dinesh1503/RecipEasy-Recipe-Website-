@@ -10,19 +10,29 @@
     <header>
       <h1>RecipEasy</h1>
         <div id="login_container">
-          <a href="../UserLogin/userLogin.php" class="login">Login</a>
-          <a href="../UserLogin/signUp.php">Register</a>
+          <?php
+            session_start();
+            session_regenerate_id();
+            if(isset($_SESSION['user']))      // if there is no valid session
+            {
+                echo("<div><b>".$_SESSION['user']."</b></div>");
+            }
+            else{
+              echo("<a href='../UserLogin/userLogin.php' class='login'>Login</a>
+                  <a href='../UserLogin/signUp.php'>Register</a>");
+            }
+          ?>
          </div>
     </header>
 
     <!--NAV BAR -->
     <nav>
       <div id="nav_container">
-        <a href="index.html">Main Page</a>
+        <a href="index.php">Main Page</a>
         |
-        <a href="search.html">Search</a>
+        <a href="search.php">Search</a>
         |
-        <a href="filt_page.html">Filter</a>
+        <a href="filt_page.php">Filter</a>
         |
         <a href="upload.php">Upload</a>
       </div>
