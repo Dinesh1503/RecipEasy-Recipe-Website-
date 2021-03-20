@@ -52,12 +52,8 @@
         if($user){
             if(password_verify($password, $user['password']))
             {
-<<<<<<< HEAD
             	$_SESSION['user'] = $user['first_name']." ".$user['last_name'];
             	header("Location: ../Static/index.php");
-=======
-            	echo("Successfully logged in as " . $user['first_name']." ".$user['last_name']);
->>>>>>> feaf90ebfdd56b9eb721b982c9bd75e1c3c0611c
             }
             else{
             	echo("Incorrect Details. Please try again!");
