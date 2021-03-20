@@ -28,7 +28,7 @@
 		<br>
 		<a href="resetPassword.php">Reset Password</a>
 		<br>
-		<a href="../Static/index.html">Return to Main Page</a>
+		<a href="../Static/index.php">Return to Main Page</a>
 		<br>
 		<a href="contactUs.html">Contact Us</a>
 		<br>
@@ -38,6 +38,8 @@
 
 <?php
     include("../DB/config.php");
+
+    session_start();
 
     if($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = mysqli_real_escape_string($conn,$_POST['email']);
@@ -50,7 +52,8 @@
         if($user){
             if(password_verify($password, $user['password']))
             {
-            	echo("Successfully logged in as " . $user['first_name']." ".$user['last_name']);
+            	$_SESSION['user'] = $user['first_name']." ".$user['last_name'];
+            	header("Location: ../Static/index.php");
             }
             else{
             	echo("Incorrect Details. Please try again!");
