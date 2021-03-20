@@ -12,8 +12,8 @@
 	</header>
 	<main>
 		<form class="resetForm" method="POST">
-			<h3>Enter your Email.</h3>
-			<h4>A link will be sent to reset your password.</h4>
+			<!--<h3>Enter your Email.</h3> -->
+			<h4>This will be made more secure in the future!</h4>
 			<label>Email:</label><br>
 			<input type="email" name="email" id="email" class="textInput" required>
 			<br>
@@ -45,8 +45,8 @@
     	$email = mysqli_real_escape_string($conn,$_POST['email']);
         $password = mysqli_real_escape_string($conn,$_POST['password']);
 
-        $password = password_hash("newPassword", PASSWORD_DEFAULT);   
-        $sql = "UPDATE User SET password = '$password' WHERE email = '$email'";
+        $hash = password_hash($password, PASSWORD_DEFAULT);   
+        $sql = "UPDATE User SET password = '$hash' WHERE email = '$email'";
         if($conn->query($sql)){
             echo("Successfuly changed.");
         }
