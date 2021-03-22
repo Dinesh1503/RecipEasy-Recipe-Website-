@@ -20,3 +20,8 @@ main #info_container{
 	width: 75%;
 	float: left;
 }
+
+main #recipe_container{
+	width: 100%;
+	height: 100%;
+}
