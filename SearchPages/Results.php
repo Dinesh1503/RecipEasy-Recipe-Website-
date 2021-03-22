@@ -2,21 +2,30 @@
 <html>
 <head>
 	<title>Results Page</title>
-	<h1>Results Page</h1>
 </head>
 <style type="text/css">
 	.demo
 	{
 		font-family: "Times New Roman", Times, serif;
-		display: inline-block;
+		display: block;
 	}
-	.p 
+	p 
 	{
-	  font-family: "Times New Roman", Times, serif;
+	  font-family: 'Times New Roman',Times, serif;
+	  font-size: 25px;
+	  color: black;
+	  background-color: white;
+	}
+	h1{
+
+	  font-family: 'Times New Roman',Times, serif;
+	  font-size: 35px;
+	  color: black;
+	  background-color: white;
 	}
 	.button 
 	{
-	  background-color: #4CAF50; /* Green */
+	  background-color: white; /* Green */
 	  border: none;
 	  color: white;
 	  padding: 10px 20px;
@@ -33,7 +42,7 @@
 	{
 	  background-color: white; 
 	  color: black; 
-	  border: 2px solid #4CAF50;
+	  border: 2px solid white;
 	}
 	.button1:hover 
 	{
@@ -42,9 +51,9 @@
 	}
 	.button2
 	{
-	  background-color: black; /* Green */
+	  background-color: white; /* Green */
 	  border: black;
-	  color: white;
+	  color: black;
 	  padding: 10px 20px;
 	  text-align: center;
 	  text-decoration: none;
@@ -56,10 +65,51 @@
 	}
 	.button2:hover 
 	{
-	  background-color: white;
-	  color: black;
+	  background-color: #4CAF50;
+	  color: white;
 	}
-	a:link, a:visited 
+	table, th, td 
+	{
+	  border: 1px solid black;
+	  border-collapse: collapse;
+	  font-family: 'Times New Roman',Times, serif;
+	  font-size: 15px;
+	  color: black;
+	  background-color: white;
+	  text-align: left;
+	  padding: 8px;
+	}
+	.btn-group button 
+	{
+	  background-color: white; /* Green background */
+	  border: 1px white; /* Green border */
+	  color: black; /* White text */
+	  padding: 10px 24px; /* Some padding */
+	  cursor: pointer; /* Pointer/hand icon */
+	  width: 25%; /* Set a width if needed */
+	  display: block; /* Make the buttons appear below each other */
+	}
+
+	.btn-group button:not(:last-child) 
+	{
+	  border-bottom: none; /* Prevent double borders */
+	}
+
+	/* Add a background color on hover */
+	.btn-group button:hover 
+	{
+	  background-color: #3e8e41;
+	}
+	.title
+	{
+		font-family: "Times New Roman",'Times', serif;
+		font-size: 50px;
+	}
+	table
+	{
+		width: 100%;
+	}
+	/*a:link, a:visited 
 	{
 	  background-color: #f44336;
 	  color: white;
@@ -72,14 +122,14 @@
 	a:hover, a:active 
 	{
 	  background-color: pink;
-	}
+	}*/
 </style>
 <body>
 	<?php 
 
 		$query = $_POST['searchBox'];
-		$API_KEY = "2d11793350c74121a361866f6ad3666c";
-		$API = "https://api.spoonacular.com/recipes/complexSearch?apiKey=" . $API_KEY . "&query=". $query . "&addRecipeInformation=true&instructionsRequired=true";
+		$API_KEY = "eb165bf559944161ae56ab639b53c06c";
+		$API = "https://api.spoonacular.com/recipes/complexSearch?apiKey=" . $API_KEY . "&query=". $query . "&addRecipeInformation=true&instructionsRequired=true&fillIngredients=true&number=10";
 		
 	
 		$URL = $API;
@@ -98,73 +148,91 @@
 	  	// parse JSON into useable objects
       	$json = json_decode($head);
       	$array = json_decode(json_encode($json), true);
-      	//print_r($array);
-      	$results = $array['results'];      	
-      	for ($i=0; $i < $array['totalResults']; $i++) 
-      	{ 
+      	
+      	$results = $array['results'];     	
+
+      	//test($results);
+      	for ($i=0; $i < sizeof($results); $i++) { 
       		getdata($results,$i);
       	}
+      	
+      	function test($array)
+      	{
+      		foreach ($array as $key => $value) 
+      		{
+      			if(gettype($value) == "array")
+      			{
+      				print_r("<b>".$key."</b> =>");
+      				test($value);
+      			}
+      			else
+      				print_r("<b>		".$key."</b> : ".$value."<br>");
+      		}
+      	}
+      	function dispdet($array)
+      	{
+	      	for ($i=0; $i < sizeof($array); $i++) 
+	      	{ 
+	      		print_r("<tr><td>".$array[$i]['name']
+	      			."</td><td>".$array[$i]['consistency']
+	      			."</td><td>".$array[$i]['measures']['metric']['amount']
+	      			."  ".$array[$i]['measures']['metric']['unitLong']
+	      			."</td><td>".$array[$i]['measures']['us']['amount']
+	      			."  ".$array[$i]['measures']['us']['unitLong']
+	      			."</td><td>".$array[$i]['aisle']
+	      			."</td><td>".$array[$i]['original']
+	      			."</td></tr>");
+	      	}
+	      }
+      	
+      	
+
+
       	function check($key, $value)
 		{
 			if($value != null)
 			{
 				switch ($key) 
 				{
-					case 'vegetarian': print_r("<b>Vegeterian: </b>". $value."<br>");
+					case 'vegetarian': print_r("<p><b>Vegeterian: </b>". $value."</p>");
 									   break;
-					case 'vegan': print_r(" <b>Vegan: </b>". $value."<br>");
+					case 'vegan': print_r(" <p><b>Vegan: </b>". $value."</p>");
 									   break;
-					case 'glutenFree': print_r("<b> Gluten Free: </b>". $value."<br>");
+					case 'glutenFree': print_r("<p><b> Gluten Free: </b>". $value."</p>");
 									   break;
-					case 'diaryFree': print_r("<b> Dairy Free: </b>". $value."<br>");
+					case 'diaryFree': print_r("<p><b> Dairy Free: </b>". $value."</p>");
 									   break;
-					case 'healthScore': print_r(" <b>Health Score: </b>". $value."<br>");
+					case 'healthScore': print_r(" <p><b>Health Score: </b>". $value."</p>");
 									   break;
-					case 'creditsText': print_r(" <b>Credits Text: </b>". $value."<br>");
+					case 'creditsText': print_r(" <p><b>Credits Text: </b>". $value."</p>");
 									   break;
-					case 'license': print_r(" <b>License: </b>". $value."<br>");
+					case 'license': print_r(" <p><b>License: </b>". $value."</p>");
 									   break;
-					case 'aggregateLikes': print_r(" <b>Aggregate Likes: </b>".$value."<br>");
+					case 'aggregateLikes': print_r(" <p><b>Aggregate Likes: </b>".$value."</p>");
 										   break;
-					case 'sourceName': print_r(" <b>Source Name: </b>".$value."<br>");
+					case 'sourceName': print_r(" <p><b>Source Name: </b>".$value."</p>");
 									   break;
-				    case 'readyInMinutes': print_r(" <b>Time: </b>".$value. " mins"."<br>");
+				    case 'readyInMinutes': print_r(" <p><b>Time: </b>".$value. " mins"."</p>");
 									   break;
-				    case 'sourceUrl': print_r(" <b>Source URL: </b>".$value."<br>");
+				    case 'sourceUrl': print_r(" <p><b>Source URL: </b><a href =".$value.">".$value."</a></p>");
 									   break;
-				    case 'servings': print_r(" <b>Servings: </b>".$value. "Persons"."<br>");
+				    case 'servings': print_r(" <p><b>Servings: </b>".$value. " Persons</p><br>");
 									   break;
-				    case 'summary': print_r(" <b><br>Summary: </b>".$value."<br><br>");
+				    case 'summary': print_r(" <p><details><summary> <p><b>Summary </b></p> </summary></p><p>".$value."</p></details>");
 									   break;
-					case 'cuisines': print_r(" <b>Cuisines: </b>".$value."<br>");
+				    case 'dishTypes': print_r(" <p><b>Dish Type: </b>".$value."</p>");
 									   break;
-				    case 'dishTypes': print_r(" <b>Dish Type: </b>".$value."<br>");
-									   break;
-					case 'diets': print_r(" <b>Diets: </b>". $value."<br>");
+					case 'diets': print_r(" <p><b>Diets: </b>". $value."</p>");
 								  break;
-					//case 'title': print_r(" <b>Title: </b>". $value."<br><br><br>");
-					//			  break;
-					case 'occasions': print_r(" <b>Ocassions: ". $value."<br><br>");
+					case 'image': print_r(" <img src =".$value.">");
+								  break;
+					// case 'title': print_r(" <p><b>Title: </b>". $value."</p><br><br><br>");
+					// 			  break;
+					case 'occasions': print_r(" <p><b>Ocassions: ". $value."</p>");
 									  break;
-					case 'diets': print_r(" <b> Diets: </b>". $value."<br>");
+					case 'diets': print_r(" <p><b> Diets: </b>". $value."</p>");
 								  break;
-					// case 'analyzedInstructions': print_r(" <b>Instructions</b>: ".$value."<br>");
-					// 							 break;
-					// case 'name': print_r($value." ");
-	      			// 			 break;
-	      			// case 'steps': print_r(" <b>Steps</b>: ".$value."<br>");
-	      			// 			 break;
-	      			// case 'step': print_r("<br><b>".$value."</b><br>");
-	      			// 			break;
-	      			// case 'number': print_r("<br>".$value." - ");
-	      			// 			 break;
-	      			// case 'ingredients': print_r("<br> <b>Ingredients</b>: ".$value."<br>");
-	      			// 			 break;
-	      			// case 'equipment': print_r("<br> <b>Equipment</b>: ".$value."<br>");
-	      			// 			 break;
-	      			// case 'temperature': print_r("<br> <b>Temperature</b>: ".$value."<br>");
-	      			// 			break;
-					case 'spoonacularSourceUrl': print_r("<br> <b>Spoonacular Source URL: </b>".$value."<br>");
+					case 'spoonacularSourceUrl': print_r("<p> <b>Spoonacular Site (URL): </b>"."<a href = ".$value.">".$value."</p></a>");
 												 break;
 					default: break;
 							
@@ -172,95 +240,43 @@
 			}
 		}
 
-		function analyze($value)
+		function analyze($array)
 		{
-			global $ingredients;  
-      		global $equipment;
-      		global $step;
-      		global $ingrlist;
-      		global $equipmentlist;
-      		$step = array();
-      		$ingrlist = array();
-      		print_r("<h3>Ingredients</h3>");
-      		foreach ($value as $key1 => $value1) 
+			print_r("<p><b>Equipment Required : </b>");
+      		$x = 0;	
+  			for ($j=0; $j < sizeof($array[0]['steps']); $j++) 
+  			{ 
+  				for ($k=0; $k < sizeof($array[0]['steps'][$j]['equipment']) ; $k++) 
+  				{ 	$x++;
+  					$temp[$x] = $array[0]['steps'][$j]['equipment'][$k]['name'];
+  						
+  				}
+  				
+  			}
+      		$equipment = array_unique($temp);
+      		$i = 0;
+      		foreach ($equipment as $key => $value) 
       		{
-      			$step = $value1['steps'];
-      			$i = 0;
-      			foreach ($step as $key2 => $value2) 
-      			{
-      				if(gettype($key2) == "integer" && $value2 != null)
-      				{
-      					$ingrlist = $step[$key2]['ingredients'];
-      					foreach ($ingrlist as $key3 => $value3) 
-      					{
-      						if(gettype($key3) == "integer" && $value3 != null)
-      						{
-      							$i = $i + 1;
-      							$ingredients = $ingrlist[$key3]['name'];
-      							print_r($i." - " . $ingredients."<br>");
-
-      						}
-      					}
-      				}
-      			}
-      			
+      			$i = $i + 1;
+      			if($i == sizeof($equipment))
+      				print_r($value.".");
+      			else
+      				print_r($value.", ");
       		}
-      		print_r("<h3>Equipments</h3>");
-      		$step = array();
-      		$equipmentlist = array();
-      		foreach ($value as $key5 => $value5) 
-      		{
-      			$step = $value5['steps'];
-      			$i = 0;
-      			foreach ($step as $key6 => $value6) 
-      			{
-      				$equipmentlist = $value6['equipment'];
-      				if($equipmentlist != null)
-      				{
-      					foreach ($equipmentlist as $key7 => $value7) 
-      					{
-      						$i = $i + 1;
-      						print_r($i." - ".$value7['name']);
-      						if(gettype($value7) == "array")
-      						{
-      							foreach ($value7 as $key8 => $value8) 
-      							{
-      								if($key8 == "temperature")
-      								{
-      									print_r(" [Temperature ".$value8['number']. " ". $value8['unit']."]");
-      								}
-      							}
-      						}
-      						print_r("<br>");
-      					}
-      				}
-      			}
-      			
-      		}
-      		print_r("<h3>Instructions</h3>");
-      		$step = array();
-      		$steps = array();
-      		foreach ($value as $keyA => $valueA) 
-      		{
-      			$step = $valueA['steps'];
-      			$i = 0;
-      			foreach ($step as $keyB => $valueB) 
-      			{
-      				if(gettype($keyB) == "integer")
-	      			{
-	      				$i = $i + 1;
-	      				$steps = $valueB['step'];
-	      				print_r("<br>".$i." - ".$steps."<br>");
-	      			}
-      			}
-      			
-      		}
-
+      		print_r("</p><br>");
+      		print_r("<h1>Instructions</h1>");
+  			for ($j=0; $j < sizeof($array[0]['steps']); $j++) 
+  			{ 
+  				print_r("<p>".($j+1)." - ".$array[0]['steps'][$j]['step']."</p>");
+  			}
+      
+      		
+      		
 		}
 
 		function getdata($array, $i)
 		{
-			print_r("<h1>Title: ".$array[$i]['title']."</h1><br>");
+			print_r("<h1>Title: ".$array[$i]['title']."<h1><br>");
 			dispdata($array[$i]);
 			print("<br><br>");
 		}
@@ -274,8 +290,40 @@
       				{
       					analyze($value);
       				}
+      				else if ($key == "extendedIngredients") 
+      				{
+      					print_r("<table>
+					      		<tr>
+					      		<th>Ingredients</th>
+					      		<th>Consistency</th>
+					      		<th>Amount(Metric)</th>
+					      		<th>Amount(US)</th>
+					      		<th>Aisle</th>
+					      		<th>Description</th></tr>");
+      					dispdet($value);
+      					print_r("</table>");
+      				}
+      				else if($key == "cuisines")
+      				{
+      					$i = 0;
+      					print_r("<p> Cuisines: ");
+      					foreach ($value as $keys => $values) 
+      					{
+      						$i = $i + 1;
+      						if($i == sizeof($value))
+      							print_r($values);
+      						else
+      							print_r($values." / ");
+      					}
+      					print_r("</p>");
+      				}
       				else 
       					dispdata($value);
+      			}
+      			else if($key == "spoonacularSourceUrl")
+      			{
+      				print_r("<p> <b>Spoonacular Site (URL): </b>"."<a href = ".$value.">".$value."</p></a>");
+      				break;
       			}
       			else
       				check($key,$value);
@@ -283,62 +331,6 @@
       	}
       	
 	?>
-	<!-- <div>
-		<a href="Search.php"class="button2 button2" target="Nothing">Return</a>
-		<button class="button2 button2" onclick="erase()">Clear</button>
-		<button class="button button1" onclick="display(1)"><?php //print_r($results[0]['title']); ?></button>
-		<button class="button button1" onclick="display(2)"><?php //print_r($results[1]['title']); ?></button>
-		<button class="button button1" onclick="display(3)"><?php //print_r($results[2]['title']); ?></button>
-		<button class="button button1" onclick="display(4)"><?php //print_r($results[3]['title']); ?></button>
-		<button class="button button1" onclick="display(5)"><?php //print_r($results[4]['title']); ?></button>
-		<button class="button button1" onclick="display(6)"><?php //print_r($results[5]['title']); ?></button>
-		<button class="button button1" onclick="display(7)"><?php //print_r($results[6]['title']); ?></button>
-		<button class="button button1" onclick="display(8)"><?php //print_r($results[7]['title']); ?></button>
-		<button class="button button1" onclick="display(9)"><?php //print_r($results[8]['title']); ?></button>
-		<button class="button button1" onclick="display(10)"><?php //print_r($results[9]['title']); ?></button>
-	</div>
 	
-
-	<p id = "demo"></p>
-	<script type="text/javascript">
-		function erase()
-		{
-			var top = document.getElementById("demo");
-		    top.style.display = "none";
-		}
-		function display(int x)
-		{
-			var top = document.getElementById("demo");
-		    top.style.display = "block";
-			var recipe;
-			switch(x)
-			{
-				case "1": recipe = '<?php //getdata($results,0); ?>';
-						  break;
-				case "2": recipe = '<?php //getdata($results,1); ?>';
-						  break;
-				case "3": recipe = '<?php //getdata($results,2); ?>';
-						  break;
-				case "4": recipe = '<?php //getdata($results,3); ?>';
-						  break;
-				case "5": recipe = '<?php //getdata($results,4); ?>';
-						  break;
-				case "6": recipe = '<?php //getdata($results,5); ?>';
-						  break;
-				case "7": recipe = '<?php //getdata($results,6); ?>';
-						  break;
-				case "8": recipe = '<?php //getdata($results,7); ?>';
-						  break;
-				case "9": recipe = '<?php //getdata($results,8); ?>';
-						  break;
-				case "10": recipe = '<?php //getdata($results,9); ?>';
-						  break;
-				default: var error = "Invalid Choice";
-						 document.getElementById('demo').innerHTML = error;
-						 break;
-			}
-			document.getElementById('demo').innerHTML = recipe;
-		}
-	</script> -->
 </body>
 </html>
