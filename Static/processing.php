@@ -9,10 +9,9 @@ $description = $_POST["descriptionInput"];
 $time = $_POST["timeInput"];
 $serving = $_POST["servingInput"];
 $category = $_POST["categoryInput"];
-$ingredients = $_POST["ingredientsInput"];
-$uploadedBy = 0; //user id
+$ingredientsInput = $_POST["ingredientsInput"];
+$calories = $_POST["caloriesInput"];
 
-/*  @Please explain this block of code@
 
 $dir = "uploads/";
 
@@ -21,19 +20,19 @@ $filePath = $dir . uniqid() . basename($file["name"]);
 $filePath = str_replace(" ", "_", $filePath);
 $type = pathinfo($filePath, PATHINFO_EXTENSION);
 
+echo($filePath);
 
 move_uploaded_file($file["tmp_name"], $filePath);
 
-*/
+session_start();
+session_regenerate_id();
 
+$user_id = intval($_SESSION['user_id']);
 
-// This part should be made to work with our new database
-// add ingredients, description, time, category columns
-/*
-$sql = "INSERT INTO Recipe(ingredients, description, time, category, image_url, title, number_of_servings, user_id, original_site_url, calories, total_weight, total_nutrients, total_daily, diet_labels, health_labels)
-VALUES('$ingredients', '$description', '$time', '$category', '$filePath', '$title', '$serving', '$uploadedBy','', 0, 0, '', '', '', '')";
-*/
+$sql = "INSERT INTO Recipe(title, cuisine_type, image_url, image_type, number_of_servings, ready_in_minutes,calories,description,user_id)
+VALUES('$title', '$category', '$filePath', 'jpg', '$serving', '$time', '$calories', '$description','$user_id')";
 
+$conn->query($sql);
 
 if($conn->query($sql))
 {
@@ -42,6 +41,23 @@ if($conn->query($sql))
 else{
     echo("Error: " . $conn->error);
 }
+
+
+$recipe_check_query = "SELECT * FROM Recipe WHERE (`title` LIKE '%".$title."%') LIMIT 1";
+$result = mysqli_query($conn, $recipe_check_query);
+$recipe = mysqli_fetch_assoc($result);
+$recipe_id = intval($recipe['id']);
+
+
+$ingredients = explode(", ", $ingredientsInput);
+
+for ($i = 0; $i < count($ingredients); $i++) {
+ 	$sql = "INSERT INTO ExtendedIngredient(name, amount, original, unit, recipe_id)
+			VALUES ('$ingredients[$i]', '0', 'text', 'unit', '$recipe_id')";
+   	$conn->query($sql);
+}
+
+header("Location: index.php");
 
 
 ?>

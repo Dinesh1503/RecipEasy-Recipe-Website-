@@ -28,7 +28,8 @@ if(!isset($_SESSION['user']))      // if there is no valid session
  					<?php
 						if(isset($_SESSION['user']))      // if there is no valid session
 						{
-						    echo("<div><b>".$_SESSION['user']."</b></div>");
+						    echo("<a href='#.php'><b>".$_SESSION['user']."</b></a>");
+						    echo("<a href='logout.php' class ='login'>Logout</a>");
 						}
 						else{
 							echo("<a href='../UserLogin/userLogin.php' class='login'>Login</a>

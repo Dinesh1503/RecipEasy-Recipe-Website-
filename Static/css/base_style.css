@@ -72,7 +72,8 @@ nav a:hover{
 }
 
 main{
-	height: 1000px;
+	height:auto;
+	min-height:700px;
 	width: 100%;
 	background-color: #FAEB8E;
 }

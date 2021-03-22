@@ -6,6 +6,7 @@
             $pictureInput = $this->createPictureInput();
             $titleInput = $this->createTitleInput();
             $ingredientsInput = $this->createIngredientsInput();
+            $caloriesInput = $this->createCaloriesInput();
             $servingInput = $this->createServingInput();
             $timeInput = $this->createTimeInput();
             
@@ -36,6 +37,7 @@
 
                         $titleInput
                         $ingredientsInput
+                        $caloriesInput
                         $descriptionInput
                         $uploadButton
                         
@@ -66,6 +68,12 @@
         private function createIngredientsInput() {
             return "<div class='form-group'>
             <input class='form-control' type='text' placeholder='Ingredients' name='ingredientsInput' required>
+            </div>";
+        }
+
+        private function createCaloriesInput() {
+            return "<div class='form-group'>
+            <input class='form-control' type='text' placeholder='Calories' name='caloriesInput' required>
             </div>";
         }
         
