@@ -35,7 +35,7 @@
 		CREATE TABLE Ingredient(
 			id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 			name VARCHAR(128) NOT NULL,
-			image TEXT NOT NULL,
+			image TEXT,
 			extended_ingredient_id INT(8) REFERENCES ExtendedIngredient(id)
 		)
 	";
@@ -44,7 +44,7 @@
 	$sql = "
 		CREATE TABLE ExtendedIngredient(
 			id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-			name VARCHAR(128) NOT NULL,
+			name TEXT NOT NULL,
 			amount FLOAT(8) NOT NULL,
 			original TEXT NOT NULL,
 			unit VARCHAR(16) NOT NULL,
@@ -64,7 +64,7 @@
 			ready_in_minutes INT(6) NOT NULL,
 			license TEXT,
 			source_name VARCHAR(128),
-			source_site_url TEXT NOT NULL,
+			source_site_url TEXT,
 			aggregate_lies INT(6),
 			health_score INT(6),
 			price_per_serving FLOAT(6),

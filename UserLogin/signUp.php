@@ -56,7 +56,7 @@
         $sql = "INSERT INTO User(first_name, last_name, email, password)
                 VALUES ('$first_name', '$last_name', '$email', '$hash')";
         if($conn->query($sql)){
-            echo("Successfuly registered");
+            header("Location: userLogin.php");
         }
         else{
             echo("Fail");
