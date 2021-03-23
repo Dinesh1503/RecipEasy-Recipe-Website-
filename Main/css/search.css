@@ -58,3 +58,30 @@
 	 overflow-x: hidden;
 	 padding-top: 20px;
    }
+
+.searchBar, .searchResults {
+	display:table-cell;
+	padding:12px;
+}
+
+.searchResults {
+	
+}
+
+.results-grid {
+	display:grid; 
+	grid-template-columns: 20% 20% 20% 20%;
+	grid-column-gap: 5%;
+	grid-row-gap: 5%;
+}
+
+.result {
+	text-align: center;
+	background-color: #f8e468;
+}
+
+.result img {
+	width: 100%;
+	height: auto;
+}
+

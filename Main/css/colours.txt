@@ -1,4 +1,5 @@
 highlight = brown = #A0522D
+highlight lightened = brownless = #BA6C47
 base = yellow = #FAEB8E
 base darkened = yellowish = #f8e468
 mid = uh = #CD9E5D

@@ -1,14 +1,19 @@
 <?php 
+	function console_log($msg) {
+		echo("<script>console.log(\"$msg\");</script>");
+	}
+
 	const API_KEY = "apiKey=ce69626b9c314ae1b20dd3f93aa0b2a7";
 
 	function getSearch() {
-		if (!array_key_exists("searchBtn", $_GET) && !array_key_exists("updateBtn", $_GET)) {
-			return NULL;
-		}
 		$API = "https://api.spoonacular.com/recipes/complexSearch";
 		// COMPILE REST OF REQUEST HERE
-		$INSTRUCTIONS = "&instructionsRequired=true";
-		$INFO = "&addRecipeInformation=true&addRecipeNutrition=true";
+		//$INSTRUCTIONS = "&instructionsRequired=true";
+		$RECIPE_INFO = "&addRecipeInformation=true";
+		//$NUTRITION_INFO = "&addRecipeNutrition=true";
+		$INSTRUCTIONS = "";
+		//$RECIPE_INFO = "";
+		$NUTRITION_INFO = "";
 		$ARGS = "";
 		foreach ($_GET as $key => $val) {
 			if ($key == "searchBtn") {
@@ -18,12 +23,11 @@
 			}  
 			$ARGS = $ARGS . "&$key=$val";    
 		}
-		return str_replace(" ", "%20", $API . "?" . API_KEY . $ARGS . $INSTRUCTIONS . $INFO); 
+		return str_replace(" ", "%20", $API . "?" . API_KEY . $ARGS . $INSTRUCTIONS . $RECIPE_INFO . $NUTRITION_INFO); 
 	}
 
 	function makeCURL($URL) {
 		///---API---///
-		console_log($URL);
 		// create client url (CURL)
 		$ch = curl_init();
 		// set url
@@ -38,31 +42,10 @@
 		curl_close($ch);
 		// write status to console for debug
 		if ($httpCode == 401) {
-			echo("<br>HTTP ERROR 401: BAD REQUEST");
+			console_log("<br>HTTP ERROR 401: BAD REQUEST");
 			return;
 		}
-		// parse JSON into useable objects
-		$json = json_decode($head);
-		echo($head);
-		echo("<style>
-			a {
-			background-color:#333;
-			color:white;
-			text-align:center;
-			}
-			a:hover {
-			background-color:#555;
-			}
-		</style>");
-		echo("<div style=\'display:grid; grid-template-columns: 20% 20% 20% 20%\'>");
-		if ($json->totalResults == 0) {
-			echo("NO RESULTS FOUND THAT MATCH THE CRITERIA");
-		}
-		for ($i = 0; $i < $json->totalResults; $i++) {
-			$recipe = $json[$i];
-			echo("<a><img src=$recipe->image style=\'width:100px; height:auto;\'></img></br>$recipe->title</a>");
-		}
-		echo("</grid>");
+		return $head;
 	}
 
 	function db_config() {
@@ -177,34 +160,34 @@
             $uploadButton = $this->createUploadButton();
             
             return "
-				<link rel=\"stylesheet\" type=\"text/css\" href=\"css/upload.css\">
-				<h1 >Upload Your Own Recipes!</h1>
-				<div class=\"column\">
-				<form action='processing.php' method='POST' enctype='multipart/form-data'>
+			<link rel=\"stylesheet\" type=\"text/css\" href=\"css/upload.css\">
+			<h1 >Upload Your Own Recipes!</h1>
+			<div class=\"column\">
+			<form action='processing.php' method='POST' enctype='multipart/form-data'>
 
-				$pictureInput
+			$pictureInput
 
-				<div class = 'row'>
+			<div class = 'row'>
 
-					<div class='col'>
-					$categoriesInput
-					</div>
-			
-					<div class='col'>
-					$servingInput
-					</div>
-
-					<div class='col'>
-					$timeInput
-					</div>
-
+				<div class='col'>
+				$categoriesInput
+				</div>
+		
+				<div class='col'>
+				$servingInput
 				</div>
 
-				$titleInput
-				$ingredientsInput
-				$descriptionInput
-				$uploadButton
-				
+				<div class='col'>
+				$timeInput
+				</div>
+
+			</div>
+
+			$titleInput
+			$ingredientsInput
+			$descriptionInput
+			$uploadButton
+			
 			</form>";
 
         }
@@ -281,7 +264,7 @@
         }
         
         private function createUploadButton() {
-            return "<div class='col text-center'><br><br><button type='submit' class='btn btn-primary' name='uploadButton'>Upload</button>
+            return "<div class='col text-center'><button type='submit' class='btn btn-primary' name='uploadButton'>Upload</button>
             </div>";
         }
     }
