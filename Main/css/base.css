@@ -1,0 +1,191 @@
+body{
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+header{
+	height: 120px;
+	width: 100%;
+	padding: 0px;
+	margin: 0px;
+	color: white;
+	font-size: 24px;
+	font-family: 'Brush Script MT', cursive;
+	text-align: center;
+	vertical-align: center;
+	background-image: url('../img/header_image.jpg');
+ 	background-repeat: no-repeat;
+ 	background-size: 100% 100%;
+}
+
+a{
+	text-decoration: none;
+}
+
+header h1{
+	padding-top: 30px;
+	margin: 0px;
+	height: 60px;
+}
+
+#login_container{
+	float: right;
+	margin-right: 2%;
+}
+
+header a{
+	text-decoration: none;
+	font-weight: bold;
+	padding-left: 10px;
+	padding-right: 10px;
+	color: white;
+	font-size: 34px;
+}
+
+header a:hover{	
+	color: #FAEB8E;
+}
+
+nav{
+	height: 60px;
+	width: 100%;
+	background-color: #A0522D;
+	text-align: center;
+	color:white;
+	padding-top: 18px;
+}
+
+nav div{
+	display: inline-block;
+	text-align: center;
+	padding-left: 20px;
+	padding-right: 20px; 
+}
+
+nav a{	
+	font-size: 24px;
+	text-decoration: none;
+	font-weight: bold;
+	color:white;
+	padding-left: 20px;
+	padding-right: 20px; 
+}
+
+nav a:hover{	
+	color: #FAEB8E;
+}
+
+main{
+	width: 100%;
+	background-color: #FAEB8E;
+}
+
+main h1{
+	margin: 0px;
+}
+
+footer{
+	width: 100%;
+	padding:12px;
+	background-color: #A0522D;
+}
+
+/* For account and function buttons for toolbar */
+.dropdown-img:hover .downbtn{
+	display:block;
+	background-color: #CD9E5D;
+	z-index: 999;
+}
+.dropdown-img:hover{
+	background-color: none;
+}
+
+.dropdown-img img{
+	height:24px;
+	width:auto;
+}
+
+.dropdown-img .downbtn{
+	display:none;
+	position:absolute;
+	background-color:#f9f9f9;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	min-width: 160px;
+}
+.dropdown-img .downbtn li{
+	line-height:30px;
+	text-align:left;
+	padding-left:5px;
+	text-decoration: none;
+}
+.dropdown-img .downbtn a:hover{
+	text-decoration:underline;
+	color:#f00;
+}
+.dropdown-img .downbtn a{
+	display:block;
+	color:black;
+	width:100%;
+}
+
+/* Style the button that is used to open and close the collapsible content */
+.collapsible {
+	background-color: #777;
+	color: #FFF;
+	cursor: pointer;
+	padding: 18px;
+	width: 100%;
+	border: none;
+	text-align: left;
+	outline: none;
+	font-size: 15px;
+   }
+   
+   /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+   .active, .collapsible:hover {
+	background-color: #999;
+   }
+   
+   /* Style the collapsible content. Note: hidden by default */
+   .content {
+	padding: 0 18px;
+	display: none;
+	overflow: hidden;
+	background-color: #f1f1f1;
+   }
+   
+   button.collapsible::after {
+	 content: "\002B";
+	 color: white;
+	 font-weight: bold;
+	 float: right;
+	 margin-left: 5px;
+   }
+   
+   button.collapsible.active::after {
+	 content: "\2212";
+   }
+   
+   .search {
+	 padding: 0 18px;
+	 display: block;
+	 overflow: hidden;
+	 background-color: #f1f1f1;
+   }
+   
+   .grid-container {
+	 display: grid;
+	 grid-template-columns: auto auto auto;
+	 grid-gap: 10px;
+	 padding: 10px;
+   }
+   
+   .searchBar {
+	 width: 400px;
+	 z-index: 1;
+	 top: 0;
+	 left: 0;
+	 overflow-x: hidden;
+	 padding-top: 20px;
+   }
