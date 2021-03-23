@@ -1,0 +1,22 @@
+main h1{
+	width: 100%;
+	text-align: center;
+	padding-top: 30px;
+}
+
+main #image_container{
+	width: 17%;
+	float: left;
+	margin-right: 3%;
+	margin-left: 1%; 
+
+}
+
+main #image_container img{
+	width: 100%;
+}
+
+main #info_container{
+	width: 75%;
+	float: left;
+}
