@@ -52,8 +52,8 @@
 		if(isset($_SESSION['user'])) {     
 			return "
 				<a href='#.php'>" . $_SESSION['user'] . "</a>
-				<a href=\"#\">Meal Planning</a>
-				<a href=\"#\">Update your Own Menu</a>
+				<a href=\"fridge.php\">My Fridge</a>
+				<a href=\"#\">Meal Plan</a>
 				<a href='logout.php' class ='login'>Logout</a>
 			";
 		} else {
@@ -387,5 +387,230 @@
             return $output;
         }
     }
+
+
+	/*
+	--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	FRIDGE 
+	*/
+
+	function AddIngr(){
+		$servername = "localhost";
+		$username = "root";
+		$password = "";
+		$database = "recipeasy";
+		$conn = mysqli_connect($servername, $username, $password, $database);
+		if (!$conn) {
+			die("Connection failed: " . mysqli_connect_error());
+		}
+	  
+		  echo "Connected successfully";
+		  $id = $_GET["userID"];
+		  $ingredient1 = $_GET["addIngrList1"];
+		  $ingredient2 = $_GET["addIngrList2"];
+		  $ingredient3 = $_GET["addIngrList3"];
+		  $ingredient4 = $_GET["addIngrList4"];
+		  $ingredient5 = $_GET["addIngrList5"];
+	  
+		$sql = "INSERT INTO fridge (userID, INGREDIENT_ONE,INGREDIENT_TWO,INGREDIENT_THREE,INGREDIENT_FOUR,INGREDIENT_FIVE)
+				VALUES ('$id','$ingredient1', '$ingredient2', '$ingredient3', '$ingredient4', '$ingredient5')
+				";
+		if ($conn->query($sql))	{
+		  //echo ("Record created successfully");
+		} else {
+		  //echo("Error: " . $conn->error);
+		}
+	  
+		$sql = "SELECT * FROM fridge where userID = $id";
+		$result = $conn->query($sql);
+		$output = "";
+		if ($result->num_rows > 0) {
+		  // output data of each row
+	  
+		  $output = "<table border = '2'>
+					  <th>UserId</th>
+					  <th>Ingredient One</th>
+					  <th>Ingredeint 2</th>
+					  <th>Ingredient 3</th>
+					  <th>Ingredient 4</th>
+					  <th>Ingredient 5</th>
+					  ";
+		  while($row = $result->fetch_assoc()) {
+			$output .= "<tr>
+						  <td>$row[userID]</td>
+						  <td>$row[INGREDIENT_ONE]</td>
+						  <td>$row[INGREDIENT_TWO]</td>
+						  <td>$row[INGREDIENT_THREE]</td>
+						  <td>$row[INGREDIENT_FOUR]</td>
+						  <td>$row[INGREDIENT_FIVE]</td>
+						  </tr>";
+		  }
+		  $output .="</table>";
+		} else {
+		  $output = "0 results";
+		}
+		$conn->close();
+		return $output;
+	  }
+	  
+	  function RemoveIngr(){
+	  }
+	  
+	  function showFridge(){
+		$servername = "localhost";
+		$username = "root";
+		$password = "";
+		$database = "recipeasy";
+		$conn = mysqli_connect($servername, $username, $password, $database);
+		if (!$conn) {
+			die("Connection failed: " . mysqli_connect_error());
+		}
+	  
+		//echo "Connected successfully";
+	  
+		$userid = $_SESSION['id'];
+	  
+		$sql ="SELECT * FROM fridge WHERE userID = $userid";
+		$result = $conn->query($sql);
+	  
+		$output = "";
+		if ($result->num_rows > 0) {
+		  // output data of each row
+	  
+		  $output = "<div class=\"fridge-table\"><form><table border = '2'>
+					  <th>Ingredient One</th>
+					  <th>Ingredient Two</th>
+					  <th>Ingredient Three</th>
+					  <th>Ingredient Four</th>
+					  <th>Ingredient Five</th>
+					  </form>
+					  ";
+			while($row = $result->fetch_assoc()) {
+				$output .= "<tr>
+							<td>$row[INGREDIENT_ONE]></td>
+							<td>$row[INGREDIENT_TWO] </td>
+							<td>$row[INGREDIENT_THREE]</td>
+							<td>$row[INGREDIENT_FOUR]</td>
+							<td>$row[INGREDIENT_FIVE]</td>
+							</tr>";
+		
+			}
+		  	$output .="</table></div>";
+		} else {
+			$output = "0 results";
+		}
+		$conn->close();
+		return $output;
+	  }
+	  
+	  function changeFridge(){
+			$servername = "localhost";
+			$username = "root";
+			$password = "";
+			$database = "recipeasy";
+			$conn = mysqli_connect($servername, $username, $password, $database);
+		
+		
+		
+			$userid = $_GET["userIDChange"];
+		
+			$sql = "SELECT * FROM fridge WHERE userID = $userid";
+			$result = $conn->query($sql);
+		
+		
+		$ingredients=$result->fetch_assoc();
+		$ingredients = implode(",",$ingredients);
+		$ingredients = str_replace(">","",$ingredients);
+		$ingredients = explode(",", $ingredients);
+		
+		
+			if (empty($_GET["ChangeIngrList1"])){
+			$ingredient1 = $ingredients[1];
+			}
+			elseif($_GET["ChangeIngrList1"] == "remove"){
+		
+			$ingredient1 = "";
+			}
+			else{
+			$ingredient1 = $_GET["ChangeIngrList1"];
+			}
+			if (empty($_GET["ChangeIngrList2"])){
+			$ingredient2 = $ingredients[2];
+			}
+			elseif($_GET["ChangeIngrList2"] == "remove"){
+		
+			$ingredient2 = "";
+			}
+			else{
+			$ingredient2 = $_GET["ChangeIngrList2"];
+			}
+			if (empty($_GET["ChangeIngrList3"])){
+			$ingredient3 = $ingredients[3];
+			}
+			elseif($_GET["ChangeIngrList3"] == "remove"){
+		
+			$ingredient3 = "";
+			}
+			else{
+			$ingredient3 = $_GET["ChangeIngrList3"];
+			}
+			if (empty($_GET["ChangeIngrList4"])){
+			$ingredient4 = $ingredients[4];
+			}
+			elseif($_GET["ChangeIngrList4"] == "remove"){
+		
+			$ingredient4 = "";
+			}
+			else{
+			$ingredient4 = $_GET["ChangeIngrList4"];
+			}
+			if (empty($_GET["ChangeIngrList5"])){
+			$ingredient5 = $ingredients[5];
+			}
+			elseif($_GET["ChangeIngrList5"] == "remove"){
+		
+			$ingredient5 = "";
+			}
+			else{
+			$ingredient5 = $_GET["ChangeIngrList5"];
+			}
+		
+			$sql = "UPDATE fridge SET INGREDIENT_ONE = '$ingredient1',INGREDIENT_TWO = '$ingredient2',INGREDIENT_THREE = '$ingredient3',INGREDIENT_FOUR = '$ingredient4',INGREDIENT_FIVE = '$ingredient5' WHERE userID = $userid";
+		
+			if ($conn->query($sql))
+			{
+			echo ("Record updated successfully");
+			}
+			else
+			{
+			echo("Error: " . $conn->error);
+			}
+		
+			$conn->close();
+	  }
+
+	  function getFridge(){
+		$servername = "localhost";
+		$username = "root";
+		$password = "";
+		$database = "recipeasy";
+		$conn = mysqli_connect($servername, $username, $password, $database);
+		if (!$conn) {
+			die("Connection failed: " . mysqli_connect_error());
+		}
+	  
+		//echo "Connected successfully";
+	  
+		$userid = $_SESSION['id'];
+	  
+		$sql ="SELECT * FROM fridge WHERE userID = $userid";
+		$result = $conn->query($sql);
+		$row = $result->fetch_assoc();
+			
+		$elements = $row;
+		
+		$conn->close();
+		return $elements;
+	}
 	
 ?>
