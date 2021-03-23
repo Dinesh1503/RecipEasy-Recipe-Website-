@@ -8,7 +8,7 @@
 	<?php 
 		$query = $_POST['searchBox'];
 		$API_KEY = "eb165bf559944161ae56ab639b53c06c";
-		$API = "https://api.spoonacular.com/recipes/complexSearch?apiKey=" . $API_KEY . "&query=". $query . "&addRecipeInformation=true&instructionsRequired=true&fillIngredients=true&number=2";
+		$API = "https://api.spoonacular.com/recipes/complexSearch?apiKey=" . $API_KEY . "&query=". $query . "&addRecipeInformation=true&instructionsRequired=true&fillIngredients=true&number=10";
 		
 	
 		$URL = $API;
