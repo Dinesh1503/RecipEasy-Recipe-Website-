@@ -3,7 +3,7 @@
 		echo("<script>console.log(\"$msg\");</script>");
 	}
 
-	const API_KEY = "apiKey=ce69626b9c314ae1b20dd3f93aa0b2a7";
+	const API_KEY = "apiKey=fe7fe2e4a56344fdbde2f14b8d05b5b3";
 
 	function getSearch() {
 		$API = "https://api.spoonacular.com/recipes/complexSearch";
@@ -64,6 +64,29 @@
 		}
 	}
 
+	function show_recipe($recipe){
+			$elements = "
+			<link rel=\"stylesheet\" type=\"text/css\" href=\"css/search.css\">
+			<div class=\"searchResults\">";
+
+			$elements = $elements . "<h1>".$recipe->title."</h1>";
+			$elements = $elements . "<div id='image_container'><img src='".$recipe->image."'></div>";
+			$elements = $elements . "<p><b>Ingredients: </b></p>";
+			foreach($recipe->extendedIngredients as $ingredient){
+				$elements = $elements . "<p>".$ingredient->original."</p>";
+			}
+			/*$elements = $elements . "<div id='info_container'><b>Ingredients:</b>";
+			while($ingredient = mysqli_fetch_assoc($ingr_result)){
+				$elements = $elements . "<p>".$ingredient['name']."</p>";
+			}*/
+			$elements = $elements . "<p><b>Number of servings: </b>".$recipe->servings."</p>
+			<p><b>Ready in minutes: </b>".$recipe->readyInMinutes."</p>
+			<p><b>Instructions: </b></br>".$recipe->instructions."</p></div>";
+
+			return $elements."</div>";
+
+	}
+
 	function db_config() {
 		$localSQL = true;
 		if ($localSQL) {
@@ -80,6 +103,7 @@
 
 		$conn = mysqli_connect($servername, $username, $password, $database);
 	}
+
 
 	function db_search() {
 		$localSQL = true;
