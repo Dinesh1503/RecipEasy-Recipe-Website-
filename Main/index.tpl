@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>RecipEasy</title>
+	<title>[@title]</title>
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="css/base.css">
 </head>
@@ -8,7 +8,6 @@
 	<!--HEADER -->
  		<header>
  			<h1>RecipEasy</h1>
- 				
  		</header>
 
  		<!--NAV BAR -->
@@ -22,38 +21,32 @@
 			</div>
 			|
 			<div>
+				<a href="db_search.php">DB Search</a>
+			</div>
+			|
+			<div>
 				<a href="upload.php">Upload</a>
 			</div>
 			
 			<div class="dropdown-img">
 				<img src="img/account.png" alt="account">
 				<div class="downbtn">
-					<?php
-						session_start();
-						session_regenerate_id();
-						if(isset($_SESSION['user'])) {     // if there is no valid session
-							echo("<a href='#.php'>" . $_SESSION['user'] . "</a>");
-							echo("<a href=\"#\">Meal Planning</a>");
-							echo("<a href=\"#\">Update your Own Menu</a>");
-							echo("<a href='logout.php' class ='login'>Logout</a>");
-						}
-						else {
-							echo("<a href='userLogin.php' class='login'>Login</a>");
-							echo("<a href='signUp.php'>Register</a>");
-						}
-					?>
+					[@user]
 				</div>
 			</div>
 			
+			<!-- 
+				redundant as we may be cutting those features
 			<div class="dropdown-img">
 				<img src="img/functions.png" alt="functions">
 				<div class="downbtn">
-					<!-- 
+					
 						<a href="#">Wish list</a>
 						<a href="#">Diet Tracker</a>
-					-->
+					
 				</div>
 			</div>
+			-->
 
  		</nav>
 

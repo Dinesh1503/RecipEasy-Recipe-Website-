@@ -48,12 +48,28 @@
 		return $head;
 	}
 
+	function getUserElements() {
+		if(isset($_SESSION['user'])) {     
+			return "
+				<a href='#.php'>" . $_SESSION['user'] . "</a>
+				<a href=\"#\">Meal Planning</a>
+				<a href=\"#\">Update your Own Menu</a>
+				<a href='logout.php' class ='login'>Logout</a>
+			";
+		} else {
+			return "
+				<a href='userLogin.php' class='login'>Login</a>
+				<a href='signUp.php'>Register</a>
+			";
+		}
+	}
+
 	function db_config() {
-		$localSQL = false;
+		$localSQL = true;
 		if ($localSQL) {
 			$servername = "localhost";
 			$username   = "root";
-			$password   = "root";
+			$password   = "";
 			$database   = "recipeasy";
 		} else {
 			$servername = "dbhost.cs.man.ac.uk";
@@ -66,7 +82,20 @@
 	}
 
 	function db_search() {
-		db_config();
+		$localSQL = true;
+		if ($localSQL) {
+			$servername = "localhost";
+			$username   = "root";
+			$password   = "";
+			$database   = "recipeasy";
+		} else {
+			$servername = "dbhost.cs.man.ac.uk";
+			$username   = "e95562sp";
+			$password   = "STORED_recipes+";
+			$database   = "2020_comp10120_y14";
+		}
+
+		$conn = mysqli_connect($servername, $username, $password, $database);
 
 		$sql = "USE $database";
 		$conn->query($sql);
@@ -75,6 +104,10 @@
 
 		$recipe_check_query = "SELECT * FROM Recipe WHERE (`title` LIKE '%".$query."%')";
 		$result = mysqli_query($conn, $recipe_check_query);
+		$elements = "
+			<link rel=\"stylesheet\" type=\"text/css\" href=\"css/search.css\">
+			<div class=\"searchResults\">
+		";
 		while($recipe = mysqli_fetch_assoc($result)){
 			$recipe_id = $recipe['id'];
 			$title = $recipe['title'];
@@ -88,17 +121,18 @@
 			$ingredients_check_query = "SELECT * FROM ExtendedIngredient WHERE recipe_id=$recipe_id";
 			$ingr_result = mysqli_query($conn, $ingredients_check_query);
 
-			echo("<h1>".$title."</h1>");
-			echo("<div id='image_container'><img src='".$image_url."'></div>");
-			echo("<div id='info_container'><b>Ingredients:</b>");
+			$elements = $elements . "<h1>".$title."</h1>";
+			$elements = $elements . "<div id='image_container'><img src='".$image_url."'></div>";
+			$elements = $elements . "<div id='info_container'><b>Ingredients:</b>";
 			while($ingredient = mysqli_fetch_assoc($ingr_result)){
-				echo("<p>".$ingredient['name']."</p>");
+				$elements = $elements . "<p>".$ingredient['name']."</p>";
 			}
-			echo("<p><b>Number of servings: </b>".$number_of_servings."</p>
+			$elements = $elements . "<p><b>Number of servings: </b>".$number_of_servings."</p>
 			<p><b>Ready in minutes: </b>".$ready_in_minutes."</p>
 			<p><b>Calories: </b>".$calories."</p>
-			<p><b>Instructions: </b></br>".$description."</p></div>");
+			<p><b>Instructions: </b></br>".$description."</p></div>";
 		}
+		return $elements . "</div>";
 	}
 
 	function db_upload() {
