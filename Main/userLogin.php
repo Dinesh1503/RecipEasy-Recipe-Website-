@@ -24,6 +24,7 @@
             if(password_verify($password, $user['password']))
             {
             	$_SESSION['user'] = $user['first_name']." ".$user['last_name'];
+                $_SESSION['id'] = $user['id'];
             	header("Location: index.php");
             }
             else{

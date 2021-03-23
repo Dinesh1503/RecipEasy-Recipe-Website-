@@ -3,130 +3,9 @@
 <head>
 	<title>Results Page</title>
 </head>
-<style type="text/css">
-	.demo
-	{
-		font-family: "Times New Roman", Times, serif;
-		display: block;
-	}
-	p 
-	{
-	  font-family: 'Times New Roman',Times, serif;
-	  font-size: 25px;
-	  color: black;
-	  background-color: white;
-	}
-	h1{
-
-	  font-family: 'Times New Roman',Times, serif;
-	  font-size: 35px;
-	  color: black;
-	  background-color: white;
-	}
-	.button 
-	{
-	  background-color: white; /* Green */
-	  border: none;
-	  color: white;
-	  padding: 10px 20px;
-	  text-align: center;
-	  text-decoration: none;
-	  display: inline-block;
-	  font-size: 16px;
-	  margin: 4px 2px;
-	  transition-duration: 0.2s;
-	  cursor: pointer;
-	}
-
-	.button1 
-	{
-	  background-color: white; 
-	  color: black; 
-	  border: 2px solid white;
-	}
-	.button1:hover 
-	{
-	  background-color: #4CAF50;
-	  color: white;
-	}
-	.button2
-	{
-	  background-color: white; /* Green */
-	  border: black;
-	  color: black;
-	  padding: 10px 20px;
-	  text-align: center;
-	  text-decoration: none;
-	  display: inline-block;
-	  font-size: 16px;
-	  margin: 4px 2px;
-	  transition-duration: 0.2s;
-	  cursor: pointer;
-	}
-	.button2:hover 
-	{
-	  background-color: #4CAF50;
-	  color: white;
-	}
-	table, th, td 
-	{
-	  border: 1px solid black;
-	  border-collapse: collapse;
-	  font-family: 'Times New Roman',Times, serif;
-	  font-size: 15px;
-	  color: black;
-	  background-color: white;
-	  text-align: left;
-	  padding: 8px;
-	}
-	.btn-group button 
-	{
-	  background-color: white; /* Green background */
-	  border: 1px white; /* Green border */
-	  color: black; /* White text */
-	  padding: 10px 24px; /* Some padding */
-	  cursor: pointer; /* Pointer/hand icon */
-	  width: 25%; /* Set a width if needed */
-	  display: block; /* Make the buttons appear below each other */
-	}
-
-	.btn-group button:not(:last-child) 
-	{
-	  border-bottom: none; /* Prevent double borders */
-	}
-
-	/* Add a background color on hover */
-	.btn-group button:hover 
-	{
-	  background-color: #3e8e41;
-	}
-	.title
-	{
-		font-family: "Times New Roman",'Times', serif;
-		font-size: 50px;
-	}
-	table
-	{
-		width: 100%;
-	}
-	/*a:link, a:visited 
-	{
-	  background-color: #f44336;
-	  color: white;
-	  padding: 14px 25px;
-	  text-align: center;
-	  text-decoration: none;
-	  display: inline-block;
-	}
-
-	a:hover, a:active 
-	{
-	  background-color: pink;
-	}*/
-</style>
+	<link rel="stylesheet" href="styles.css">
 <body>
 	<?php 
-
 		$query = $_POST['searchBox'];
 		$API_KEY = "eb165bf559944161ae56ab639b53c06c";
 		$API = "https://api.spoonacular.com/recipes/complexSearch?apiKey=" . $API_KEY . "&query=". $query . "&addRecipeInformation=true&instructionsRequired=true&fillIngredients=true&number=10";
@@ -151,7 +30,6 @@
       	
       	$results = $array['results'];     	
 
-      	//test($results);
       	for ($i=0; $i < sizeof($results); $i++) { 
       		getdata($results,$i);
       	}
@@ -169,6 +47,7 @@
       				print_r("<b>		".$key."</b> : ".$value."<br>");
       		}
       	}
+
       	function dispdet($array)
       	{
 	      	for ($i=0; $i < sizeof($array); $i++) 
@@ -183,6 +62,7 @@
 	      			."</td><td>".$array[$i]['original']
 	      			."</td></tr>");
 	      	}
+
 	      }
       	
       	
@@ -198,7 +78,7 @@
 									   break;
 					case 'vegan': print_r(" <p><b>Vegan: </b>". $value."</p>");
 									   break;
-					case 'glutenFree': print_r("<p><b> Gluten Free: </b>". $value."</p>");
+					case 'glutenFree': print_r("<p><b>Gluten Free: </b>". $value."</p>");
 									   break;
 					case 'diaryFree': print_r("<p><b> Dairy Free: </b>". $value."</p>");
 									   break;
@@ -208,32 +88,33 @@
 									   break;
 					case 'license': print_r(" <p><b>License: </b>". $value."</p>");
 									   break;
-					case 'aggregateLikes': print_r(" <p><b>Aggregate Likes: </b>".$value."</p>");
+					case 'aggregateLikes': print_r("<p></p>");
+											print_r("<p><b>Aggregate Likes: </b>".$value."</p>");
 										   break;
 					case 'sourceName': print_r(" <p><b>Source Name: </b>".$value."</p>");
 									   break;
-				    case 'readyInMinutes': print_r(" <p><b>Time: </b>".$value. " mins"."</p>");
-									   break;
-				    case 'sourceUrl': print_r(" <p><b>Source URL: </b><a href =".$value.">".$value."</a></p>");
-									   break;
-				    case 'servings': print_r(" <p><b>Servings: </b>".$value. " Persons</p><br>");
-									   break;
-				    case 'summary': print_r(" <p><details><summary> <p><b>Summary </b></p> </summary></p><p>".$value."</p></details>");
-									   break;
+				    // case 'readyInMinutes': print_r(" <p>Time: ".$value. " mins"."</p>");
+								// 	   break;
+				    // case 'sourceUrl': print_r(" <p>Source URL: <a href =".$value.">".$value."</a></p>");
+								// 	   break;
+				    // case 'servings': print_r(" <p>Servings: ".$value. " Persons</p><br>");
+								// 	   break;
+				    // case 'summary': print_r(" <p><details><summary> <p>Summary</p> </summary></p><p>".$value."</p></details>");
+								// 	   break;
 				    case 'dishTypes': print_r(" <p><b>Dish Type: </b>".$value."</p>");
 									   break;
 					case 'diets': print_r(" <p><b>Diets: </b>". $value."</p>");
 								  break;
-					case 'image': print_r(" <img src =".$value.">");
-								  break;
+					// case 'image': print_r(" <img src =".$value.">");
+					// 			  break;
 					// case 'title': print_r(" <p><b>Title: </b>". $value."</p><br><br><br>");
 					// 			  break;
-					case 'occasions': print_r(" <p><b>Ocassions: ". $value."</p>");
+					case 'occasions': print_r(" <p><b>Ocassions: </b>". $value."</p>");
 									  break;
-					case 'diets': print_r(" <p><b> Diets: </b>". $value."</p>");
+					case 'diets': print_r(" <p><b>Diets: </b>". $value."</p>");
 								  break;
-					case 'spoonacularSourceUrl': print_r("<p> <b>Spoonacular Site (URL): </b>"."<a href = ".$value.">".$value."</p></a>");
-												 break;
+					// case 'spoonacularSourceUrl': print_r("<p> Spoonacular Site (URL): "."<a href = ".$value.">".$value."</p></a>");
+					// 							 break;
 					default: break;
 							
 				}
@@ -263,74 +144,97 @@
       			else
       				print_r($value.", ");
       		}
-      		print_r("</p><br>");
-      		print_r("<h1>Instructions</h1>");
+      		print_r("</p>");
+      		print_r("<h1 id='TEMP'>Instructions</h1>");
   			for ($j=0; $j < sizeof($array[0]['steps']); $j++) 
   			{ 
   				print_r("<p>".($j+1)." - ".$array[0]['steps'][$j]['step']."</p>");
-  			}
-      
-      		
-      		
+  			}	
 		}
 
 		function getdata($array, $i)
 		{
-			print_r("<h1>Title: ".$array[$i]['title']."<h1><br>");
+			print_r("<h1>Title: ".$array[$i]['title']."</h1><br>");
+			print_r("<button class = 'collapsible'><h1 id='TEMP'>Information on Recipe</h1></button>");
+			print_r("<div class='content'");
 			dispdata($array[$i]);
 			print("<br><br>");
 		}
+
+		function call($array)
+		{
+	   		$i = 0;
+			print_r("<p><b>Cuisines: </b>");
+			foreach ($array['cuisines'] as $keys => $values) 
+			{
+				$i = $i + 1;
+				if($i == sizeof($array['cuisines']))
+					print_r($values);
+				else
+					print_r($values." / ");
+			}
+			print_r("</p>");
+			print_r("<h1 id='TEMP'>Ingredients</h1>");
+			print_r("<div>");
+      		print_r("<table>
+		      		<tr>
+		      		<th>Ingredients</th>
+		      		<th>Consistency</th>
+		      		<th>Amount(Metric)</th>
+		      		<th>Amount(US)</th>
+		      		<th>Aisle</th>
+		      		<th>Description</th></tr>");
+			dispdet($array['extendedIngredients']);
+			print_r("</table>");
+			print_r("</div>");
+			print_r("<div>");
+      		analyze($array['analyzedInstructions']);
+      		print_r("</div>");
+		}
+
       	function dispdata($array)
       	{
-      		foreach ($array as $key => $value) 
-      		{
-      			if(gettype($value) == "array" && $value != null)
+      		$keys = array_keys($array);
+      		for ($i=0; $i < sizeof($keys); $i++) 
+      		{ 
+      			if($keys[$i] == "extendedIngredients")
       			{
-      				if($key == "analyzedInstructions")
-      				{
-      					analyze($value);
-      				}
-      				else if ($key == "extendedIngredients") 
-      				{
-      					print_r("<table>
-					      		<tr>
-					      		<th>Ingredients</th>
-					      		<th>Consistency</th>
-					      		<th>Amount(Metric)</th>
-					      		<th>Amount(US)</th>
-					      		<th>Aisle</th>
-					      		<th>Description</th></tr>");
-      					dispdet($value);
-      					print_r("</table>");
-      				}
-      				else if($key == "cuisines")
-      				{
-      					$i = 0;
-      					print_r("<p> Cuisines: ");
-      					foreach ($value as $keys => $values) 
-      					{
-      						$i = $i + 1;
-      						if($i == sizeof($value))
-      							print_r($values);
-      						else
-      							print_r($values." / ");
-      					}
-      					print_r("</p>");
-      				}
-      				else 
-      					dispdata($value);
+      				print_r("</div>");
+      				print_r("<div style = 'font-size:150%'>");
+      				print_r(" <p><b>Time: </b>".$array['readyInMinutes']. " mins"."</p>");
+      				print_r(" <p><b>Servings: </b>".$array['servings']. " Persons</p><br>");
+      				print_r(" <img src =".$array['image'].">");
+      				print_r("<br>");
+      				print_r(" <details> <summary><b>Summary</b></summary> <p>".$array['summary']."</p></details>");
+      				print_r(" <p><b>Source URL: </b><a href =".$array['sourceUrl'].">".$array['sourceUrl']."</a></p>");
+      				print_r("<p><b>Spoonacular Site (URL): </b><a href = ".$array['spoonacularSourceUrl'].">".$array['spoonacularSourceUrl']."</p></a>");
+      				print_r("</div>");
+      				call($array);
       			}
-      			else if($key == "spoonacularSourceUrl")
+      			else if($array[$keys[$i]] != null && gettype($array[$keys[$i]]) != "array")
       			{
-      				print_r("<p> <b>Spoonacular Site (URL): </b>"."<a href = ".$value.">".$value."</p></a>");
-      				break;
+      				check($keys[$i],$array[$keys[$i]]);
       			}
-      			else
-      				check($key,$value);
-      		}
+      		}      		
       	}
       	
 	?>
 	
 </body>
+<script>
+	var coll = document.getElementsByClassName("collapsible");
+	var i;
+
+	for (i = 0; i < coll.length; i++) {
+	  coll[i].addEventListener("click", function() {
+	    this.classList.toggle("active");
+	    var content = this.nextElementSibling;
+	    if (content.style.display === "block") {
+	      content.style.display = "none";
+	    } else {
+	      content.style.display = "block";
+	    }
+	  });
+	}
+</script>
 </html>
