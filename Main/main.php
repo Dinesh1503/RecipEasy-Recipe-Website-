@@ -3,7 +3,7 @@
 		echo("<script>console.log(\"$msg\");</script>");
 	}
 
-	const API_KEY = "apiKey=fe7fe2e4a56344fdbde2f14b8d05b5b3";
+	const API_KEY = "apiKey=";
 
 	function getSearch() {
 		$API = "https://api.spoonacular.com/recipes/complexSearch";
@@ -53,6 +53,7 @@
 			return "
 				<a href='#.php'>" . $_SESSION['user'] . "</a>
 				<a href=\"fridge.php\">My Fridge</a>
+				<a href=\"fav.php\">Favorites</a>
 				<a href=\"#\">Meal Plan</a>
 				<a href='logout.php' class ='login'>Logout</a>
 			";
@@ -64,27 +65,215 @@
 		}
 	}
 
-	function show_recipe($recipe){
+	function show_recipe($recipe_id){
+
+		/**
+		 * Store it if not exist, and display it directly from db
+		 * Add a column "api_id" for table Recipe to check whether exists
+		 * Add a new table to store relation between user and fav recipes 
+		 */
+
+		$localSQL = true;
+		if ($localSQL) {
+			$servername = "localhost";
+			$username   = "root";
+			$password   = "";
+            $database   = "recipeasy";
+		} else {
+			$servername = "dbhost.cs.man.ac.uk";
+			$username   = "e95562sp";
+			$password   = "STORED_recipes+";
+			$database   = "2020_comp10120_y14";
+		}
+
+		$conn = mysqli_connect($servername, $username, $password, $database);
+
+		$check = mysqli_query($conn, "SELECT * FROM Recipe WHERE api_id='$recipe_id'");
+
+		// if not exist, store it first
+		if(mysqli_num_rows($check)==0){
+
+			$URL = "https://api.spoonacular.com/recipes/" . $recipe_id . "/information" . "?" . API_KEY;
+			$ch = curl_init();
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_URL, $URL);
+			$response = curl_exec ($ch);
+			curl_close ($ch);        
+			
+			$data = json_decode($response, true);
+
+			$originalId = $data['id'];
+			$vegetarian = $data['vegetarian']=="true" ? true: false;
+			$vegan = $data['vegan']=="true" ? true: false;
+			$glutenFree = $data['glutenFree']=="true" ? true: false;
+			$dairyFree = $data['dairyFree']=="true" ? true: false;
+			$veryHealthy = ($data['veryHealthy']=="true") ? true: false;
+			$cheap = $data['cheap']=="true" ? true: false;
+			$calories = $data['calories'];
+			$ketogenic = $data['ketogenic']=="true" ? true: false;
+			$sustainable = $data['sustainable']=="true" ? true: false;
+			$veryPopular = $data['veryPopular']=="true" ? true: false;
+			
+			$price_per_serving = intval($data['pricePerServing']);
+			$health_score = intval($data['healthScore']);
+			$aggregate_lies = intval($data['aggregateLikes']);
+			$license = str_replace("'", "''", $data['license']);
+			$image_type = $data['imageType'];
+			$cuisine_type = $data['cuisines'][0];
+			// $dishType
+
+			$img_url = $data['image'];
+			$title = str_replace("'", "''", $data['title']);
+			$servings = $data['servings'];
+			$readyTime = $data['readyInMinutes'];
+			$source_url = $data['sourceUrl'];
+			$instruction = strip_tags($data['instructions']);
+			$instruction1 = str_replace("'", "''", $instruction);    
+	
+			$result = mysqli_query($conn, "INSERT IGNORE INTO Recipe(api_id, vegetarian, vegan, gluten_free, dairy_free, very_healthy, cheap, ketogenic, sustainable, very_popular, calories, price_per_serving, health_score, aggregate_lies, license, image_type, cuisine_type, title, image_url, source_site_url, number_of_servings, ready_in_minutes, description)
+			VALUES('$originalId', '$vegetarian', '$vegan', '$glutenFree','$dairyFree','$veryHealthy' , '$cheap', '$ketogenic', '$sustainable' , '$veryPopular', '$calories', '$price_per_serving', '$health_score', '$aggregate_lies', '$license', '$image_type', '$cuisine_type',
+			'$title', '$img_url', '$source_url', '$servings', '$readyTime', '$instruction1')");
+	
+			$id = mysqli_insert_id($conn);
+			
+			// add a new table FavRecipes with columns id, favRecipeId(store recipe id), favBy(store user id)
+			mysqli_query($conn, "INSERT IGNORE INTO FavRecipes(favRecipeId, favBy) VALUES('$id', '')");
+	
+			foreach($data['extendedIngredients'] as $d){
+	
+				$nm = $d['name'];
+				$amount = $d['amount'];
+				$original = str_replace("'", "''", $d['original']);
+				$unit = $d['unit'];
+				$recipeId = $id;
+				$image = $d['image'];
+	
+				mysqli_query($conn, "INSERT IGNORE INTO ExtendedIngredient(name, amount, original, unit, recipe_id)
+				VALUES('$nm', '$amount', '$original', '$unit', '$recipeId')")or die(mysqli_error($conn));
+				
+				// seems api doesn't provide images for ingredients
+				$id_ = mysqli_insert_id($conn);
+				mysqli_query($conn, "INSERT IGNORE INTO ingredient(name, image, extended_ingredient_id) VALUES('$nm', '$image', '$id_')");
+				
+			}
+		}
+
+		// otherwise, display it directly from db
+		else{
+			$id = mysqli_fetch_array($check)['id'];
+		}
+
+		$output = mysqli_query($conn, "SELECT * FROM Recipe WHERE id='$id'");
+		$row = mysqli_fetch_array($output);
+		$title1 = $row['title'];
+		$img_url1 = $row['image_url'];
+		$servings1 = $row['number_of_servings'];
+		$readyTime1 = $row['ready_in_minutes'];
+		$instructions1 = $row['description'];
+
+		$outputFav = mysqli_query($conn, "SELECT * FROM FavRecipes WHERE favRecipeId='$id'");
+
+		if(mysqli_num_rows($outputFav)!=0){
+			$fav = mysqli_fetch_array($outputFav)['favBy'];
+		}
+		else{
+			$fav = '';
+		}
+
+		$outputIngr = mysqli_query($conn, "SELECT * FROM ExtendedIngredient WHERE recipe_id = '$id' ");
+
+		$ingr = array();
+		while ($row = mysqli_fetch_array($outputIngr)) {
+			array_push($ingr, $row['original']);
+		}
+
 			$elements = "
+			<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+			<script src='script.js'></script>
 			<link rel=\"stylesheet\" type=\"text/css\" href=\"css/search.css\">
 			<div class=\"searchResults\">";
 
-			$elements = $elements . "<h1>".$recipe->title."</h1>";
-			$elements = $elements . "<div id='image_container'><img src='".$recipe->image."'></div>";
-			$elements = $elements . "<p><b>Ingredients: </b></p>";
-			foreach($recipe->extendedIngredients as $ingredient){
-				$elements = $elements . "<p>".$ingredient->original."</p>";
+			$elements = $elements . "<h1>".$title1."</h1>";
+			$userId = strval($_SESSION['id']);
+
+			if($fav == $_SESSION['id']){
+				$elements = $elements . "<input onchange='fav(" .strval($id).",".$userId.")' name='checkbox' class='checkbox' id='checkbox' type='checkbox' checked='checked'>
+				<label for='checkbox'></label>";
 			}
-			/*$elements = $elements . "<div id='info_container'><b>Ingredients:</b>";
-			while($ingredient = mysqli_fetch_assoc($ingr_result)){
-				$elements = $elements . "<p>".$ingredient['name']."</p>";
-			}*/
-			$elements = $elements . "<p><b>Number of servings: </b>".$recipe->servings."</p>
-			<p><b>Ready in minutes: </b>".$recipe->readyInMinutes."</p>
-			<p><b>Instructions: </b></br>".$recipe->instructions."</p></div>";
+			else{
+				$elements = $elements . "<input onchange='fav(" .strval($id).",".$userId.")' name='checkbox' class='checkbox' id='checkbox' type='checkbox'>
+				<label for='checkbox'></label>";
+			}
+			
+			$elements = $elements . "<div id='image_container'><img src='".$img_url1."'></div>";
+			$elements = $elements . "<p><b>Ingredients: </b></p>";
+			foreach($ingr as $ingredient1){
+				$elements = $elements . "<p>".$ingredient1."</p>";
+			}
+			
+			$elements = $elements . "<p><b>Number of servings: </b>".$servings1."</p>
+			<p><b>Ready in minutes: </b>".$readyTime1."</p>
+			<p><b>Instructions: </b></br>".$instructions1."</p></div>" ."</div>"; 
 
-			return $elements."</div>";
+			return $elements;
 
+	}
+
+	function showFav() {
+
+		$localSQL = true;
+		if ($localSQL) {
+			$servername = "localhost";
+			$username   = "root";
+			$password   = "";
+            $database   = "recipeasy";
+		} else {
+			$servername = "dbhost.cs.man.ac.uk";
+			$username   = "e95562sp";
+			$password   = "STORED_recipes+";
+			$database   = "2020_comp10120_y14";
+		}
+
+		$conn = mysqli_connect($servername, $username, $password, $database);
+
+		$userId = $_SESSION['id'];
+		$query = mysqli_query($conn, "SELECT * FROM FavRecipes WHERE favBy='$userId'");
+
+		$favRecipeId = array();
+		while($row=mysqli_fetch_array($query)) {
+			array_push($favRecipeId, $row['favRecipeId']);
+		}
+
+		foreach($favRecipeId as $recipeId) {
+			$query1 = mysqli_query($conn, "SELECT * FROM Recipe WHERE id='$recipeId'");
+
+			while($row = mysqli_fetch_array($query1)){
+
+				$id = $row['id'];
+				$title = $row['title'];
+				$image = $row['image_url'];
+				$servings = $row['number_of_servings'];
+				$readyTime = $row['ready_in_minutes'];
+				$instructions = $row['description'];
+
+			$elements = $elements . "<h1>".$title."</h1>";
+			$elements = $elements . "<div id='image_container'><img src='".$image."'></div>";
+			// $elements = $elements . "<p><b>Ingredients: </b></p>";
+
+			$outputIngr = mysqli_query($conn, "SELECT * FROM ExtendedIngredient WHERE recipe_id = '$id' ");
+
+			$ingr = array();
+			while ($row = mysqli_fetch_array($outputIngr)) {
+				array_push($ingr, $row['original']);
+			}
+
+			$elements = $elements . "<p><b>Number of servings: </b>".$servings."</p>
+			<p><b>Ready in minutes: </b>".$readyTime."</p>
+			<p><b>Instructions: </b></br>".$instructions."</p></div>" ; 
+		}
+	}
+		$elements = $elements ."</div>";
+		return $elements;
 	}
 
 	function db_config() {
@@ -93,7 +282,7 @@
 			$servername = "localhost";
 			$username   = "root";
 			$password   = "";
-			$database   = "recipeasy";
+            $database   = "recipeasy";
 		} else {
 			$servername = "dbhost.cs.man.ac.uk";
 			$username   = "e95562sp";
@@ -111,7 +300,7 @@
 			$servername = "localhost";
 			$username   = "root";
 			$password   = "";
-			$database   = "recipeasy";
+            $database   = "recipeasy";
 		} else {
 			$servername = "dbhost.cs.man.ac.uk";
 			$username   = "e95562sp";
@@ -169,37 +358,28 @@
 		$serving = $_POST["servingInput"];
 		$category = $_POST["categoryInput"];
 		$ingredients = $_POST["ingredientsInput"];
-		$uploadedBy = 0; //user id
+		$uploadedBy = $_SESSION['id']; //user id
 	
-		/*  @Please explain this block of code@
-	
-		$dir = "uploads/";
-	
-		$filePath = $dir . uniqid() . basename($file["name"]);
-	
-		$filePath = str_replace(" ", "_", $filePath);
-		$type = pathinfo($filePath, PATHINFO_EXTENSION);
-	
-	
-		move_uploaded_file($file["tmp_name"], $filePath);
-	
-		*/
-	
-		// This part should be made to work with our new database
-		// add ingredients, description, time, category columns
-		/*
-		$sql = "INSERT INTO Recipe(ingredients, description, time, category, image_url, title, number_of_servings, user_id, original_site_url, calories, total_weight, total_nutrients, total_daily, diet_labels, health_labels)
-		VALUES('$ingredients', '$description', '$time', '$category', '$filePath', '$title', '$serving', '$uploadedBy','', 0, 0, '', '', '', '')";
-		*/
-	
-	
+		// move uploaded img to uploads/ and store ref
+
+		$path = "uploads/" . uniqid() . basename($file["name"]);
+		$path = str_replace(" ", "_", $path);
+		$type = pathinfo($path, PATHINFO_EXTENSION);
+
+		move_uploaded_file($file["tmp_name"], $path);
+
+		$sql = "INSERT INTO Recipe(ingredients, description, time, 	cuisine_type, image_url, title, number_of_servings, user_id)
+		VALUES('$ingredients', '$description', '$time', '$category', '$path', '$title', '$serving', '$uploadedBy')";
+
 		if($conn->query($sql))
 		{
-			echo("Uploaded sucessfully");
+			echo("<h3 id='uploadSucess' style='text-align:center;'>Uploaded sucessfully<h3>");
+			header( "refresh:2;url=upload.php" );
 		} 
 		else{
 			echo("Error: " . $conn->error);
 		}
+
 	}
 
 	class RecipeForm {
@@ -257,7 +437,7 @@
             return "<div class='form-group'>
                 <label for='photo'>Your photo</label><br>
                 <input type='file' accept='.jpeg, .jpg, .png, .gif, .bmp, .webp, .raw, .ico, .tiff'
-                 class='form-control-file w-50' id='photo' name='pictureInput' required>
+                class='form-control-file w-50' id='photo' name='pictureInput' required>
                 <br><br>
 
                 </div>";
@@ -272,7 +452,7 @@
         
         private function createIngredientsInput() {
             return "<div class='form-group'>
-            <input class='form-control' type='text' placeholder='Ingredients' name='ingredientsInput' required>
+            <input class='form-control' type='text' placeholder='Ingredients' pattern = '(\w+)(,*\s*\w+)*' name='ingredientsInput' required>
             </div>";
         }
         
@@ -421,8 +601,8 @@
 	function AddIngr(){
 		$servername = "localhost";
 		$username = "root";
-		$password = "";
-		$database = "recipeasy";
+		$password = "root";
+		$database = "recipeasy1";
 		$conn = mysqli_connect($servername, $username, $password, $database);
 		if (!$conn) {
 			die("Connection failed: " . mysqli_connect_error());
@@ -483,8 +663,8 @@
 	  function showFridge(){
 		$servername = "localhost";
 		$username = "root";
-		$password = "";
-		$database = "recipeasy";
+		$password = "root";
+		$database = "recipeasy1";
 		$conn = mysqli_connect($servername, $username, $password, $database);
 		if (!$conn) {
 			die("Connection failed: " . mysqli_connect_error());
@@ -530,8 +710,8 @@
 	  function changeFridge(){
 			$servername = "localhost";
 			$username = "root";
-			$password = "";
-			$database = "recipeasy";
+			$password = "root";
+			$database = "recipeasy1";
 			$conn = mysqli_connect($servername, $username, $password, $database);
 		
 		
@@ -616,8 +796,8 @@
 	  function getFridge(){
 		$servername = "localhost";
 		$username = "root";
-		$password = "";
-		$database = "recipeasy";
+		$password = "root";
+		$database = "recipeasy1";
 		$conn = mysqli_connect($servername, $username, $password, $database);
 		if (!$conn) {
 			die("Connection failed: " . mysqli_connect_error());
