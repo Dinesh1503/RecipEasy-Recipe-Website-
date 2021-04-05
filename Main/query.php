@@ -4,8 +4,8 @@ $localSQL = true;
 if ($localSQL) {
     $servername = "localhost";
     $username   = "root";
-    $password   = "root";
-    $database   = "recipeasy1";
+    $password   = "";
+    $database   = "recipeasy";
 } else {
     $servername = "dbhost.cs.man.ac.uk";
     $username   = "e95562sp";
