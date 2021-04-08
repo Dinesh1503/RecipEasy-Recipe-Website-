@@ -64,10 +64,6 @@
 	padding:12px;
 }
 
-.searchResults {
-	
-}
-
 .results-grid {
 	display:grid; 
 	grid-template-columns: 20% 20% 20% 20%;
@@ -84,4 +80,36 @@
 	width: 100%;
 	height: auto;
 }
+
+.checkbox{
+    display: none;
+}
+
+.checkbox:checked + label{    
+    background: url('../img/heart.png');
+	height: 28px;
+    width: 30px;
+    display:inline-block;
+}
+
+.checkbox + label{
+    background: url('../img/void-heart.png');
+	height: 28px;
+    width: 30px;
+    display:inline-block;
+}
+
+label:hover{
+	cursor: pointer;
+}
+
+label{
+	margin-left: 40px;
+}
+
+.searchResults h1{
+	display: inline-block;
+	margin-bottom:10px;
+}
+
 

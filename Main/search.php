@@ -34,7 +34,7 @@
 			*/
 			$grid = $grid . "
 			<div class=\"result\">
-				<a href=$recipe->spoonacularSourceUrl>
+				<a href='show_recipe.php/?recipe_id=$recipe->id'>
 				<h2>$recipe->title</h2>
 				<img src=$recipe->image style=\'width:20%; height:auto;\'></img>
 				</a>
