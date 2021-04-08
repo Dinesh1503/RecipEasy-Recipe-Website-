@@ -1,0 +1,94 @@
+ 
+*{
+  
+  font-family: 'Times New Roman',Times, serif; 
+}
+.class1
+{
+  display: none;
+  overflow: hidden;
+  background-color: white;
+}
+p 
+{
+  font-family: 'Times New Roman',Times, serif;
+  font-size: 24px;
+  color: black;
+  background-color: white;
+}
+
+
+table, th, td 
+{
+  border: 1px solid black;
+  border-collapse: collapse;
+  font-family: 'Times New Roman',Times, serif;
+  font-size: 20px;
+  color: black;
+  background-color: white;
+  text-align: left;
+  padding: 8px;
+}
+.title
+{
+	font-family: "Times New Roman",'Times', serif;
+	font-size: 50px;
+}
+table
+{
+	width: 100%;
+}
+summary
+{
+	font-family:"Times New Roman",'Times',serif;
+    font-size: 25px;
+    
+}
+#TEMP
+{
+  color: white;
+  font-weight: lighter;
+  font-size: 50px;
+  font-family: "Times New Roman",'Times',serif;
+  text-decoration: underline;
+  text-align: left;
+  background-color: rgb(180,180,180);
+}
+
+h1
+{
+  text-shadow: 3px 3px 5px black;
+  text-align: center;
+  border-color: black;
+  color: red;
+  font-size: 350%;
+  font-family: "Times New Roman",'Times',serif;
+  text-decoration: underline;
+  /*background-color: rgb(180,180,180);*/
+}
+
+
+.collapsible 
+  {
+    /*background-color: grey;*/
+    color: white;
+    cursor: pointer;
+    /*padding: 18px;*/
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    /*font-size: 15px;*/
+  }
+
+  .active, .collapsible:hover {
+    background-color: grey;
+  }
+
+  .content {
+    /*padding: 0 18px;*/
+    display: none;
+    overflow: hidden;
+    background-color: white;
+  }
+/* Style the button that is used to open and close the collapsible content */
