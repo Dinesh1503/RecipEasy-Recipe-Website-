@@ -1,6 +1,6 @@
 /* Style the button that is used to open and close the collapsible content */
 .collapsible {
-	background-color: #A0522D;
+	background-color: #666666;
 	color: #FFF;
 	cursor: pointer;
 	padding: 18px;
@@ -10,20 +10,21 @@
 	outline: none;
 	font-size: 15px;
    }
-   
+
    /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
    .active, .collapsible:hover {
-	background-color: #CD9E5D;
+	background-color: #999999;
    }
-   
+
    /* Style the collapsible content. Note: hidden by default */
    .content {
-	padding: 0 18px;
+	padding: 12px 18px;
+	line-height: 24px;
 	display: none;
 	overflow: hidden;
-	background-color: #f8e468;
+	background-color: #eaeaea;
    }
-   
+
    button.collapsible::after {
 	 content: "\002B";
 	 color: white;
@@ -31,28 +32,28 @@
 	 float: right;
 	 margin-left: 5px;
    }
-   
+
    button.collapsible.active::after {
 	 content: "\2212";
    }
-   
+
    .search {
 	 padding: 0 18px;
 	 display: block;
 	 overflow: hidden;
 	 background-color: #FAEB8E;
    }
-   
+
    .grid-container {
 	 display: grid;
 	 grid-template-columns: auto auto auto;
 	 grid-gap: 10px;
 	 padding: 10px;
    }
-   
+
    .searchBar {
 	 width: 400px;
-	 z-index: 1;
+	 z-index: 999;
 	 top: 0;
 	 left: 0;
 	 overflow-x: hidden;
@@ -65,15 +66,19 @@
 }
 
 .results-grid {
-	display:grid; 
+	display:grid;
 	grid-template-columns: 20% 20% 20% 20%;
-	grid-column-gap: 5%;
-	grid-row-gap: 5%;
+	grid-column-gap: 70px;
+	grid-row-gap: 70px;
 }
 
 .result {
 	text-align: center;
-	background-color: #f8e468;
+	background-color: #444444;
+	border:1px solid white;
+}
+.result a{
+	color:white;
 }
 
 .result img {
@@ -85,7 +90,7 @@
     display: none;
 }
 
-.checkbox:checked + label{    
+.checkbox:checked + label{
     background: url('../img/heart.png');
 	height: 28px;
     width: 30px;
@@ -111,5 +116,3 @@ label{
 	display: inline-block;
 	margin-bottom:10px;
 }
-
-

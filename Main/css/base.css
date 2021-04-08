@@ -1,22 +1,22 @@
-body{
+html,body{
 	width: 100%;
+	height:auto;
 	margin: 0px;
 	padding: 0px;
 }
 
+#page_container{
+	position: relative;
+	min-height: auto;
+	padding-bottom:300px;
+	box-sizing: border-box;
+}
 header{
-	height: 120px;
-	width: 100%;
-	padding: 0px;
-	margin: 0px;
-	color: white;
-	font-size: 24px;
-	font-family: 'Brush Script MT', cursive;
-	text-align: center;
-	vertical-align: center;
-	background-image: url('../img/header_image.jpg');
- 	background-repeat: no-repeat;
- 	background-size: 100% 100%;
+	background-image: url("../img/background_top.jpg");
+	background-size: 100% 100% ;
+	background-repeat: no-repeat;
+	border:solid 0.1px ;
+	padding-bottom: 3%;
 }
 
 a{
@@ -24,9 +24,16 @@ a{
 }
 
 header h1{
-	padding-top: 30px;
-	margin: 0px;
-	height: 60px;
+	 height:180px;
+   color:yellow;
+   font-size: 150px;
+   -webkit-text-stroke: 1.2px #000;
+   text-align: center;
+   margin: 0;
+   padding: 0;
+   background: linear-gradient(to right, #ffff00, #66cc33);
+  -webkit-background-clip: text;
+  color: transparent;
 }
 
 #login_container{
@@ -34,51 +41,51 @@ header h1{
 	margin-right: 2%;
 }
 
-header a{
-	text-decoration: none;
-	font-weight: bold;
-	padding-left: 10px;
-	padding-right: 10px;
-	color: white;
-	font-size: 34px;
-}
-
-header a:hover{	
-	color: #FAEB8E;
-}
 
 nav{
 	height: 60px;
 	width: 100%;
+	background-image:url("../img/background_body.jpg");
+	background-size: 100% 100%;
+	background-repeat: repeat;
 	background-color: #A0522D;
 	text-align: center;
 	color:white;
 	padding-top: 18px;
+	border-top:solid 2px white;
+	border-bottom:solid 2px white;
 }
 
 nav div{
 	display: inline-block;
 	text-align: center;
 	padding-left: 20px;
-	padding-right: 20px; 
+	padding-right: 20px;
 }
 
-nav a{	
+nav a{
 	font-size: 24px;
 	text-decoration: none;
 	font-weight: bold;
 	color:white;
 	padding-left: 20px;
-	padding-right: 20px; 
+	padding-right: 20px;
 }
 
-nav a:hover{	
+nav a:hover{
 	color: #FAEB8E;
 }
 
 main{
 	width: 100%;
+	height:auto;
+	min-height: 600px;
+	background-image:url("../img/background_body.jpg");
+	background-repeat: repeat;
+	background-size: 100% 100px;
 	background-color: #FAEB8E;
+	overflow: auto;
+	z-index:1;
 }
 
 main h1{
@@ -86,23 +93,36 @@ main h1{
 }
 
 footer{
+	height:300px;
 	width: 100%;
-	padding:12px;
+	margin:0;
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	background-image:url("../img/background_bottom.jpg");
 	background-color: #A0522D;
+	background-size: 100% 100%;
+	border:solid 1px;
+	z-index: 1;
 }
+
+
 
 /* For account and function buttons for toolbar */
 .dropdown-img:hover .downbtn{
 	display:block;
-	background-color: #CD9E5D;
+	background-color:#faf0e6;
 	z-index: 999;
 }
 .dropdown-img:hover{
 	background-color: none;
+	height:30px;
+	width:30px;
 }
 
 .dropdown-img img{
-	height:24px;
+	background-color:white;
+	height:30px;
 	width:auto;
 }
 
@@ -111,7 +131,6 @@ footer{
 	position:absolute;
 	background-color:#A0522D;
 	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	min-width: 160px;
 }
 .dropdown-img .downbtn li{
 	line-height:30px;
@@ -141,12 +160,12 @@ footer{
 	outline: none;
 	font-size: 15px;
    }
-   
+
    /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
    .active, .collapsible:hover {
 	background-color: #BA6C47;
    }
-   
+
    /* Style the collapsible content. Note: hidden by default */
    .content {
 	padding: 0 18px;
@@ -154,7 +173,7 @@ footer{
 	overflow: hidden;
 	background-color: #f8e468;
    }
-   
+
    button.collapsible::after {
 	 content: "\002B";
 	 color: white;
@@ -162,25 +181,25 @@ footer{
 	 float: right;
 	 margin-left: 5px;
    }
-   
+
    button.collapsible.active::after {
 	 content: "\2212";
    }
-   
+
    .search {
 	 padding: 0 18px;
 	 display: block;
 	 overflow: hidden;
 	 background-color: #f8e468;
    }
-   
+
    .grid-container {
 	 display: grid;
 	 grid-template-columns: auto auto auto;
 	 grid-gap: 10px;
 	 padding: 10px;
    }
-   
+
    .searchBar {
 	 width: 400px;
 	 z-index: 1;
@@ -192,5 +211,5 @@ footer{
 
    .contact-table {
 		width: 80%;
-		margin-left: 10%;
+		margin-left: 4%;
    }

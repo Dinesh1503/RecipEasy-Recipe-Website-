@@ -6,6 +6,7 @@
 </head>
 <body>
 	<!--HEADER -->
+	<div id="page_container">
  		<header>
  			<h1>RecipEasy</h1>
  		</header>
@@ -27,23 +28,23 @@
 			<div>
 				<a href="upload.php">Upload</a>
 			</div>
-			
+
 			<div class="dropdown-img">
 				<img src="img/account.png" alt="account">
 				<div class="downbtn">
 					[@user]
 				</div>
 			</div>
-			
-			<!-- 
+
+			<!--
 				redundant as we may be cutting those features
 			<div class="dropdown-img">
 				<img src="img/functions.png" alt="functions">
 				<div class="downbtn">
-					
+
 						<a href="#">Wish list</a>
 						<a href="#">Diet Tracker</a>
-					
+
 				</div>
 			</div>
 			-->
@@ -58,10 +59,12 @@
  		<!-- FOOTER -->
 		<style>
 			footer div * {
+				color:white;
 			}
-			
+
 			.contact-table {
 				display:table;
+				margin-left: 5%;
 			}
 
 			.contact-table-row {
@@ -70,14 +73,16 @@
 
 			.contact-table-row * {
 				display:table-cell;
-				padding-left:3px;
-				padding-right:3px;
+				padding-left:7px;
+				padding-right:5px;
+				padding-top: 3px;
+				padding-bottom: 3px;
 			}
 		</style>
  		<footer>
-		 	<h3>Contact Us:</h3>
+		 	<h3 style="color:white;">Contact Us:</h3>
 			<div class="contact-table">
-				<div class="contact-table-row"> 
+				<div class="contact-table-row">
 					<h5>Project Leader:</h5>
 					<h5></h5>
 					<h5>Project Members:</h5>
@@ -85,7 +90,7 @@
 					<h5>Project Tutor:</h5>
 					<h5></h5>
 				</div>
-				<div class="contact-table-row"> 
+				<div class="contact-table-row">
 					<p>Sam Pearson-Smith</p>
 					<p>sam.pearson-smith@student.manchester.ac.uk</p>
 					<p>Angel Kodjaivanov</p>
@@ -93,7 +98,7 @@
 					<p>Xiaojun Zeng</p>
 					<p>x.zeng@manchester.ac.uk</p>
 				</div>
-				<div class="contact-table-row"> 
+				<div class="contact-table-row">
 					<p>Automated Email</p>
 					<p>RecipEasyReply@gmail.com</p>
 					<p>Dinesh Selvam</p>
@@ -101,7 +106,7 @@
 					<p></p>
 					<p></p>
 				</div>
-				<div class="contact-table-row"> 
+				<div class="contact-table-row">
 					<p></p>
 					<p></p>
 					<p>Ethan Dawson</p>
@@ -109,7 +114,7 @@
 					<p></p>
 					<p></p>
 				</div>
-				<div class="contact-table-row"> 
+				<div class="contact-table-row">
 					<p></p>
 					<p></p>
 					<p>Jiachen Fan</p>
@@ -117,7 +122,7 @@
 					<p></p>
 					<p></p>
 				</div>
-				<div class="contact-table-row"> 
+				<div class="contact-table-row">
 					<p></p>
 					<p></p>
 					<p>Toby Ord</p>
@@ -125,7 +130,7 @@
 					<p></p>
 					<p></p>
 				</div>
-				<div class="contact-table-row"> 
+				<div class="contact-table-row">
 					<p></p>
 					<p></p>
 					<p>Yunyi Zhang</p>
@@ -135,7 +140,8 @@
 				</div>
 
 			</div>
-		 	
+
  		</footer>
+	</div>
 </body>
 </html>
