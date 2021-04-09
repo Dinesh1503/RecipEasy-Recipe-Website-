@@ -1,7 +1,7 @@
 <?php
 	# set false if you're not Sam
 	# sets db passwords for my setup
-	const SAM = false;
+	const SAM = true;
 
 	function console_log($msg) {
 		echo("<script>console.log(\"$msg\");</script>");
@@ -606,14 +606,17 @@
     $servername = "localhost";
 		$username = "root";
 		$password = "root";
-		$database = "Fridge";
+		if (SAM == true) {
+			$password = "";
+		}
+		$database = "recipeasy";
 		$conn = mysqli_connect($servername, $username, $password, $database);
 		if (!$conn) {
 			die("Connection failed: " . mysqli_connect_error());
 		}
 
 		  echo "Connected successfully";
-		  $id = $_GET["userID"];
+		  $id = $_SESSION["id"];
 		  $ingredients = $_GET["addIngrList"];
 			$ingredients = explode(",", $ingredients);
       $ingredientslength = count($ingredients);
@@ -662,7 +665,10 @@
       $servername = "localhost";
   		$username = "root";
   		$password = "root";
-  		$database = "Fridge";
+		if (SAM == true) {
+			$password = "";
+		}
+  		$database = "recipeasy";
   		$conn = mysqli_connect($servername, $username, $password, $database);
   		if (!$conn) {
   			die("Connection failed: " . mysqli_connect_error());
@@ -670,8 +676,7 @@
 
   		//echo "Connected successfully";
 
-  		// $userid = $_SESSION['id'];
-  		$userid = $_GET["userIdList"];
+  		$userid = $_SESSION["id"];
 
   		$sql ="SELECT * FROM fridge2 WHERE userID = $userid";
   		$result = $conn->query($sql);
@@ -682,16 +687,16 @@
 
   			$output = "<form><table border = '2'>
 
-  									<th>Ingredient</th>
+			<th>Ingredient</th>
 
-  									</form>
-  									";
+			</form>
+			";
   			while($row = $result->fetch_assoc()) {
   				$output .= "<tr>
 
-  											<td>$row[INGREDIENT]</td>
+			<td>$row[INGREDIENT]</td>
 
-  											</tr>";
+			</tr>";
 
   			}
   			$output .="</table>";
@@ -705,15 +710,18 @@
 	  }
 
 	  function changeFridge(){
-      $servername = "localhost";
+      		$servername = "localhost";
 			$username = "root";
 			$password = "root";
-			$database = "Fridge";
+			if (SAM == true) {
+				$password = "";
+			}
+			$database = "recipeasy";
 			$conn = mysqli_connect($servername, $username, $password, $database);
 
 
 
-			$userid = $_GET["userIDChange"];
+			$userid = $_SESSION["id"];
 
 			$sql = "SELECT * FROM fridge2 WHERE userID = $userid";
 			$result = $conn->query($sql);
@@ -743,30 +751,22 @@
 			// }
 			// else{
 			$sql = "UPDATE fridge2 SET INGREDIENT = '$new' WHERE (userID = $userid AND INGREDIENT = '$orignal')";
-							if ($conn->query($sql))
-							{
-								echo ("Record created successfully");
-							}
-							else
-							{
-								echo("Error: " . $conn->error);
-							}
-		}
-
-
-
-			if ($conn->query($sql))
-			{
-			echo ("Record updated successfully");
+				if ($conn->query($sql))
+				{
+					echo ("Record created successfully");
+				}
+				else
+				{
+					echo("Error: " . $conn->error);
+				}
 			}
-			else
-			{
-			echo("Error: " . $conn->error);
+
+			if ($conn->query($sql)) {
+				echo ("Record updated successfully");
+			} else {
+				echo("Error: " . $conn->error);
 			}
 
 			$conn->close();
 	  }
-
-
-
 ?>

@@ -16,7 +16,7 @@
     $content = $form->output();
 
 	$layout = new Template("index.tpl");
-	$layout->set("title", "TEMPLATE");
+	$layout->set("title", "Fridge");
 	$layout->set("user", getUserElements());
 	$layout->set("content", $content);
 
