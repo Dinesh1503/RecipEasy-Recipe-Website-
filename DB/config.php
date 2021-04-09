@@ -1,9 +1,13 @@
 <?php
+	const SAM = true;
 	$localSQL = true;
 	if ($localSQL) {
 		$servername = "localhost";
 		$username   = "root";
 		$password   = "root";
+		if (SAM == true) {
+			$password = "";
+		}
 		$database   = "recipeasy";
 	} else {
 		$servername = "dbhost.cs.man.ac.uk";
