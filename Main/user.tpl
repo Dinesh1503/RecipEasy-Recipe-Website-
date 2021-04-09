@@ -16,7 +16,6 @@
  		<div class="navbar">
 			<a href="index.php">Home</a>
 			<a href="search.php">Search</a>
-			<a href="db_search.php">DB Search</a>
 			<a href="upload.php">Upload</a>
 			<div class="dropdown-img">
 				<img src="img/account.png" alt="account">
@@ -35,7 +34,7 @@
 		<a href="index.php">Return to Main Page</a>
 		<br>
 	</main>
-
+		<br>
 		<div class="footer">
  			<div class="contact_us">
  				<h3 style="color:white;">Contact Us:</h3>
