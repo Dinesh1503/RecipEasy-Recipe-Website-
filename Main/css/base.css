@@ -8,15 +8,16 @@ html,body{
 #page_container{
 	position: relative;
 	min-height: auto;
-	padding-bottom:300px;
 	box-sizing: border-box;
 }
+
 header{
-	background-image: url("../img/background_top.jpg");
-	background-size: 100% 100% ;
-	background-repeat: no-repeat;
-	border:solid 0.1px ;
-	padding-bottom: 3%;
+  height: 180px;
+  text-align: center;
+  background-image:url("../img/header_img.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  color: white;
 }
 
 a{
@@ -24,16 +25,9 @@ a{
 }
 
 header h1{
-	 height:180px;
-   color:yellow;
-   font-size: 150px;
-   -webkit-text-stroke: 1.2px #000;
-   text-align: center;
-   margin: 0;
-   padding: 0;
-   background: linear-gradient(to right, #ffff00, #66cc33);
-  -webkit-background-clip: text;
-  color: transparent;
+	margin: 0px;
+	font-size: 40px;
+	padding-top: 70px;
 }
 
 #login_container{
@@ -42,48 +36,43 @@ header h1{
 }
 
 
-nav{
-	height: 60px;
-	width: 100%;
-	background-image:url("../img/background_body.jpg");
-	background-size: 100% 100%;
-	background-repeat: repeat;
-	background-color: #A0522D;
-	text-align: center;
-	color:white;
-	padding-top: 18px;
-	border-top:solid 2px white;
-	border-bottom:solid 2px white;
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+  top: 0;
 }
 
-nav div{
-	display: inline-block;
-	text-align: center;
-	padding-left: 20px;
-	padding-right: 20px;
+.navbar a {
+  font-size: 22px;	
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 26px 30px;
+  text-decoration: none;
 }
 
-nav a{
-	font-size: 24px;
-	text-decoration: none;
-	font-weight: bold;
-	color:white;
-	padding-left: 20px;
-	padding-right: 20px;
+
+.navbar .dropdown-img {
+  padding: 19px 19px;
+  float: right;
 }
 
-nav a:hover{
-	color: #FAEB8E;
+.navbar a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.navbar a.active {
+  background-color: #666;
+  color: white;
 }
 
 main{
 	width: 100%;
 	height:auto;
 	min-height: 600px;
-	background-image:url("../img/background_body.jpg");
-	background-repeat: repeat;
-	background-size: 100% 100px;
-	background-color: #FAEB8E;
+	background-color: #BBBBBB;
 	overflow: auto;
 	z-index:1;
 }
@@ -92,45 +81,44 @@ main h1{
 	margin: 0px;
 }
 
-footer{
-	height:300px;
-	width: 100%;
-	margin:0;
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	background-image:url("../img/background_bottom.jpg");
-	background-color: #A0522D;
-	background-size: 100% 100%;
-	border:solid 1px;
-	z-index: 1;
+.footer{
+	padding: 20px;
+  	text-align: center;
+ 	background: #333;
+ 	color:white;
 }
 
-
+.footer a{
+	color: white;
+}
 
 /* For account and function buttons for toolbar */
 .dropdown-img:hover .downbtn{
 	display:block;
 	background-color:#faf0e6;
 	z-index: 999;
+	cursor: pointer;
 }
 .dropdown-img:hover{
 	background-color: none;
-	height:30px;
-	width:30px;
+	height:41px;
+	width:41px;
+	cursor: pointer;
 }
 
 .dropdown-img img{
 	background-color:white;
-	height:30px;
+	height:41px;
 	width:auto;
 }
 
 .dropdown-img .downbtn{
 	display:none;
 	position:absolute;
+	right: 0;
 	background-color:#A0522D;
 	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	margin-right: 5px;
 }
 .dropdown-img .downbtn li{
 	line-height:30px;
@@ -139,10 +127,12 @@ footer{
 	text-decoration: none;
 }
 .dropdown-img .downbtn a:hover{
-	text-decoration:underline;
-	color:#f00;
+	background-color:#666;
+	color: white
 }
 .dropdown-img .downbtn a{
+	font-size: 20px;
+	padding: 6px;
 	display:block;
 	color:black;
 	width:100%;

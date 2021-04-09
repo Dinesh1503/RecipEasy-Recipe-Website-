@@ -337,7 +337,7 @@
 		if ($localSQL) {
 			$servername = "localhost";
 			$username   = "root";
-			$password   = "";
+			$password   = "root";
 			$database   = "recipeasy";
 		} else {
 			$servername = "dbhost.cs.man.ac.uk";
@@ -1096,7 +1096,7 @@
 	  function getFridge(){
 		$servername = "localhost";
 		$username = "root";
-		$password = "";
+		$password = "root";
 		$database = "recipeasy";
 		$conn = mysqli_connect($servername, $username, $password, $database);
 		if (!$conn) {
