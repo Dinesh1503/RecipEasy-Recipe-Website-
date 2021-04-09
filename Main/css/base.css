@@ -1,22 +1,23 @@
-body{
+html,body{
 	width: 100%;
+	height:auto;
 	margin: 0px;
 	padding: 0px;
 }
 
+#page_container{
+	position: relative;
+	min-height: auto;
+	box-sizing: border-box;
+}
+
 header{
-	height: 120px;
-	width: 100%;
-	padding: 0px;
-	margin: 0px;
-	color: white;
-	font-size: 24px;
-	font-family: 'Brush Script MT', cursive;
-	text-align: center;
-	vertical-align: center;
-	background-image: url('../img/header_image.jpg');
- 	background-repeat: no-repeat;
- 	background-size: 100% 100%;
+  height: 180px;
+  text-align: center;
+  background-image:url("../img/header_img.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  color: white;
 }
 
 a{
@@ -24,9 +25,9 @@ a{
 }
 
 header h1{
-	padding-top: 30px;
 	margin: 0px;
-	height: 60px;
+	font-size: 40px;
+	padding-top: 70px;
 }
 
 #login_container{
@@ -34,84 +35,90 @@ header h1{
 	margin-right: 2%;
 }
 
-header a{
-	text-decoration: none;
-	font-weight: bold;
-	padding-left: 10px;
-	padding-right: 10px;
-	color: white;
-	font-size: 34px;
+
+.navbar {
+  overflow: hidden;
+  background-color: #333;
+  top: 0;
 }
 
-header a:hover{	
-	color: #FAEB8E;
+.navbar a {
+  font-size: 22px;	
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 26px 30px;
+  text-decoration: none;
 }
 
-nav{
-	height: 60px;
-	width: 100%;
-	background-color: #A0522D;
-	text-align: center;
-	color:white;
-	padding-top: 18px;
+
+.navbar .dropdown-img {
+  padding: 19px 19px;
+  float: right;
 }
 
-nav div{
-	display: inline-block;
-	text-align: center;
-	padding-left: 20px;
-	padding-right: 20px; 
+.navbar a:hover {
+  background-color: #ddd;
+  color: black;
 }
 
-nav a{	
-	font-size: 24px;
-	text-decoration: none;
-	font-weight: bold;
-	color:white;
-	padding-left: 20px;
-	padding-right: 20px; 
-}
-
-nav a:hover{	
-	color: #FAEB8E;
+.navbar a.active {
+  background-color: #666;
+  color: white;
 }
 
 main{
 	width: 100%;
-	background-color: #FAEB8E;
+	height:auto;
+	min-height: 600px;
+	background-color: #BBBBBB;
+	overflow: auto;
+	z-index:1;
 }
 
 main h1{
 	margin: 0px;
 }
 
-footer{
-	width: 100%;
-	padding:12px;
-	background-color: #A0522D;
+.footer{
+	padding: 20px;
+  	text-align: center;
+ 	background: #333;
+ 	color:white;
+}
+
+.footer a{
+	color: white;
 }
 
 /* For account and function buttons for toolbar */
 .dropdown-img:hover .downbtn{
 	display:block;
-	background-color: #CD9E5D;
+	background-color:#faf0e6;
 	z-index: 999;
+	cursor: pointer;
 }
 .dropdown-img:hover{
 	background-color: none;
+	height:41px;
+	width:41px;
+	cursor: pointer;
 }
 
 .dropdown-img img{
-	height:24px;
+	background-color:white;
+	height:41px;
 	width:auto;
 }
 
 .dropdown-img .downbtn{
 	display:none;
 	position:absolute;
+	right: 0;
 	background-color:#A0522D;
 	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-	min-width: 160px;
+	margin-right: 5px;
 }
 .dropdown-img .downbtn li{
 	line-height:30px;
@@ -120,10 +127,12 @@ footer{
 	text-decoration: none;
 }
 .dropdown-img .downbtn a:hover{
-	text-decoration:underline;
-	color:#f00;
+	background-color:#666;
+	color: white
 }
 .dropdown-img .downbtn a{
+	font-size: 20px;
+	padding: 6px;
 	display:block;
 	color:black;
 	width:100%;
@@ -141,12 +150,12 @@ footer{
 	outline: none;
 	font-size: 15px;
    }
-   
+
    /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
    .active, .collapsible:hover {
 	background-color: #BA6C47;
    }
-   
+
    /* Style the collapsible content. Note: hidden by default */
    .content {
 	padding: 0 18px;
@@ -154,7 +163,7 @@ footer{
 	overflow: hidden;
 	background-color: #f8e468;
    }
-   
+
    button.collapsible::after {
 	 content: "\002B";
 	 color: white;
@@ -162,25 +171,25 @@ footer{
 	 float: right;
 	 margin-left: 5px;
    }
-   
+
    button.collapsible.active::after {
 	 content: "\2212";
    }
-   
+
    .search {
 	 padding: 0 18px;
 	 display: block;
 	 overflow: hidden;
 	 background-color: #f8e468;
    }
-   
+
    .grid-container {
 	 display: grid;
 	 grid-template-columns: auto auto auto;
 	 grid-gap: 10px;
 	 padding: 10px;
    }
-   
+
    .searchBar {
 	 width: 400px;
 	 z-index: 1;
@@ -192,5 +201,5 @@ footer{
 
    .contact-table {
 		width: 80%;
-		margin-left: 10%;
+		margin-left: 4%;
    }

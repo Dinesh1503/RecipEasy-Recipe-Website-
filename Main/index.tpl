@@ -6,49 +6,37 @@
 </head>
 <body>
 	<!--HEADER -->
+	<div id="page_container">
  		<header>
  			<h1>RecipEasy</h1>
  		</header>
 
  		<!--NAV BAR -->
- 		<nav>
-			<div>
-				<a href="index.php">Home</a>
-			</div>
-			|
-			<div>
-				<a href="search.php">Search</a>
-			</div>
-			|
-			<div>
-				<a href="db_search.php">DB Search</a>
-			</div>
-			|
-			<div>
-				<a href="upload.php">Upload</a>
-			</div>
-			
+ 		<div class="navbar">
+			<a href="index.php">Home</a>
+			<a href="search.php">Search</a>
+			<a href="upload.php">Upload</a>
 			<div class="dropdown-img">
 				<img src="img/account.png" alt="account">
 				<div class="downbtn">
 					[@user]
 				</div>
 			</div>
-			
-			<!-- 
+		</div>
+
+			<!--
 				redundant as we may be cutting those features
 			<div class="dropdown-img">
 				<img src="img/functions.png" alt="functions">
 				<div class="downbtn">
-					
+
 						<a href="#">Wish list</a>
 						<a href="#">Diet Tracker</a>
-					
+
 				</div>
 			</div>
 			-->
 
- 		</nav>
 
  		<!-- MAIN AREA -->
  		<main>
@@ -56,86 +44,15 @@
  		</main>
 
  		<!-- FOOTER -->
-		<style>
-			footer div * {
-			}
-			
-			.contact-table {
-				display:table;
-			}
+		<br>
+ 		<div class="footer">
+ 			<div class="contact_us">
+ 				<h3 style="color:white;">Contact Us:</h3>
+ 				<p>Automated Email: recipeasyreply@gmail.com</p>
+ 			</div>
+			 <a href='https://pngtree.com/free-backgrounds'>free background photos from pngtree.com</a>
 
-			.contact-table-row {
-				display:table-row;
-			}
-
-			.contact-table-row * {
-				display:table-cell;
-				padding-left:3px;
-				padding-right:3px;
-			}
-		</style>
- 		<footer>
-		 	<h3>Contact Us:</h3>
-			<div class="contact-table">
-				<div class="contact-table-row"> 
-					<h5>Project Leader:</h5>
-					<h5></h5>
-					<h5>Project Members:</h5>
-					<h5></h5>
-					<h5>Project Tutor:</h5>
-					<h5></h5>
-				</div>
-				<div class="contact-table-row"> 
-					<p>Sam Pearson-Smith</p>
-					<p>sam.pearson-smith@student.manchester.ac.uk</p>
-					<p>Angel Kodjaivanov</p>
-					<p>angel.kodjaivanov@student.manchester.ac.uk</p>
-					<p>Xiaojun Zeng</p>
-					<p>x.zeng@manchester.ac.uk</p>
-				</div>
-				<div class="contact-table-row"> 
-					<p>Automated Email</p>
-					<p>RecipEasyReply@gmail.com</p>
-					<p>Dinesh Selvam</p>
-					<p>dinesh.selvam@student.manchester.ac.uk</p>
-					<p></p>
-					<p></p>
-				</div>
-				<div class="contact-table-row"> 
-					<p></p>
-					<p></p>
-					<p>Ethan Dawson</p>
-					<p>ethan.dawson@student.manchester.ac.uk</p>
-					<p></p>
-					<p></p>
-				</div>
-				<div class="contact-table-row"> 
-					<p></p>
-					<p></p>
-					<p>Jiachen Fan</p>
-					<p>jiachen.fan@student.manchester.ac.uk</p>
-					<p></p>
-					<p></p>
-				</div>
-				<div class="contact-table-row"> 
-					<p></p>
-					<p></p>
-					<p>Toby Ord</p>
-					<p>toby.ord@student.manchester.ac.uk</p>
-					<p></p>
-					<p></p>
-				</div>
-				<div class="contact-table-row"> 
-					<p></p>
-					<p></p>
-					<p>Yunyi Zhang</p>
-					<p>yunyi.zhang@student.manchester.ac.uk</p>
-					<p></p>
-					<p></p>
-				</div>
-
-			</div>
-		 	
- 		</footer>
+ 		</div>
+	</div>
 </body>
 </html>

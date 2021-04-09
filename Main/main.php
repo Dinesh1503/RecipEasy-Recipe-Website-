@@ -1,9 +1,13 @@
 <?php
+	# set false if you're not Sam
+	# sets db passwords for my setup
+	const SAM = true;
+
 	function console_log($msg) {
 		echo("<script>console.log(\"$msg\");</script>");
 	}
 
-	const API_KEY = "apiKey=";
+	const API_KEY = "apiKey=8e545c9e5dd0403485f5b74f1c43622f";
 
 	function getSearch() {
 		$API = "https://api.spoonacular.com/recipes/complexSearch";
@@ -77,7 +81,10 @@
 		if ($localSQL) {
 			$servername = "localhost";
 			$username   = "root";
-			$password   = "";
+			$password   = "root";
+			if (SAM == true) {
+				$password = "";
+			}
             $database   = "recipeasy";
 		} else {
 			$servername = "dbhost.cs.man.ac.uk";
@@ -225,7 +232,10 @@
 		if ($localSQL) {
 			$servername = "localhost";
 			$username   = "root";
-			$password   = "";
+			$password   = "root";
+			if (SAM == true) {
+				$password = "";
+			}
             $database   = "recipeasy";
 		} else {
 			$servername = "dbhost.cs.man.ac.uk";
@@ -281,7 +291,10 @@
 		if ($localSQL) {
 			$servername = "localhost";
 			$username   = "root";
-			$password   = "";
+			$password   = "root";
+			if (SAM == true) {
+				$password = "";
+			}
             $database   = "recipeasy";
 		} else {
 			$servername = "dbhost.cs.man.ac.uk";
@@ -293,13 +306,23 @@
 		$conn = mysqli_connect($servername, $username, $password, $database);
 	}
 
+	// simple data structure for db search result
+	class DBResult {
+		var $link;
+		var $title;
+		var $img;
+	}
+
 
 	function db_search() {
 		$localSQL = true;
 		if ($localSQL) {
 			$servername = "localhost";
 			$username   = "root";
-			$password   = "";
+			$password   = "root";
+			if (SAM == true) {
+				$password = "";
+			}
             $database   = "recipeasy";
 		} else {
 			$servername = "dbhost.cs.man.ac.uk";
@@ -317,35 +340,16 @@
 
 		$recipe_check_query = "SELECT * FROM Recipe WHERE (`title` LIKE '%".$query."%')";
 		$result = mysqli_query($conn, $recipe_check_query);
-		$elements = "
-			<link rel=\"stylesheet\" type=\"text/css\" href=\"css/search.css\">
-			<div class=\"searchResults\">
-		";
+		$db_recipes = array();
 		while($recipe = mysqli_fetch_assoc($result)){
-			$recipe_id = $recipe['id'];
-			$title = $recipe['title'];
-			$cuisine_type = $recipe['cuisine_type'];
-			$image_url = $recipe['image_url'];
-			$number_of_servings = $recipe['number_of_servings'];
-			$ready_in_minutes = $recipe['ready_in_minutes'];
-			$description = $recipe['description'];
-			$calories = $recipe['calories'];
+			$db_recipe = new DBResult();
+			$db_recipe->link = "recipe.php/?db_id=" . $recipe['id'];
+			$db_recipe->title = $recipe['title'];
+			$db_recipe->image = $recipe['image_url'];
 
-			$ingredients_check_query = "SELECT * FROM ExtendedIngredient WHERE recipe_id=$recipe_id";
-			$ingr_result = mysqli_query($conn, $ingredients_check_query);
-
-			$elements = $elements . "<h1>".$title."</h1>";
-			$elements = $elements . "<div id='image_container'><img src='".$image_url."'></div>";
-			$elements = $elements . "<div id='info_container'><b>Ingredients:</b>";
-			while($ingredient = mysqli_fetch_assoc($ingr_result)){
-				$elements = $elements . "<p>".$ingredient['name']."</p>";
-			}
-			$elements = $elements . "<p><b>Number of servings: </b>".$number_of_servings."</p>
-			<p><b>Ready in minutes: </b>".$ready_in_minutes."</p>
-			<p><b>Calories: </b>".$calories."</p>
-			<p><b>Instructions: </b></br>".$description."</p></div>";
+			$db_recipes[] = $db_recipe;
 		}
-		return $elements . "</div>";
+		return $db_recipes;
 	}
 
 	function db_upload() {
@@ -599,7 +603,7 @@
 	*/
 
 	function AddIngr(){
-		$servername = "localhost";
+    $servername = "localhost";
 		$username = "root";
 		$password = "root";
 		$database = "Fridge";
@@ -655,53 +659,53 @@
 	  }
 
 	  function showFridge(){
-		$servername = "localhost";
-		$username = "root";
-		$password = "root";
-		$database = "Fridge";
-		$conn = mysqli_connect($servername, $username, $password, $database);
-		if (!$conn) {
-			die("Connection failed: " . mysqli_connect_error());
-		}
+      $servername = "localhost";
+  		$username = "root";
+  		$password = "root";
+  		$database = "Fridge";
+  		$conn = mysqli_connect($servername, $username, $password, $database);
+  		if (!$conn) {
+  			die("Connection failed: " . mysqli_connect_error());
+  		}
 
-		//echo "Connected successfully";
+  		//echo "Connected successfully";
 
-		// $userid = $_SESSION['id'];
-		$userid = $_GET["userIdList"];
+  		// $userid = $_SESSION['id'];
+  		$userid = $_GET["userIdList"];
 
-		$sql ="SELECT * FROM fridge2 WHERE userID = $userid";
-		$result = $conn->query($sql);
+  		$sql ="SELECT * FROM fridge2 WHERE userID = $userid";
+  		$result = $conn->query($sql);
 
-		$output = "";
-		if ($result->num_rows > 0) {
-		  // output data of each row
+  		$output = "";
+  		if ($result->num_rows > 0) {
+  		  // output data of each row
 
-			$output = "<form><table border = '2'>
+  			$output = "<form><table border = '2'>
 
-									<th>Ingredient</th>
+  									<th>Ingredient</th>
 
-									</form>
-									";
-			while($row = $result->fetch_assoc()) {
-				$output .= "<tr>
+  									</form>
+  									";
+  			while($row = $result->fetch_assoc()) {
+  				$output .= "<tr>
 
-											<td>$row[INGREDIENT]</td>
+  											<td>$row[INGREDIENT]</td>
 
-											</tr>";
+  											</tr>";
 
-			}
-			$output .="</table>";
-			echo ($output);
+  			}
+  			$output .="</table>";
+  			echo ($output);
 
-		} else {
-			$output = "0 results";
-		}
-		$conn->close();
-		return $output;
+  		} else {
+  			$output = "0 results";
+  		}
+  		$conn->close();
+  		return $output;
 	  }
 
 	  function changeFridge(){
-			$servername = "localhost";
+      $servername = "localhost";
 			$username = "root";
 			$password = "root";
 			$database = "Fridge";
@@ -767,7 +771,10 @@
 		$servername = "localhost";
 		$username = "root";
 		$password = "root";
-		$database = "Fridge";
+		if (SAM == true) {
+			$password = "";
+		}
+		$database = "recipeasy1";
 		$conn = mysqli_connect($servername, $username, $password, $database);
 		if (!$conn) {
 			die("Connection failed: " . mysqli_connect_error());
