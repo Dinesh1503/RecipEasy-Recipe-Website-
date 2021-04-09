@@ -6,7 +6,7 @@
 		// if no valid session id go to login
 		header("Location: userLogin.php");
 	}
-	
+
 	$content = "";
     $fridge = getFridge();
 
@@ -23,14 +23,20 @@
 	$layout->set("title", "TEMPLATE");
 	$layout->set("user", getUserElements());
 	$layout->set("content", $content);
-	
+
 	echo($layout->output());
 
     if(array_key_exists("searchBtn", $_GET)) {
-        if ($_GET["searchBtn"] == "Set Fridge") {
+        if ($_GET["searchBtn"] == "Change Ingredients") {
             changeFridge();
-        } else {
-            echo("NO");
+        } else if($_GET["searchBtn"] == "Add Ingredients") {
+            AddIngr();
+        }
+        else if($_GET["searchBtn"] == "Show Fridge") {
+            showFridge();
+        }
+        else{
+          echo("No");
         }
     }
 ?>
