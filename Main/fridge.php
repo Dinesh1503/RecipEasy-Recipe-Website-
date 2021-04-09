@@ -8,14 +8,10 @@
 	}
 
 	$content = "";
-    $fridge = getFridge();
+    
 
     $form = new Template("elements/fridge.tpl");
-    $form->set("ingredient1", $fridge["INGREDIENT_ONE"]);
-    $form->set("ingredient2", $fridge["INGREDIENT_TWO"]);
-    $form->set("ingredient3", $fridge["INGREDIENT_THREE"]);
-    $form->set("ingredient4", $fridge["INGREDIENT_FOUR"]);
-    $form->set("ingredient5", $fridge["INGREDIENT_FIVE"]);
+
 
     $content = $form->output();
 

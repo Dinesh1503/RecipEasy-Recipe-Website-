@@ -1,7 +1,7 @@
 <?php
 	# set false if you're not Sam
 	# sets db passwords for my setup
-	const SAM = true;
+	const SAM = false;
 
 	function console_log($msg) {
 		echo("<script>console.log(\"$msg\");</script>");
@@ -715,7 +715,7 @@
 
 			$userid = $_GET["userIDChange"];
 
-			$sql = "SELECT * FROM fridge WHERE userID = $userid";
+			$sql = "SELECT * FROM fridge2 WHERE userID = $userid";
 			$result = $conn->query($sql);
 
 
@@ -767,31 +767,6 @@
 			$conn->close();
 	  }
 
-	  function getFridge(){
-		$servername = "localhost";
-		$username = "root";
-		$password = "root";
-		if (SAM == true) {
-			$password = "";
-		}
-		$database = "recipeasy1";
-		$conn = mysqli_connect($servername, $username, $password, $database);
-		if (!$conn) {
-			die("Connection failed: " . mysqli_connect_error());
-		}
 
-		//echo "Connected successfully";
-
-		$userid = $_SESSION['id'];
-
-		$sql ="SELECT * FROM fridge WHERE userID = $userid";
-		$result = $conn->query($sql);
-		$row = $result->fetch_assoc();
-
-		$elements = $row;
-
-		$conn->close();
-		return $elements;
-	}
 
 ?>
