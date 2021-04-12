@@ -436,7 +436,7 @@
 					</a>
 						<p id="recipe_name">'.$title1.'</p>
 						<p id="recommend">Recommend</p>
-						<p id="calorie">calorie :</p>
+						<p id="calorie">Time :</p>
 						<p id="calorie_num">'.$time1.' min</p>
 						<p id="expected_cost_num">£ '.$price1.'</p>
 						<p id="uploader">Uploader</p>
@@ -459,7 +459,7 @@
 					</a>
 					<p id="recipe_name">'.$title1_1.'</p>
 					<p id="recommend">Recommend</p>
-					<p id="calorie">calorie :</p>
+					<p id="calorie">Time :</p>
 					<p id="calorie_num">'.$time1_1.' min</p>
 					<p id="expected_cost_num">£ '.$price1_1.'</p>
 					<p id="uploader">Uploader</p>
@@ -485,7 +485,7 @@
 					</a>
 					<p id="recipe_name">'.$title2.'</p>
 					<p id="recommend">Recommend</p>
-					<p id="calorie">calorie :</p>
+					<p id="calorie">Time :</p>
 					<p id="calorie_num">'.$time2.' min</p>
 					<p id="expected_cost_num">£ '.$price2.'</p>
 					<p id="uploader">Uploader</p>
@@ -508,7 +508,7 @@
 					</a>
 					<p id="recipe_name">'.$title2_1.'</p>
 					<p id="recommend">Recommend</p>
-					<p id="calorie">calorie :</p>
+					<p id="calorie">Time :</p>
 					<p id="calorie_num">'.$time2_1.' min</p>
 					<p id="expected_cost_num">£ '.$price2_1.'</p>
 					<p id="uploader">Uploader</p>
@@ -533,7 +533,7 @@
 					</a>
 						<p id="recipe_name">'.$title3.'</p>
 						<p id="recommend">Recommend</p>
-						<p id="calorie">calorie :</p>
+						<p id="calorie">Time :</p>
 						<p id="calorie_num">'.$time3.' min</p>
 						<p id="expected_cost_num">£ '.$price3.'</p>
 						<p id="uploader">Uploader</p>
@@ -556,7 +556,7 @@
 			</a>
 					<p id="recipe_name">'.$title3_1.'</p>
 					<p id="recommend">Recommend</p>
-					<p id="calorie">calorie :</p>
+					<p id="calorie">Time :</p>
 					<p id="calorie_num">'.$time3_1.' min</p>
 					<p id="expected_cost_num">£ '.$price3_1.'</p>
 					<p id="uploader">Uploader</p>
