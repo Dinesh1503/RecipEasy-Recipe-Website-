@@ -47,7 +47,7 @@
 				*/
 
 				$result = new Template("elements/searchResult.tpl");
-				$result->set("link", "recipe.php/?recipe_id=$recipe->id");
+				$result->set("link", "redirect_to_recipe.php/?db_id=$recipe->id");
 				$result->set("title", "$recipe->title");
 				$result->set("img", "$recipe->image");
 				$results = $results . $result->output();

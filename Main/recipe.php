@@ -4,7 +4,7 @@
 	session_regenerate_id();
 	require_once("main.php");
 
-    $recipe_id = strval($_GET["recipe_id"]);
+    $recipe_id = $_SESSION['recipe_id'];
     
 	// only if not exist, call api
 	$content = show_recipe($recipe_id);

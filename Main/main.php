@@ -1,7 +1,10 @@
 <?php
 	# set false if you're not Sam
 	# sets db passwords for my setup
-	const SAM = true;
+	const SAM = false;
+
+	#DATABASE CONFIG
+	require_once("config.php");
 
 	function console_log($msg) {
 		echo("<script>console.log(\"$msg\");</script>");
@@ -95,7 +98,7 @@
 
 		$conn = mysqli_connect($servername, $username, $password, $database);
 
-		$check = mysqli_query($conn, "SELECT * FROM Recipe WHERE api_id='$recipe_id'");
+		$check = mysqli_query($conn, "SELECT * FROM Recipe WHERE id='$recipe_id'");
 
 		// if not exist, store it first
 		if(mysqli_num_rows($check)==0){
@@ -116,8 +119,6 @@
 			$dairyFree = $data['dairyFree']=="true" ? true: false;
 			$veryHealthy = ($data['veryHealthy']=="true") ? true: false;
 			$cheap = $data['cheap']=="true" ? true: false;
-			$calories = $data['calories'];
-			$ketogenic = $data['ketogenic']=="true" ? true: false;
 			$sustainable = $data['sustainable']=="true" ? true: false;
 			$veryPopular = $data['veryPopular']=="true" ? true: false;
 
@@ -137,8 +138,8 @@
 			$instruction = strip_tags($data['instructions']);
 			$instruction1 = str_replace("'", "''", $instruction);
 
-			$result = mysqli_query($conn, "INSERT IGNORE INTO Recipe(api_id, vegetarian, vegan, gluten_free, dairy_free, very_healthy, cheap, ketogenic, sustainable, very_popular, calories, price_per_serving, health_score, aggregate_lies, license, image_type, cuisine_type, title, image_url, source_site_url, number_of_servings, ready_in_minutes, description)
-			VALUES('$originalId', '$vegetarian', '$vegan', '$glutenFree','$dairyFree','$veryHealthy' , '$cheap', '$ketogenic', '$sustainable' , '$veryPopular', '$calories', '$price_per_serving', '$health_score', '$aggregate_lies', '$license', '$image_type', '$cuisine_type',
+			$result = mysqli_query($conn, "INSERT IGNORE INTO Recipe(id, vegetarian, vegan, gluten_free, dairy_free, very_healthy, cheap, sustainable, very_popular, price_per_serving, health_score, aggregate_lies, license, image_type, cuisine_type, title, image_url, source_site_url, number_of_servings, ready_in_minutes, description)
+			VALUES('$originalId', '$vegetarian', '$vegan', '$glutenFree','$dairyFree','$veryHealthy' , '$cheap', '$sustainable' , '$veryPopular', '$price_per_serving', '$health_score', '$aggregate_lies', '$license', '$image_type', '$cuisine_type',
 			'$title', '$img_url', '$source_url', '$servings', '$readyTime', '$instruction1')");
 
 			$id = mysqli_insert_id($conn);
@@ -201,15 +202,18 @@
 			<div class=\"searchResults\">";
 
 			$elements = $elements . "<h1>".$title1."</h1>";
+
+			if(isset($_SESSION['id'])){
 			$userId = strval($_SESSION['id']);
 
-			if($fav == $_SESSION['id']){
-				$elements = $elements . "<input onchange='fav(" .strval($id).",".$userId.")' name='checkbox' class='checkbox' id='checkbox' type='checkbox' checked='checked'>
-				<label for='checkbox'></label>";
-			}
-			else{
-				$elements = $elements . "<input onchange='fav(" .strval($id).",".$userId.")' name='checkbox' class='checkbox' id='checkbox' type='checkbox'>
-				<label for='checkbox'></label>";
+				if($fav == $_SESSION['id']){
+					$elements = $elements . "<input onchange='fav(" .strval($id).",".$userId.")' name='checkbox' class='checkbox' id='checkbox' type='checkbox' checked='checked'>
+					<label for='checkbox'></label>";
+				}
+				else{
+					$elements = $elements . "<input onchange='fav(" .strval($id).",".$userId.")' name='checkbox' class='checkbox' id='checkbox' type='checkbox'>
+					<label for='checkbox'></label>";
+				}
 			}
 
 			$elements = $elements . "<div id='image_container'><img src='".$img_url1."'></div>";
@@ -254,6 +258,7 @@
 			array_push($favRecipeId, $row['favRecipeId']);
 		}
 
+		$elements = "<div>";
 		foreach($favRecipeId as $recipeId) {
 			$query1 = mysqli_query($conn, "SELECT * FROM Recipe WHERE id='$recipeId'");
 
@@ -343,7 +348,7 @@
 		$db_recipes = array();
 		while($recipe = mysqli_fetch_assoc($result)){
 			$db_recipe = new DBResult();
-			$db_recipe->link = "recipe.php/?db_id=" . $recipe['id'];
+			$db_recipe->link = "redirect_to_recipe.php/?db_id=" . $recipe['id'];
 			$db_recipe->title = $recipe['title'];
 			$db_recipe->image = $recipe['image_url'];
 
