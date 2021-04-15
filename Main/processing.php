@@ -1,7 +1,8 @@
 
 <?php 
 
-include_once("../DB/config.php");
+require_once("main.php");
+
 
 $file = $_FILES["pictureInput"];
 $title = $_POST["titleInput"];
@@ -11,7 +12,10 @@ $serving = $_POST["servingInput"];
 $category = $_POST["categoryInput"];
 $ingredientsInput = $_POST["ingredientsInput"];
 $calories = $_POST["caloriesInput"];
-
+$cuisine = $_POST["cuisineInput"];
+$meal = $_POST["mealInput"];
+$intolerances = $_POST["intolerances"];
+$diets = $_POST["diets"];
 
 $dir = "uploads/";
 
@@ -32,16 +36,9 @@ $user_id = intval($_SESSION['user_id']);
 $sql = "INSERT INTO Recipe(title, cuisine_type, image_url, image_type, number_of_servings, ready_in_minutes,calories,description,user_id)
 VALUES('$title', '$category', '$filePath', 'jpg', '$serving', '$time', '$calories', '$description','$user_id')";
 
-$conn->query($sql);
-
-if($conn->query($sql))
-{
-    echo("Uploaded sucessfully");
-} 
-else{
+if(!$conn->query($sql)) {
     echo("Error: " . $conn->error);
 }
-
 
 $recipe_check_query = "SELECT * FROM Recipe WHERE (`title` LIKE '%".$title."%') LIMIT 1";
 $result = mysqli_query($conn, $recipe_check_query);

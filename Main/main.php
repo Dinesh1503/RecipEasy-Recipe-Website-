@@ -1,7 +1,4 @@
 <?php
-	# set false if you're not Sam
-	# sets db passwords for my setup
-	const SAM = true;
 
 	#DATABASE CONFIG
 	require_once("config.php");
