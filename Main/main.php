@@ -286,10 +286,9 @@
 		var $img;
 	}
 
-
 	function db_search() {
 		$conn = getConnSQL();
-
+		$database = getDatabase();
 		$sql = "USE $database";
 		$conn->query($sql);
 
@@ -300,7 +299,7 @@
 		$db_recipes = array();
 		while($recipe = mysqli_fetch_assoc($result)){
 			$db_recipe = new DBResult();
-			$db_recipe->link = "redirect_to_recipe.php/?db_id=" . $recipe['id'];
+			$db_recipe->link = "redirect_to_recipe.php/?db_id=" . $recipe['recipe_id'];
 			$db_recipe->title = $recipe['title'];
 			$db_recipe->image = $recipe['image_url'];
 

@@ -30,6 +30,9 @@ header{
 
 a{
 	text-decoration: none;
+	font-weight: lighter;
+	font-style: normal;
+	font-family: 'Neucha', cursive;
 }
 
 header h1{
@@ -40,7 +43,7 @@ header h1{
 	font-size: 60px;
 	padding-top:20px;
 	background: linear-gradient(to right,yellow 50%, green);
- -webkit-background-clip: text;
+ 	-webkit-background-clip: text;
  color: transparent;
 
 }
@@ -58,8 +61,9 @@ header h1{
 }
 
 .navbar a {
-  font-size: 22px;
-	font-family:Georgia, sans-serif;
+  font-size: 24px;
+  font-style: bold;
+  font-family: 'Neucha', cursive;
   float: left;
   display: block;
   color: white;

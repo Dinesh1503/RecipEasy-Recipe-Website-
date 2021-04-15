@@ -24,16 +24,18 @@
 			recipe_id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 			title VARCHAR(256) NOT NULL,
 			cuisine_type VARCHAR(128) NOT NULL,
+			meal_type VARCHAR(128) NOT NULL,
 			image_url TEXT NOT NULL,
 			number_of_servings INT NOT NULL,
 			ready_in_minutes INT NOT NULL,
 			instructions TEXT NOT NULL,
 			intls SET('Dairy','Egg','Gluten','Grain','Peanut','Seafood','Sesame','Shellfish', 'Soy','Sulfite','Tree','Wheat'),
 			diets SET('Gluten Free', 'Ketogenic', 'Vegetarian','Lacto-Vegetarian', 'Ovo-Vegetarian', 'Vegan', 'Pescetarian', 'Paleo', 'Primal', 'Whole30'),
-			user_id INT NOT NULL REFERENCES User(id),
+			user_id INT NOT NULL REFERENCES User(id)
 		)
 	";
 	$conn->query($sql);
+	
 
 	$sql = 
 	"CREATE TABLE Ingredients(
