@@ -4,7 +4,12 @@
 
 	require_once("main.php");
 	
-	$content = file_get_contents("elements/searchBar.html");
+	$bar = new Template("elements/searchBar.tpl");
+	$bar->set("cuisine", file_get_contents("elements/form-cuisine.tpl"));
+	$bar->set("meal", file_get_contents("elements/form-meal.tpl"));
+	$bar->set("diet", file_get_contents("elements/form-diet.tpl"));
+	$bar->set("intolerances", file_get_contents("elements/form-intolerances.tpl"));
+	
 	$grid = new Template("elements/resultsGrid.tpl");
 
 	if (array_key_exists("searchBtn", $_GET)) {
@@ -34,20 +39,9 @@
 			$recipes = $json->results;
 			for ($i = 0; $i < count($recipes); $i++) {
 				$recipe = $recipes[$i];
-				/*
-				<ul>
-					<li>Calories: $recipe->calories</li>
-					<li>Carbs: $recipe->carbs</li>
-					<li>Fat: $recipe->fat</li>
-					<li>Protein: $recipe->protein</li>		
-				<ul>
-				Some basic information should be displayed in the grid item
-				Can't get from search rn and dont got time
-				Please sort out
-				*/
-
+	
 				$result = new Template("elements/searchResult.tpl");
-				$result->set("link", "redirect_to_recipe.php/?db_id=$recipe->id");
+				$result->set("link", "recipe.php/?recipe_id=$recipe->id");
 				$result->set("title", "$recipe->title");
 				$result->set("img", "$recipe->image");
 				$results = $results . $result->output();
@@ -59,9 +53,15 @@
 		$grid->set("results", $results);
 	}
 
+	$page = new Template("elements/page-search.tpl");
+	$page->set("searchBar", $bar->output());
+	$page->set("searchResults", $grid->output());
+	
+	$content = $page->output();
+
 	$layout = new Template("index.tpl");
 	$layout->set("title", "Search");
 	$layout->set("user", getUserElements());
-	$layout->set("content", $content . $grid->output());
+	$layout->set("content", $content);
 	echo($layout->output());
 ?>	
