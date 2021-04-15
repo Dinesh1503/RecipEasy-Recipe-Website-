@@ -9,7 +9,6 @@
         class='form-control-file w-50' id='photo' name='pictureInput' required>
         <br><br>
     </div>
-
     <div class = 'row'>
 
         <div class='col'>
