@@ -81,13 +81,11 @@
 				$password = "";
 			}
 			$database   = "recipeasy";
-			echo("how");
 		} else {
 			$servername = "dbhost.cs.man.ac.uk";
 			$username   = "e95562sp";
 			$password   = "5+recipes";
 			$database   = "e95562sp";
-			echo("brugh");
 		}
 		return mysqli_connect($servername, $username, $password, $database);
 	}
