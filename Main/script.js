@@ -12,7 +12,7 @@ function fav(id, userId, elementId) {
     $.ajax({
         type: "POST",
         url: 'query.php',
-        data: { 'id' : id , 'userId' : userId,  'isChecked' : isChecked},
+        data: { 'id' : id , 'user_id' : userId,  'isChecked' : isChecked},
         success: function()
         {
                 if(isChecked){
@@ -64,7 +64,7 @@ function mealPlan(id, userId, elementId, isChangeDate) {
     $.ajax({
         type: "POST",
         url: 'query.php',
-        data: { 'id' : id , 'userId' : userId,  'isChecked' : isChecked, 'date' : date, 'mealTime': elementId},
+        data: { 'id' : id , 'user_id' : userId,  'isChecked' : isChecked, 'date' : date, 'meal_time': elementId},
         success: function()
         {
                 if(isChecked==1){

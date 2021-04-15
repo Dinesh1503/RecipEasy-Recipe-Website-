@@ -1,25 +1,9 @@
 <?php
-	$localSQL = true;
-	if ($localSQL) {
-		$servername = "localhost";
-		$username   = "root";
-		$password   = "root";
-		if (SAM == true) {
-			$password = "";
-		}
-		$database   = "recipeasy";
-	} else {
-		$servername = "dbhost.cs.man.ac.uk";
-		$username   = "e95562sp";
-		$password   = "STORED_recipes+";
-		$database   = "2020_comp10120_y14";
-	}
+	const localSQL = false;
 
-	$conn = mysqli_connect($servername, $username, $password, $database);
+	$conn = getConnSQL();
 
-	$sql = "CREATE DATABASE IF NOT EXISTS recipeasy" ;
-	$conn->query($sql);
-
+	$database = getDatabase();
 	$sql = "USE $database";
 	$conn->query($sql);
 
@@ -86,5 +70,31 @@
 		  meal_date varchar(256) NOT NULL
 	)";
 	$conn->query($sql);
+
+	function getConnSQL() {
+		if (localSQL) {
+			$servername = "localhost";
+			$username   = "root";
+			$password   = "root";
+			if (SAM == true) {
+				$password = "";
+			}
+			$database   = "recipeasy";
+		} else {
+			$servername = "dbhost.cs.man.ac.uk";
+			$username   = "e95562sp";
+			$password   = "5+recipes";
+			$database   = "e95562sp";
+		}
+		return mysqli_connect($servername, $username, $password, $database);
+	}
+
+	function getDatabase() {
+		if (localSQL) {
+			return "recipeasy";
+		} else {
+			return "e95562sp";
+		}
+	}
 
 ?>

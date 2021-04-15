@@ -104,23 +104,7 @@
 		 * Add a new table to store relation between user and fav recipes
 		 */
 
-		$localSQL = true;
-		if ($localSQL) {
-			$servername = "localhost";
-			$username   = "root";
-			$password   = "root";
-			if (SAM == true) {
-				$password = "";
-			}
-            $database   = "recipeasy";
-		} else {
-			$servername = "dbhost.cs.man.ac.uk";
-			$username   = "e95562sp";
-			$password   = "STORED_recipes+";
-			$database   = "2020_comp10120_y14";
-		}
-
-		$conn = mysqli_connect($servername, $username, $password, $database);
+		$conn = getConnSQL();
 
 		$check = mysqli_query($conn, "SELECT * FROM Recipe WHERE id='$recipe_id'");
 
@@ -168,8 +152,8 @@
 
 			$id = mysqli_insert_id($conn);
 
-			// add a new table FavRecipes with columns id, favRecipeId(store recipe id), favBy(store user id)
-			mysqli_query($conn, "INSERT IGNORE INTO FavRecipes(favRecipeId, favBy) VALUES('$id', '')");
+			// add a new table FavRecipes with columns id, fav_recipe_id(store recipe id), fav_by(store user id)
+			mysqli_query($conn, "INSERT IGNORE INTO FavRecipes(fav_recipe_id, fav_by) VALUES('$id', '')");
 
 			foreach($data['extendedIngredients'] as $d){
 
@@ -203,10 +187,10 @@
 		$readyTime1 = $row['ready_in_minutes'];
 		$instructions1 = $row['description'];
 
-		$outputFav = mysqli_query($conn, "SELECT * FROM FavRecipes WHERE favRecipeId='$id'");
+		$outputFav = mysqli_query($conn, "SELECT * FROM FavRecipes WHERE fav_recipe_id='$id'");
 
 		if(mysqli_num_rows($outputFav)!=0){
-			$fav = mysqli_fetch_array($outputFav)['favBy'];
+			$fav = mysqli_fetch_array($outputFav)['fav_by'];
 		}
 		else{
 			$fav = '';
@@ -255,35 +239,18 @@
 	}
 
 	function showFav() {
-
-		$localSQL = true;
-		if ($localSQL) {
-			$servername = "localhost";
-			$username   = "root";
-			$password   = "root";
-			if (SAM == true) {
-				$password = "";
-			}
-            $database   = "recipeasy";
-		} else {
-			$servername = "dbhost.cs.man.ac.uk";
-			$username   = "e95562sp";
-			$password   = "STORED_recipes+";
-			$database   = "2020_comp10120_y14";
-		}
-
-		$conn = mysqli_connect($servername, $username, $password, $database);
+		$conn = getConnSQL();
 
 		$userId = $_SESSION['id'];
-		$query = mysqli_query($conn, "SELECT * FROM FavRecipes WHERE favBy='$userId'");
+		$query = mysqli_query($conn, "SELECT * FROM FavRecipes WHERE fav_by='$userId'");
 
-		$favRecipeId = array();
+		$fav_recipe_id = array();
 		while($row=mysqli_fetch_array($query)) {
-			array_push($favRecipeId, $row['favRecipeId']);
+			array_push($fav_recipe_id, $row['fav_recipe_id']);
 		}
 
 		$elements = "<div>";
-		foreach($favRecipeId as $recipeId) {
+		foreach($fav_recipe_id as $recipeId) {
 			$query1 = mysqli_query($conn, "SELECT * FROM Recipe WHERE id='$recipeId'");
 
 			while($row = mysqli_fetch_array($query1)){
@@ -315,26 +282,6 @@
 		return $elements;
 	}
 
-	function db_config() {
-		$localSQL = true;
-		if ($localSQL) {
-			$servername = "localhost";
-			$username   = "root";
-			$password   = "root";
-			if (SAM == true) {
-				$password = "";
-			}
-            $database   = "recipeasy";
-		} else {
-			$servername = "dbhost.cs.man.ac.uk";
-			$username   = "e95562sp";
-			$password   = "STORED_recipes+";
-			$database   = "2020_comp10120_y14";
-		}
-
-		$conn = mysqli_connect($servername, $username, $password, $database);
-	}
-
 	// simple data structure for db search result
 	class DBResult {
 		var $link;
@@ -344,23 +291,7 @@
 
 
 	function db_search() {
-		$localSQL = true;
-		if ($localSQL) {
-			$servername = "localhost";
-			$username   = "root";
-			$password   = "root";
-			if (SAM == true) {
-				$password = "";
-			}
-            $database   = "recipeasy";
-		} else {
-			$servername = "dbhost.cs.man.ac.uk";
-			$username   = "e95562sp";
-			$password   = "STORED_recipes+";
-			$database   = "2020_comp10120_y14";
-		}
-
-		$conn = mysqli_connect($servername, $username, $password, $database);
+		$conn = getConnSQL();
 
 		$sql = "USE $database";
 		$conn->query($sql);
@@ -382,8 +313,6 @@
 	}
 
 	function db_upload() {
-		include_once("db/config.php");
-
 		$file = $_FILES["pictureInput"];
 		$title = $_POST["titleInput"];
 		$description = $_POST["descriptionInput"];
@@ -508,14 +437,8 @@
 	*/
 
 	function AddIngr(){
-    $servername = "localhost";
-		$username = "root";
-		$password = "root";
-		if (SAM == true) {
-			$password = "";
-		}
-		$database = "recipeasy";
-		$conn = mysqli_connect($servername, $username, $password, $database);
+		$conn = getConnSQL();
+
 		if (!$conn) {
 			die("Connection failed: " . mysqli_connect_error());
 		}
@@ -566,65 +489,50 @@
 	  function RemoveIngr(){
 	  }
 
-	  function showFridge(){
-      $servername = "localhost";
-  		$username = "root";
-  		$password = "root";
-		if (SAM == true) {
-			$password = "";
+		function showFridge(){
+			$conn = getConnSQL();
+
+			if (!$conn) {
+				die("Connection failed: " . mysqli_connect_error());
+			}
+
+			//echo "Connected successfully";
+
+			$userid = $_SESSION["id"];
+
+			$sql ="SELECT * FROM fridge2 WHERE user_id = $userid";
+			$result = $conn->query($sql);
+
+			$output = "";
+			if ($result->num_rows > 0) {
+			// output data of each row
+
+				$output = "<form><table border = '2'>
+
+				<th>Ingredient</th>
+
+				</form>
+				";
+				while($row = $result->fetch_assoc()) {
+					$output .= "<tr>
+
+				<td>$row[INGREDIENT]</td>
+
+				</tr>";
+
+				}
+				$output .="</table>";
+				echo ($output);
+
+			} else {
+				$output = "0 results";
+			}
+			$conn->close();
+			return $output;
 		}
-  		$database = "recipeasy";
-  		$conn = mysqli_connect($servername, $username, $password, $database);
-  		if (!$conn) {
-  			die("Connection failed: " . mysqli_connect_error());
-  		}
-
-  		//echo "Connected successfully";
-
-  		$userid = $_SESSION["id"];
-
-  		$sql ="SELECT * FROM fridge2 WHERE user_id = $userid";
-  		$result = $conn->query($sql);
-
-  		$output = "";
-  		if ($result->num_rows > 0) {
-  		  // output data of each row
-
-  			$output = "<form><table border = '2'>
-
-			<th>Ingredient</th>
-
-			</form>
-			";
-  			while($row = $result->fetch_assoc()) {
-  				$output .= "<tr>
-
-			<td>$row[INGREDIENT]</td>
-
-			</tr>";
-
-  			}
-  			$output .="</table>";
-  			echo ($output);
-
-  		} else {
-  			$output = "0 results";
-  		}
-  		$conn->close();
-  		return $output;
-	  }
 
 	  	function changeFridge(){
-      		$servername = "localhost";
-			$username = "root";
-			$password = "root";
-			if (SAM == true) {
-				$password = "";
-			}
-			$database = "recipeasy";
-			$conn = mysqli_connect($servername, $username, $password, $database);
-
-
+			$conn = getConnSQL();
 
 			$userid = $_SESSION["id"];
 
@@ -668,56 +576,42 @@
 			$conn->close();
 	  }
 
-	  function parseFridge() {
-		$servername = "localhost";
-		$username = "root";
-		$password = "root";
-	  	if (SAM == true) {
-		  	$password = "";
-	  	}
-		$database = "recipeasy";
-		$conn = mysqli_connect($servername, $username, $password, $database);
-		if (!$conn) {
-			die("Connection failed: " . mysqli_connect_error());
+		function parseFridge() {
+			$conn = getConnSQL();
+			if (!$conn) {
+				die("Connection failed: " . mysqli_connect_error());
+			}
+
+			$userid = $_SESSION["id"];
+
+			$sql = "
+			WITH cte AS (
+				SELECT
+					user_id,
+					INGREDIENT,
+					ROW_NUMBER() OVER (
+						PARTITION BY
+							user_id,
+							INGREDIENT
+						ORDER BY
+							user_id,
+							INGREDIENT
+					) row_num
+				FROM
+					fridge2
+			)
+			DELETE FROM cte
+			WHERE row_num > 1";
+
+			$result = $conn->query($sql);
+			if (!$result) {
+				echo "Error deleting record: " . mysqli_error($conn);
+			}
+			$conn->close();
 		}
-
-		$userid = $_SESSION["id"];
-
-		$sql = "
-		WITH cte AS (
-			SELECT
-				user_id,
-				INGREDIENT,
-				ROW_NUMBER() OVER (
-					PARTITION BY
-						user_id,
-						INGREDIENT
-					ORDER BY
-						user_id,
-						INGREDIENT
-				) row_num
-			 FROM
-				fridge2
-		)
-		DELETE FROM cte
-		WHERE row_num > 1";
-
-		$result = $conn->query($sql);
-		if (!$result) {
-			echo "Error deleting record: " . mysqli_error($conn);
-		}
-		$conn->close();
-	}
 
 	function addFridge($item) {
-		$servername = "localhost";
-		$username = "root";
-		$password = "root";
-	  	if (SAM == true) {
-		  	$password = "";
-	  	}
-		$database = "recipeasy";
-		$conn = mysqli_connect($servername, $username, $password, $database);
+		$conn = getConnSQL();
 		if (!$conn) {
 			die("Connection failed: " . mysqli_connect_error());
 		}
@@ -734,14 +628,7 @@
 	}
 
 	function removeFridge($item) {
-		$servername = "localhost";
-		$username = "root";
-		$password = "root";
-	  	if (SAM == true) {
-		  	$password = "";
-	  	}
-		$database = "recipeasy";
-		$conn = mysqli_connect($servername, $username, $password, $database);
+		$conn = getConnSQL();
 		if (!$conn) {
 			die("Connection failed: " . mysqli_connect_error());
 		}
@@ -758,25 +645,18 @@
 	}
 
 	function getFridge() {
-		$servername = "localhost";
-		$username = "root";
-		$password = "root";
-	  	if (SAM == true) {
-		  	$password = "";
-	  	}
-		$database = "recipeasy";
-		$conn = mysqli_connect($servername, $username, $password, $database);
+		$conn = getConnSQL();
 		if (!$conn) {
 			die("Connection failed: " . mysqli_connect_error());
 		}
 		$userid = $_SESSION["id"];
 
-		$sql ="SELECT * FROM fridge2 WHERE user_id = $userid";
+		$sql ="SELECT * FROM fridge WHERE user_id = $userid";
 		$result = $conn->query($sql);
 		$items = array();
 		if ($result->num_rows > 0) {
 			while($row = $result->fetch_assoc()) {
-				$items[] = $row["INGREDIENT"];
+				$items[] = $row["ingredient"];
 			}
 		}
 		$conn->close();
