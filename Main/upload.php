@@ -8,9 +8,7 @@
 
 	require_once("main.php");
 	
-	$form = new RecipeForm();
-
-	$content = $form->createUploadForm();
+	$content = file_get_contents("elements/page-upload.tpl");
 	$layout = new Template("index.tpl");
 	$layout->set("title", "Upload");
 	$layout->set("user", getUserElements());
