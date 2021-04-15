@@ -23,10 +23,8 @@
 			<label>Select Cuisine Type:</label>
 			[@cuisine]
 			<br>
-			<label>Select Meal Types:</label>
-			<div class="grid-container">
-				[@meal]
-			</div>
+			<label>Select Meal Type:</label>
+			[@meal]
 		</div>
 
 		<!-- Set diet type -->
