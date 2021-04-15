@@ -1,7 +1,7 @@
 <?php
 	# set false if you're not Sam
 	# sets db passwords for my setup
-	const SAM = false;
+	const SAM = true;
 
 	#DATABASE CONFIG
 	require_once("config.php");
@@ -27,10 +27,34 @@
 				continue;
 			} elseif ($val == "") {
 				continue;
+			} elseif ($key == "intolerances") {
+				$intls = $val[0];
+				for ($i = 1; $i < count($val); $i++) {
+					$intls = $intls . ", " . $val[$i];
+				}
+				$ARGS = $ARGS . "&$key=$intls";
+			} else {
+				$ARGS = $ARGS . "&$key=$val";
 			}
-			$ARGS = $ARGS . "&$key=$val";
 		}
-		return str_replace(" ", "%20", $API . "?" . API_KEY . $ARGS . $INSTRUCTIONS . $RECIPE_INFO . $NUTRITION_INFO);
+		$items = array();
+		if (isset($_GET["includeIngredients"])) {
+			if ($_GET["includeIngredients"] != "") {
+				$items = preg_split("/(\s*),(\s*)/", $_GET["includeIngredients"], -1, PREG_SPLIT_NO_EMPTY);
+			}
+		}
+		if (isset($_GET["useFridge"])) {
+			$items = array_merge($items, getFridge());
+		}
+		$INGRS = "";
+		if (count($items) > 0) {
+			$INGRS = "&includeIngredients=" . $items[0];
+			for ($i = 1; $i < count($items); $i++) {
+				$INGRS = $INGRS . ", " . $items[$i];
+			}
+		}
+
+		return str_replace(" ", "%20", $API . "?" . API_KEY . $ARGS . $INGRS . $INSTRUCTIONS . $RECIPE_INFO . $NUTRITION_INFO);
 	}
 
 	function makeCURL($URL) {
@@ -714,7 +738,7 @@
   		return $output;
 	  }
 
-	  function changeFridge(){
+	  	function changeFridge(){
       		$servername = "localhost";
 			$username = "root";
 			$password = "root";
@@ -732,46 +756,154 @@
 			$result = $conn->query($sql);
 
 
-		$ingredients=$result->fetch_assoc();
-		$ingredients = implode(",",$ingredients);
-		$ingredients = str_replace(">","",$ingredients);
-		$ingredients = explode(",", $ingredients);
+			$ingredients=$result->fetch_assoc();
+			$ingredients = implode(",",$ingredients);
+			$ingredients = str_replace(">","",$ingredients);
+			$ingredients = explode(",", $ingredients);
 
 
-		$ingredients = $_GET["ChangeIngrList"];
-		$ingredients  = explode( ',', $ingredients);
-		$length = count($ingredients);
+			$ingredients = $_GET["ChangeIngrList"];
+			$ingredients  = explode( ',', $ingredients);
+			$length = count($ingredients);
 
-		for ($i = 0; $i < $length; $i++) {
-			$change = explode( '->', $ingredients[$i]);
-			$orignal = $change[0];
-			$new = $change[1];
+			for ($i = 0; $i < $length; $i++) {
+				$change = explode( '->', $ingredients[$i]);
+				$orignal = $change[0];
+				$new = $change[1];
 
-			// if($new = "remove"){
-			// 	$sql = "DELETE FROM fridge2 WHERE (userID = $userid AND INGREDIENT = '$orignal')";
-			// 	if ($conn->query($sql))
-			// 	{
-			// 		echo ("Record deleted successfully");
-			// 	}
-			// }
-			// else{
-			$sql = "UPDATE fridge2 SET INGREDIENT = '$new' WHERE (userID = $userid AND INGREDIENT = '$orignal')";
-				if ($conn->query($sql))
-				{
-					echo ("Record created successfully");
-				}
-				else
-				{
-					echo("Error: " . $conn->error);
-				}
+				// if($new = "remove"){
+				// 	$sql = "DELETE FROM fridge2 WHERE (userID = $userid AND INGREDIENT = '$orignal')";
+				// 	if ($conn->query($sql))
+				// 	{
+				// 		echo ("Record deleted successfully");
+				// 	}
+				// }
+				// else{
+				$sql = "UPDATE fridge2 SET INGREDIENT = '$new' WHERE (userID = $userid AND INGREDIENT = '$orignal')";
+					if (!$conn->query($sql)) {
+						echo("Error: " . $conn->error);
+					}
 			}
 
-			if ($conn->query($sql)) {
-				echo ("Record updated successfully");
-			} else {
+			if (!$conn->query($sql)) {
 				echo("Error: " . $conn->error);
 			}
 
 			$conn->close();
 	  }
+
+	  function parseFridge() {
+		$servername = "localhost";
+		$username = "root";
+		$password = "root";
+	  	if (SAM == true) {
+		  	$password = "";
+	  	}
+		$database = "recipeasy";
+		$conn = mysqli_connect($servername, $username, $password, $database);
+		if (!$conn) {
+			die("Connection failed: " . mysqli_connect_error());
+		}
+
+		$userid = $_SESSION["id"];
+
+		$sql = "
+		WITH cte AS (
+			SELECT
+				userID,
+				INGREDIENT,
+				ROW_NUMBER() OVER (
+					PARTITION BY
+						userID,
+						INGREDIENT
+					ORDER BY
+						userID,
+						INGREDIENT
+				) row_num
+			 FROM
+				fridge2
+		)
+		DELETE FROM cte
+		WHERE row_num > 1";
+
+		$result = $conn->query($sql);
+		if (!$result) {
+			echo "Error deleting record: " . mysqli_error($conn);
+		}
+		$conn->close();
+	}
+
+	function addFridge($item) {
+		$servername = "localhost";
+		$username = "root";
+		$password = "root";
+	  	if (SAM == true) {
+		  	$password = "";
+	  	}
+		$database = "recipeasy";
+		$conn = mysqli_connect($servername, $username, $password, $database);
+		if (!$conn) {
+			die("Connection failed: " . mysqli_connect_error());
+		}
+
+		$userid = $_SESSION["id"];
+
+		$sql ="INSERT INTO fridge2 (userID, INGREDIENT) VALUES ($userid, '$item')";
+
+		$result = $conn->query($sql);
+		if (!$result) {
+			echo "Error inserting record: " . mysqli_error($conn);
+		}
+		$conn->close();
+	}
+
+	function removeFridge($item) {
+		$servername = "localhost";
+		$username = "root";
+		$password = "root";
+	  	if (SAM == true) {
+		  	$password = "";
+	  	}
+		$database = "recipeasy";
+		$conn = mysqli_connect($servername, $username, $password, $database);
+		if (!$conn) {
+			die("Connection failed: " . mysqli_connect_error());
+		}
+
+		$userid = $_SESSION["id"];
+
+		$sql ="DELETE FROM fridge2 WHERE userID = $userid AND INGREDIENT = '$item'";
+
+		$result = $conn->query($sql);
+		if (!$result) {
+			echo "Error deleting record: " . mysqli_error($conn);
+		}
+		$conn->close();
+	}
+
+	function getFridge() {
+		$servername = "localhost";
+		$username = "root";
+		$password = "root";
+	  	if (SAM == true) {
+		  	$password = "";
+	  	}
+		$database = "recipeasy";
+		$conn = mysqli_connect($servername, $username, $password, $database);
+		if (!$conn) {
+			die("Connection failed: " . mysqli_connect_error());
+		}
+		$userid = $_SESSION["id"];
+
+		$sql ="SELECT * FROM fridge2 WHERE userID = $userid";
+		$result = $conn->query($sql);
+		$items = array();
+		if ($result->num_rows > 0) {
+			while($row = $result->fetch_assoc()) {
+				$items[] = $row["INGREDIENT"];
+			}
+		}
+		$conn->close();
+		return $items;
+	}
 ?>

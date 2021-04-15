@@ -12,7 +12,7 @@
 
 	$content = $form->createUploadForm();
 	$layout = new Template("index.tpl");
-	$layout->set("title", "TEMPLATE");
+	$layout->set("title", "Upload");
 	$layout->set("user", getUserElements());
 	$layout->set("content", $content);
 	

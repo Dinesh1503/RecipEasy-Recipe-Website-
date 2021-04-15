@@ -23,21 +23,7 @@
 				</div>
 			</div>
 		</div>
-
-			<!--
-				redundant as we may be cutting those features
-			<div class="dropdown-img">
-				<img src="img/functions.png" alt="functions">
-				<div class="downbtn">
-
-						<a href="#">Wish list</a>
-						<a href="#">Diet Tracker</a>
-
-				</div>
-			</div>
-			-->
-
-
+		
  		<!-- MAIN AREA -->
  		<main>
 			[@content]

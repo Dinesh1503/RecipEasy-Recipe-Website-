@@ -7,11 +7,49 @@
 		header("Location: userLogin.php");
 	}
 
-	$content = "";
-    
+    # remove any duplicate items
+    parseFridge();
+
+    # check if adding or removing an item
+    if (isset($_GET["rmIngr"])) {
+        removeFridge($_GET["rmIngr"]);
+    }
+
+    if (isset($_GET["addIngr"])) {
+        addFridge($_GET["addIngr"]);
+    }
+
+    if (isset($_GET["updateBtn"])) {
+        $usePref = isset($_GET["usePreferences"]);
+        $diet = "";
+        if (isset($_GET["diet"])) {
+            $diet = $_GET["diet"];
+        }
+        $intls = array();
+        if (isset($_GET["intolerances"])) {
+            $intls = $_GET["intolerances"];
+        }
+    }
+
+    # remove any empty items
+    removeFridge("");
+
+    # gets all the items from the fridge
+    $items = getFridge();
+
+    # parses all the fridge items into templated format
+    $itemList = "";
+    foreach ($items as $item) {
+        $fridgeItem = new Template("elements/fridgeItem.tpl");
+        $fridgeItem->set("item", $item);
+        $fridgeItem->set("remove", "fridge.php?rmIngr=$item");
+        $itemList = $itemList . $fridgeItem->output();
+    }
 
     $form = new Template("elements/fridge.tpl");
-
+    $form->set("diet", file_get_contents("elements/form-diet.tpl"));
+    $form->set("intolerances", file_get_contents("elements/form-intolerances.tpl"));
+    $form->set("items", $itemList);
 
     $content = $form->output();
 
@@ -21,35 +59,4 @@
 	$layout->set("content", $content);
 
 	echo($layout->output());
-
-    if(array_key_exists("searchBtn", $_GET)) {
-        if ($_GET["searchBtn"] == "Change Ingredients") {
-            changeFridge();
-        } else if($_GET["searchBtn"] == "Add Ingredients") {
-            AddIngr();
-        }
-        else if($_GET["searchBtn"] == "Show Fridge") {
-            showFridge();
-        }
-        else{
-          echo("No");
-        }
-    }
 ?>
-
-<script>
-    var coll = document.getElementsByClassName("collapsible");
-    var i;
-
-    for (i = 0; i < coll.length; i++) {
-    coll[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var content = this.nextElementSibling;
-        if (content.style.display === "block") {
-        content.style.display = "none";
-        } else {
-        content.style.display = "block";
-        }
-    });
-    }
-</script>

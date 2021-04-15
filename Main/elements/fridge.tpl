@@ -2,18 +2,42 @@
 
 <div class="fridge-form">
   <form method="get">
-    <h2>Add Ingredients to Fridge</h2>
-    <p >Ingredients <br><small>comma separated</small></p>
-    <textarea id="ingredientTextArea" name="addIngrList" value="tomato, cheese, pepper"></textarea>
-    <input type="submit" name="searchBtn" class="submit" value="Add Ingredients"/>
+    <h2>My Fridge</h2>
+    <h5>Current Items:</h5>
+    <div class="fridge-list">
+      [@items]
+    </div>
+    <h5>Add Ingredient to Fridge:</h5>
+    <input type="text" id="addIngr" name="addIngr" value=""></input>
+    <input type="submit" name="addBtn" class="submit" value="Add Ingredient"></input>
+    <h2>Diet Preferences</h2>
 
-    <h2>Change Ingredients</h2>
-    <p >Ingredients  <br><small>old->new</small><br><small>comma separated</small><br><small>To delete: old->remove</small></p>
-    <textarea id="ChangeIngredientTextArea" name="ChangeIngrList" value="tomato, cheese, pepper"></textarea>
-    <input type="submit" name="searchBtn" class="submit" value="Change Ingredients"/>
-
-    <h2>Show Fridge</h2>
-    <input type="submit" name="searchBtn" class="submit" value="Show Fridge"/>
-
+    <div class="dual-column">
+      <div class="column">
+        <div class="column-title">
+          <h5>Set Diet:</h5>
+        </div>
+        <div class="grid-container">
+          [@diet]
+        </div>
+      </div>
+      <div class="column">
+        <div class="column-title">
+          <h5>Set Intolerances:</h5>
+        </div>
+        <div class="grid-container">
+          [@intolerances]
+        </div>
+      </div>
+    </div>
+    
+    <div>
+      <h5>Default Use Preferences:</h5>
+      <label for="usePreferences">Use preferences by default</label>
+      <input type="checkbox" id="usePreferences" name="usePreferences" value="true"></input>
+      <br>
+      <input type="submit" id="updateBtn" name="updateBtn" value="Update Preferences"></input> 
+    </div>
+     
   </form>
 </div>

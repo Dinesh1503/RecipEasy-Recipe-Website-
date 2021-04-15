@@ -1,0 +1,276 @@
+a{
+    text-decoration: none;
+  }
+ 
+ 
+  #nav_link{
+    font-size: 40px;
+    text-align: center;
+    margin-left: 5%;
+    line-height: 45px;
+    color: black;
+  }
+ 
+ /* h1{*/
+ /*   height:180px;*/
+ /*   color:yellow;*/
+ /*   font-size: 150px;*/
+ /*   -webkit-text-stroke: 1.2px #000;*/
+ /*   text-align: center;*/
+ /*   margin: 0;*/
+ /*   padding: 0;*/
+ /*   background: linear-gradient(to right, #ffff00, #66cc33);*/
+ /*  -webkit-background-clip: text;*/
+ /*  color: transparent;*/
+ /*   line-height: 120%;*/
+ /*   }*/
+ 
+ 
+   h2{
+     margin-top: 2%;
+     padding-left:10%;
+     line-height:110%;
+     font-size: 40px;
+     text-align: left;
+     background: linear-gradient(to right, orange, red);
+    -webkit-background-clip: text;
+    -webkit-text-stroke: 0.5px #993333;
+    color: transparent;
+   }
+ 
+ 
+ 
+   .mytxt {
+     width: 800px;
+     color:#333;
+     line-height:normal;
+     font-family:"Microsoft YaHei",Tahoma,Verdana,SimSun;
+     font-style:normal;
+     font-variant:normal;
+     font-size-adjust:none;
+     font-stretch:normal;
+     font-weight:normal;
+     margin-top:10px;
+     margin-bottom:0px;
+     margin-left:30px;
+     padding-top:4px;
+     padding-right:4px;
+     padding-bottom:4px;
+     padding-left:4px;
+     font-size:30px;
+     outline-width:thick;
+     outline-style:none;
+     outline-color:invert;
+     border-top-left-radius:6px;
+     border-top-right-radius:6px;
+     border-bottom-left-radius:6px;
+     border-bottom-right-radius:6px;
+     text-shadow:0px 1px 2px #fff;
+     background-attachment:scroll;
+     background-repeat:repeat-x;
+     background-position-x:left;
+     background-position-y:top;
+     background-size:auto;
+     background-origin:padding-box;
+     background-clip:border-box;
+     background-color:rgb(255,255,255);
+     margin-right:10px;
+     border-top-color:#ccc;
+     border-right-color:#ccc;
+     border-bottom-color:#ccc;
+     border-left-color:#ccc;
+     border-top-width:1px;
+     border-right-width:1px;
+     border-bottom-width:1px;
+     border-left-width:1px;
+     border-top-style:solid;
+     border-right-style:solid;
+     border-bottom-style:solid;
+     border-left-style:solid;
+      }
+ 
+ 
+      .account img{
+        height:50px;
+        width:50px;
+        margin-right: 15%;
+        background-color: black;
+      }
+ 
+      .functions,.account{
+          float:right;
+          display:inline-block;
+          background-color:none;
+          margin-right: 5%;
+          margin-top: 2%;
+      }
+      .functions:hover .downbtn{
+          display:block;
+          background-color: #f1f1f1;
+          z-index: 999;
+      }
+      .functions:hover{
+          background-color: none;
+          height: 50px;
+      }
+      .functions span{
+          padding:15px;
+          line-height:61px;
+          cursor:pointer;
+          color: black;
+      }
+      .functions img{
+        height:50px;
+        width:50px;
+        background-color: black;
+      }
+      .functions .downbtn{
+          display:none;
+          position:absolute;
+          background-color:#f9f9f9;
+          box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+          min-width: 160px;
+      }
+      .functions .downbtn li{
+          line-height:30px;
+          text-align:left;
+          padding-left:5px;
+      }
+      .functions .downbtn a:hover{
+          text-decoration:underline;
+          color:#f00;
+      }
+      .functions .downbtn a{
+          display:block;
+          color:black;
+          width:100%;
+      }
+ 
+      button{
+        background-color: #00ff00;
+        height: 40px;
+        width: 100px;
+        margin-left:10%;
+        margin-top: 2%;
+      }
+ 
+    #meal_plan_title{
+      padding-top: 20px;
+      font-size: 50px;
+      text-align: center;
+      margin-bottom: 0%;
+       margin-top: 0;
+      color:black;
+    }
+    #date_p{
+       text-align:center;
+       margin-top: 2%;
+     }
+      #date{
+        text-align:center;
+        width:400px;
+        height:40px;
+        margin:auto;
+        font-size: 20px;
+      }
+ 
+          table{
+            align:center;
+            margin-top: 2%;
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: auto;
+           border-collapse: collapse;
+          }
+          td{
+            width:1000px;
+            height:200px;
+            border-width: 10px;
+            border:solid black;
+          }
+          #breakfast{
+            width:150px;
+            text-align: center;
+            color: black;
+          }
+          #lunch{
+            width:150px;
+            text-align: center;
+            color: black;
+          }
+          #dinner{
+            width:150px;
+            text-align: center;
+            color: black;
+          }
+           #recipe_image {
+             width: 250px;
+             height: 150px;
+             
+             margin-left: 2%;
+             margin-bottom: 2%;
+           }
+            #recipe_name{
+             font-size: 30px;
+             color: black;
+             margin-left: 35%;
+             margin-top: -18%;
+             color: black;
+           }
+           #recommend{
+             font-size: 20px;
+             color: black;
+             margin-left: 35%;
+             margin-top: 2%;
+             color: black;
+           }
+           #calorie{
+             font-size: 25px;
+             color: black;
+             margin-left: 35%;
+             margin-top: 4%;
+             color: black;
+           }
+           #calorie_num{
+              font-size: 25px;
+              color: black;
+              margin-left: 47%;
+              margin-top: -5.5%;
+              color: black;
+           }
+           #expected_cost_num{
+             font-size: 40px;
+             color: black;
+             margin-left: 70%;
+             margin-top: -17%;
+             color: black;
+           }
+           #uploader{
+             font-size: 20px;
+             color: black;
+             margin-left: 70%;
+             margin-top: 2%;
+             margin-bottom: 2%;
+             color: black;
+           }
+ 
+ 
+           #contect_information{
+             font-size: 20px;
+             float: left;
+             line-height: 40px;
+             margin-left: 10%;
+             color: black;
+           }
+            #social_application img{
+              height: 70px;
+              width: 70px;
+              display: inline;
+              margin-left: 10%;
+              margin-top:40px;
+            }
+ 
+           main{
+           padding-bottom: 40px;
+           }
+  No newline at end of file

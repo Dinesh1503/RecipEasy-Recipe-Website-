@@ -34,7 +34,6 @@
 		<a href="index.php">Return to Main Page</a>
 		<br>
 	</main>
-		<br>
 		<div class="footer">
  			<div class="contact_us">
  				<h3 style="color:white;">Contact Us:</h3>

@@ -15,7 +15,7 @@ $localSQL = true;
 		$database   = "2020_comp10120_y14";
 	}
 
-	$conn = mysqli_connect($servername, $username, $password);
+	$conn = mysqli_connect($servername, $username, $password, $database);
 
 	$sql = "CREATE DATABASE IF NOT EXISTS recipeasy" ;
 	$conn->query($sql);
