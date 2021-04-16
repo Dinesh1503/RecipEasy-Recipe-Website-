@@ -3,23 +3,37 @@
 	session_regenerate_id();
 
 	require_once("main.php");
-	
-	$bar = new Template("elements/searchBar.tpl");
+
+	$bar = new Template("elements/searchIngredientBar.tpl");
+
+	if (isset($_SESSION)) {
+		$user = getUserDB();
+
+		$usePref = 1;
+		if (isset($user["use_fridge"])) {
+			$usePref = $user["use_fridge"];
+		}
+
+		if ($usePref == 1) {
+			$bar->set("UsePreferences", "checked");
+		}
+
+	}
+
 	$bar->set("cuisine", file_get_contents("elements/form-cuisine.tpl"));
 	$bar->set("meal", file_get_contents("elements/form-meal.tpl"));
-	$bar->set("diet", file_get_contents("elements/form-diet.tpl"));
-	$bar->set("intolerances", file_get_contents("elements/form-intolerances.tpl"));
-	
+
+
 	$grid = new Template("elements/resultsGrid.tpl");
 
 	if (array_key_exists("searchBtn", $_GET)) {
-		$URL = getSearch();
+		$URL = getSearchIngredient();
 		console_log($URL);
-		$json_string = makeCURL($URL);	
+		$json_string = makeCURL($URL);
 			// parse JSON into useable objects
 		$json = json_decode($json_string);
 		console_log("$json_string");
-		
+
 		$results = "";
 		$db_results = db_search();
 
@@ -27,7 +41,7 @@
 			$recipes = $json->results;
 			for ($i = 0; $i < count($recipes); $i++) {
 				$recipe = $recipes[$i];
-	
+
 				$result = new Template("elements/searchResult.tpl");
 				$result->set("link", "recipe.php/?recipe_id=$recipe->id");
 				$result->set("title", "$recipe->title");
@@ -46,14 +60,14 @@
 				$results = $results . $result->output();
 			}
 		}
-		
+
 		$grid->set("results", $results);
 	}
 
 	$page = new Template("elements/page-search.tpl");
 	$page->set("searchBar", $bar->output());
 	$page->set("searchResults", $grid->output());
-	
+
 	$content = $page->output();
 
 	$layout = new Template("index.tpl");

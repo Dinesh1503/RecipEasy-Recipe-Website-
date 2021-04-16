@@ -6,7 +6,7 @@
 
 	$intolerances_layout = new Template("elements/form-intolerances.tpl");
 	$diets_layout = new Template("elements/form-diet.tpl");
-	
+
 	$bar = new Template("elements/searchBar.tpl");
 
 	if (isset($_SESSION)) {
@@ -26,33 +26,24 @@
 		}
 		$diets_layout->set($diet, "checked");
 
-		$usePref = 1;
-		if (isset($user["use_fridge"])) {
-			$usePref = $user["use_fridge"];
-		}
-
-		if ($usePref == 1) {
-			$bar->set("UsePreferences", "checked");
-		}
-
 		$bar->set("intolerances", $intolerances_layout->output());
 		$bar->set("diet", $diets_layout->output());
-		
+
 	}
 
 	$bar->set("cuisine", file_get_contents("elements/form-cuisine.tpl"));
 	$bar->set("meal", file_get_contents("elements/form-meal.tpl"));
-	
+
 	$grid = new Template("elements/resultsGrid.tpl");
 
 	if (array_key_exists("searchBtn", $_GET)) {
 		$URL = getSearch();
 		console_log($URL);
-		$json_string = makeCURL($URL);	
+		$json_string = makeCURL($URL);
 			// parse JSON into useable objects
 		$json = json_decode($json_string);
 		console_log("$json_string");
-		
+
 		if(isset($_POST['number'])){
 			$number_of_results = $_POST['number'];
 		}
@@ -101,14 +92,14 @@
 				}
 			}
 		}
-		
+
 		$grid->set("results", $results);
 	}
 
 	$page = new Template("elements/page-search.tpl");
 	$page->set("searchBar", $bar->output());
 	$page->set("searchResults", $grid->output());
-	
+
 	$content = $page->output();
 
 	$layout = new Template("index.tpl");
@@ -116,4 +107,4 @@
 	$layout->set("user", getUserElements());
 	$layout->set("content", $content);
 	echo($layout->output());
-?>	
+?>

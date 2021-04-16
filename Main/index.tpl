@@ -14,7 +14,8 @@
  		<!--NAV BAR -->
  		<div class="navbar">
 			<a href="index.php">Home</a>
-			<a href="search.php">Search</a>
+			<a href="search.php">Search by Filter</a>
+			<a href="searchIngredient.php">Search by Ingredient</a>
 			<a href="upload.php">Upload</a>
 			<div class="dropdown-img">
 				<img src="img/account.png" alt="account">
@@ -23,7 +24,7 @@
 				</div>
 			</div>
 		</div>
-		
+
  		<!-- MAIN AREA -->
  		<main>
 			[@content]
