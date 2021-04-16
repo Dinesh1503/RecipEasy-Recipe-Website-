@@ -2,7 +2,7 @@
 require_once("config.php");
 $conn = getConnSQL();
 
-if(isset($_POST['id']) && isset($_POST['userId']) && isset($_POST['isChecked']) && isset($_POST['date']) && isset($_POST['meal_time'])) {
+if(isset($_POST['id']) && isset($_POST['userId']) && isset($_POST['isChecked']) && isset($_POST['date']) && isset($_POST['mealTime'])) {
 
 	$isChecked = intval($_POST['isChecked']);
 	$user_id = intval($_POST['userId']);

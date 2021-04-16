@@ -128,7 +128,7 @@
 
 		/**
 		 * Store it if not exist, and display it directly from db
-		 * Add a column "api_id" for table Recipe to check whether exists
+		 * Add a column "meal_id" for table Recipe to check whether exists
 		 * Add a new table to store relation between user and fav recipes
 		 */
 		if(isset($_SESSION['id'])){
@@ -397,7 +397,7 @@
 		$user_id = $_SESSION["id"];
 
 		$query = mysqli_query($conn, "SELECT * FROM MealPlan WHERE user_id = '$user_id' AND meal_date = '$date' ");
-		if(!$query){
+		if($query != null){
 			$breakfast = array();
 			$lunch = array();
 			$dinner = array();
@@ -412,58 +412,72 @@
 					array_push($dinner, $row['recipe_id']);
 				}
 			}
-			$breakfast_id = $breakfast[0];
-			$select1 = mysqli_query($conn, "SELECT * FROM Recipe WHERE id = '$breakfast_id'");
-			$row1 = mysqli_fetch_assoc($select1);
-			$img1 = $row1['image_url'];
-			$time1 = $row1['ready_in_minutes'];
-			$title1 = $row1['title'];
-			$price1 = $row1['price_per_serving'] * 0.73 ;
-			$b_api_id1 = $row1['api_id'];
 
-			$breakfast_id_1 = $breakfast[1];
-			$select1_1 = mysqli_query($conn, "SELECT * FROM Recipe WHERE id = '$breakfast_id_1'");
-			$row1_1 = mysqli_fetch_assoc($select1_1);
-			$img1_1 = $row1_1['image_url'];
-			$time1_1 = $row1_1['ready_in_minutes'];
-			$title1_1 = $row1_1['title'];
-			$price1_1 = $row1_1['price_per_serving'] * 0.73;
-			$b_api_id1_1 = $row1_1['api_id'];
+			$breakfast_id = null;
+			$breakfast_id_1 = null;
+			$lunch_id = null;
+			$lunch_id_1 = null;
+			$dinner_id = null;
+			$dinner_id_1 = null;
 
-			$lunch_id = $lunch[0];
-			$select2 = mysqli_query($conn, "SELECT * FROM Recipe WHERE id = '$lunch_id'");
-			$row2 = mysqli_fetch_assoc($select2);
-			$img2 = $row2['image_url'];
-			$time2 = $row2['ready_in_minutes'];
-			$title2 = $row2['title'];
-			$price2 = $row2['price_per_serving'] * 0.73;
-			$b_api_id2 = $row2['api_id'];
+			if (count($breakfast) > 0) {
+				$breakfast_id = $breakfast[0];
+				$select1 = mysqli_query($conn, "SELECT * FROM Recipe WHERE recipe_id = '$breakfast_id'");
+				$row1 = mysqli_fetch_assoc($select1);
+				$img1 = $row1['image_url'];
+				$time1 = $row1['ready_in_minutes'];
+				$title1 = $row1['title'];
+				$b_meal_id1 = $row1['meal_id'];
+			}
 
-			$lunch_id_1 = $lunch[1];
-			$select2_1 = mysqli_query($conn, "SELECT * FROM Recipe WHERE id = '$lunch_id_1'");
-			$row2_1 = mysqli_fetch_assoc($select2_1);
-			$img2_1 = $row2_1['image_url'];
-			$time2_1 = $row2_1['ready_in_minutes'];
-			$price2_1 = $row2_1['price_per_serving'] * 0.73;
-			$b_api_id2_1 = $row2_1['api_id'];
+			if (count($breakfast) > 1) {
+				$breakfast_id_1 = $breakfast[1];
+				$select1_1 = mysqli_query($conn, "SELECT * FROM Recipe WHERE recipe_id = '$breakfast_id_1'");
+				$row1_1 = mysqli_fetch_assoc($select1_1);
+				$img1_1 = $row1_1['image_url'];
+				$time1_1 = $row1_1['ready_in_minutes'];
+				$title1_1 = $row1_1['title'];
+				$b_meal_id1_1 = $row1_1['meal_id'];
+			}
 
-			$dinner_id = $dinner[0];
-			$select3 = mysqli_query($conn, "SELECT * FROM Recipe WHERE id = '$dinner_id'");
-			$row3 = mysqli_fetch_assoc($select3);
-			$img3 = $row3['image_url'];
-			$time3 = $row3['ready_in_minutes'];
-			$title3 = $row3['title'];
-			$price3 = $row3['price_per_serving'] * 0.73;
-			$b_api_id3 = $row3['api_id'];
+			if (count($lunch) > 0) {
+				$lunch_id = $lunch[0];
+				$select2 = mysqli_query($conn, "SELECT * FROM Recipe WHERE recipe_id = '$lunch_id'");
+				$row2 = mysqli_fetch_assoc($select2);
+				$img2 = $row2['image_url'];
+				$time2 = $row2['ready_in_minutes'];
+				$title2 = $row2['title'];
+				$b_meal_id2 = $row2['meal_id'];
+			}
 
-			$dinner_id_1 = $dinner[1];
-			$select3_1 = mysqli_query($conn, "SELECT * FROM Recipe WHERE id = '$dinner_id_1'");
-			$row3_1 = mysqli_fetch_assoc($select3_1);
-			$img3_1 = $row3_1['image_url'];
-			$time3_1 = $row3_1['ready_in_minutes'];
-			$title3_1 = $row3_1['title'];
-			$price3_1 = $row3_1['price_per_serving'] * 0.73;
-			$b_api_id3_1 = $row3_1['api_id'];
+			if (count($lunch) > 1) {
+				$lunch_id_1 = $lunch[1];
+				$select2_1 = mysqli_query($conn, "SELECT * FROM Recipe WHERE recipe_id = '$lunch_id_1'");
+				$row2_1 = mysqli_fetch_assoc($select2_1);
+				$img2_1 = $row2_1['image_url'];
+				$time2_1 = $row2_1['ready_in_minutes'];
+				$b_meal_id2_1 = $row2_1['meal_id'];
+			}
+
+			if (count($dinner) > 0) {
+				$dinner_id = $dinner[0];
+				$select3 = mysqli_query($conn, "SELECT * FROM Recipe WHERE recipe_id = '$dinner_id'");
+				$row3 = mysqli_fetch_assoc($select3);
+				$img3 = $row3['image_url'];
+				$time3 = $row3['ready_in_minutes'];
+				$title3 = $row3['title'];
+				$b_meal_id3 = $row3['recipe_id'];
+			}
+
+			if (count($dinner) > 1) {
+				$dinner_id_1 = $dinner[1];
+				$select3_1 = mysqli_query($conn, "SELECT * FROM Recipe WHERE recipe_id = '$dinner_id_1'");
+				$row3_1 = mysqli_fetch_assoc($select3_1);
+				$img3_1 = $row3_1['image_url'];
+				$time3_1 = $row3_1['ready_in_minutes'];
+				$title3_1 = $row3_1['title'];
+				$b_meal_id3_1 = $row3_1['meal_id'];
+			}
 
 			$element = '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 			<script src="script.js"></script>
@@ -481,14 +495,13 @@
 				<tr>
 				<td id="breakfast" rowspan="0">Breakfast</td>
 					<td>
-					<a href="recipe.php?recipe_id=' . $b_api_id1 . '">
+					<a href="recipe.php?recipe_id=' . $b_meal_id1 . '">
 						<img id="recipe_image" src="' .  $img1 . '" alt="">
 						</a>
 							<p id="recipe_name">'.$title1.'</p>
 							<p id="recommend">Recommend</p>
 							<p id="calorie">Time :</p>
 							<p id="calorie_num">'.$time1.' min</p>
-							<p id="expected_cost_num">£ '.$price1.'</p>
 							<p id="uploader">Uploader</p>
 					</td>
 				</tr>';
@@ -504,14 +517,13 @@
 			if($breakfast_id_1!=null) {
 				$element.='<tr>
 				<td>
-					<a href="recipe.php?recipe_id=' . $b_api_id1_1 . '">
+					<a href="recipe.php?recipe_id=' . $b_meal_id1_1 . '">
 						<img id="recipe_image" src="' .  $img1_1 . '" alt="">
 						</a>
 						<p id="recipe_name">'.$title1_1.'</p>
 						<p id="recommend">Recommend</p>
 						<p id="calorie">Time :</p>
 						<p id="calorie_num">'.$time1_1.' min</p>
-						<p id="expected_cost_num">£ '.$price1_1.'</p>
 						<p id="uploader">Uploader</p>
 
 				</td>
@@ -530,14 +542,13 @@
 				<tr>
 				<td id="lunch" rowspan="0">Lunch</td>
 				<td>
-					<a href="recipe.php?recipe_id=' . $b_api_id2 .'">
+					<a href="recipe.php?recipe_id=' . $b_meal_id2 .'">
 						<img id="recipe_image" src="' . $img2 . '" alt="">
 						</a>
 						<p id="recipe_name">'.$title2.'</p>
 						<p id="recommend">Recommend</p>
 						<p id="calorie">Time :</p>
 						<p id="calorie_num">'.$time2.' min</p>
-						<p id="expected_cost_num">£ '.$price2.'</p>
 						<p id="uploader">Uploader</p>
 				</td>
 			</tr>';
@@ -553,14 +564,13 @@
 			if($lunch_id_1!=null) {
 				$element.='<tr>
 				<td>
-					<a href="recipe.php?recipe_id=' . $b_api_id2_1 .'">
+					<a href="recipe.php?recipe_id=' . $b_meal_id2_1 .'">
 						<img id="recipe_image" src="' . $img2_1 . '" alt="">
 						</a>
 						<p id="recipe_name">'.$title2_1.'</p>
 						<p id="recommend">Recommend</p>
 						<p id="calorie">Time :</p>
 						<p id="calorie_num">'.$time2_1.' min</p>
-						<p id="expected_cost_num">£ '.$price2_1.'</p>
 						<p id="uploader">Uploader</p>
 				</td>
 			</tr>
@@ -578,14 +588,13 @@
 				<tr>
 					<td id="dinner" rowspan="0">Dinner</td>
 					<td>
-						<a href="recipe.php?recipe_id=' . $b_api_id3 .'">
+						<a href="recipe.php?recipe_id=' . $b_meal_id3 .'">
 							<img id="recipe_image" src="' . $img3 . '" alt="">
 						</a>
 							<p id="recipe_name">'.$title3.'</p>
 							<p id="recommend">Recommend</p>
 							<p id="calorie">Time :</p>
 							<p id="calorie_num">'.$time3.' min</p>
-							<p id="expected_cost_num">£ '.$price3.'</p>
 							<p id="uploader">Uploader</p>
 					</td>
 				</tr>';
@@ -601,14 +610,13 @@
 			if($dinner_id_1!=null) {
 				$element.='<tr>
 				<td>
-				<a href="recipe.php?recipe_id=' . $b_api_id3_1 .'">
+				<a href="recipe.php?recipe_id=' . $b_meal_id3_1 .'">
 						<img id="recipe_image" src="' . $img3_1 . '" alt="">
 				</a>
 						<p id="recipe_name">'.$title3_1.'</p>
 						<p id="recommend">Recommend</p>
 						<p id="calorie">Time :</p>
 						<p id="calorie_num">'.$time3_1.' min</p>
-						<p id="expected_cost_num">£ '.$price3_1.'</p>
 						<p id="uploader">Uploader</p>
 				</td>
 			</tr>

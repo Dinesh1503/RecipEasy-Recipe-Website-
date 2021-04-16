@@ -19,15 +19,12 @@
         }
         $content = mealPlan($date);
     }
-    
+
     $layout = new Template("index.tpl");
-	$layout->set("title", "TEMPLATE");
+	$layout->set("title", "MealPlan");
 	$layout->set("user", getUserElements());
-    
+
     $layout->set("content", $content);
-	
+
 	echo($layout->output());
 ?>
-
-
-
