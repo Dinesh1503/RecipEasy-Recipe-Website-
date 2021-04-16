@@ -8,8 +8,6 @@
 	
 	echo($layout->output());
 
-    include("../DB/config.php");
-
     if($_SERVER["REQUEST_METHOD"] == "POST") {
       
         $first_name = mysqli_real_escape_string($conn,$_POST['first_name']);
@@ -18,6 +16,7 @@
         $password = mysqli_real_escape_string($conn,$_POST['password']);
 
         $hash = password_hash($password, PASSWORD_DEFAULT);   
+        $conn = getConnSQL();
         $sql = "INSERT INTO User(first_name, last_name, email, password)
                 VALUES ('$first_name', '$last_name', '$email', '$hash')";
         if($conn->query($sql)){

@@ -63,6 +63,7 @@
 .searchBar, .searchResults {
 	display:table-cell;
 	padding:12px;
+	border:white solid 2px;
 }
 
 .results-grid {
@@ -70,7 +71,6 @@
 	grid-template-columns: 20% 20% 20% 20%;
 	grid-column-gap: 70px;
 	grid-row-gap: 70px;
-	text-align: left;
 }
 
 .result {
@@ -86,6 +86,7 @@
 	width: 100%;
 	height: auto;
 }
+
 
 .checkbox{
     display: none;
@@ -113,7 +114,58 @@ label{
 	margin-left: 40px;
 }
 
-.searchResults h1{
-	display: inline-block;
-	margin-bottom:10px;
+.recipe_informations{
+	text-align: center;
+}
+.recipe_informations h1{
+	display:inline-block;
+	font-size: 60px;
+	margin:0 auto;
+	margin-top: 2%;
+}
+
+#image_container{
+	text-align: center;
+	margin: 0 auto;
+   margin-top: 3%;
+}
+
+#Ingredient_title{
+	text-align:left;
+	font-size: 40px;
+	margin-left: 10%;
+}
+#ingredients{
+	text-align:left;
+	margin-left: 20%;
+	font-size: 30px;
+	line-height: 15px;
+}
+
+#num_of_servings{
+	text-align:left;
+	font-size: 40px;
+	margin-left: 10%;
+	margin-top: 20px;
+}
+
+#rd_in_min{
+	text-align:left;
+	font-size: 40px;
+	margin-left: 10%;
+	margin-top: 20px;
+}
+
+#instructions_title{
+	text-align:left;
+	font-size: 40px;
+	margin-left: 10%;
+}
+
+#instructions_content{
+	text-align:left;
+	font-size: 25px;
+	margin-left: 15%;
+	width:1300px;
+	line-height: 40px;
 }

@@ -7,9 +7,6 @@
 		header("Location: userLogin.php");
 	}
 
-    # remove any duplicate items
-    parseFridge();
-
     # check if adding or removing an item
     if (isset($_GET["rmIngr"])) {
         removeFridge($_GET["rmIngr"]);
@@ -20,15 +17,7 @@
     }
 
     if (isset($_GET["updateBtn"])) {
-        $usePref = isset($_GET["usePreferences"]);
-        $diet = "";
-        if (isset($_GET["diet"])) {
-            $diet = $_GET["diet"];
-        }
-        $intls = array();
-        if (isset($_GET["intolerances"])) {
-            $intls = $_GET["intolerances"];
-        }
+        updateUserDB();
     }
 
     # remove any empty items
@@ -46,9 +35,37 @@
         $itemList = $itemList . $fridgeItem->output();
     }
 
+    $intolerances_layout = new Template("elements/form-intolerances.tpl");
+    $diets_layout = new Template("elements/form-diet.tpl");
     $form = new Template("elements/fridge.tpl");
-    $form->set("diet", file_get_contents("elements/form-diet.tpl"));
-    $form->set("intolerances", file_get_contents("elements/form-intolerances.tpl"));
+
+    $user = getUserDB();
+
+    $intls = array();
+    if (isset($user["intls"])) {
+        $intls = preg_split("/(\s*),(\s*)/", $user["intls"], -1, PREG_SPLIT_NO_EMPTY);
+    }
+    foreach ($intls as $intl) {
+        $intolerances_layout->set($intl, "checked");
+    }
+
+    $diet = "Unrestricted";
+    if (isset($user["diets"])) {
+        $diet = $user["diets"];
+    }
+    $diets_layout->set($diet, "checked");
+    
+    $usePref = 1;
+    if (isset($user["use_fridge"])) {
+        $usePref = $user["use_fridge"];
+    }
+    
+    if ($usePref == 1) {
+        $form->set("UsePreferences", "checked");
+    }
+    
+    $form->set("intolerances", $intolerances_layout->output());
+    $form->set("diet", $diets_layout->output());
     $form->set("items", $itemList);
 
     $content = $form->output();

@@ -1,18 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Marck+Script&family=Rock+Salt&family=Tangerine:wght@700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Marck+Script&family=Rock+Salt&family=Tangerine:wght@700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Neucha&display=swap');
+
 html,body{
 	width: 100%;
 	height:auto;
 	margin: 0px;
 	padding: 0px;
+	font-family: 'Neucha', cursive;
 }
 
 #page_container{
 	position: relative;
 	min-height: auto;
 	box-sizing: border-box;
+
 }
 
 header{
-  height: 180px;
+  height: 190px;
   text-align: center;
   background-image:url("../img/header_img.jpg");
   background-repeat: no-repeat;
@@ -22,12 +30,22 @@ header{
 
 a{
 	text-decoration: none;
+	font-weight: lighter;
+	font-style: normal;
+	font-family: 'Neucha', cursive;
 }
 
 header h1{
 	margin: 0px;
-	font-size: 40px;
-	padding-top: 70px;
+	font-weight:bold;
+	font-style: italic;
+	font-family: 'Rock Salt', cursive;
+	font-size: 60px;
+	padding-top:20px;
+	background: linear-gradient(to right,yellow 50%, green);
+ 	-webkit-background-clip: text;
+ color: transparent;
+
 }
 
 #login_container{
@@ -43,7 +61,9 @@ header h1{
 }
 
 .navbar a {
-  font-size: 22px;	
+  font-size: 24px;
+  font-style: bold;
+  font-family: 'Neucha', cursive;
   float: left;
   display: block;
   color: white;
@@ -132,6 +152,7 @@ main h1{
 }
 .dropdown-img .downbtn a{
 	font-size: 20px;
+	font-family: 'Gamja Flower', cursive;
 	padding: 6px;
 	display:block;
 	color:black;

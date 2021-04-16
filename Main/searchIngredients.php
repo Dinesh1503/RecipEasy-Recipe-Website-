@@ -3,45 +3,12 @@
 	session_regenerate_id();
 
 	require_once("main.php");
-
-	$intolerances_layout = new Template("elements/form-intolerances.tpl");
-	$diets_layout = new Template("elements/form-diet.tpl");
 	
 	$bar = new Template("elements/searchBar.tpl");
-
-	if (isset($_SESSION)) {
-		$user = getUserDB();
-
-		$intls = array();
-		if (isset($user["intls"])) {
-			$intls = preg_split("/(\s*),(\s*)/", $user["intls"], -1, PREG_SPLIT_NO_EMPTY);
-		}
-		foreach ($intls as $intl) {
-			$intolerances_layout->set($intl, "checked");
-		}
-
-		$diet = "Unrestricted";
-		if (isset($user["diets"])) {
-			$diet = $user["diets"];
-		}
-		$diets_layout->set($diet, "checked");
-
-		$usePref = 1;
-		if (isset($user["use_fridge"])) {
-			$usePref = $user["use_fridge"];
-		}
-
-		if ($usePref == 1) {
-			$bar->set("UsePreferences", "checked");
-		}
-
-		$bar->set("intolerances", $intolerances_layout->output());
-		$bar->set("diet", $diets_layout->output());
-		
-	}
-
 	$bar->set("cuisine", file_get_contents("elements/form-cuisine.tpl"));
 	$bar->set("meal", file_get_contents("elements/form-meal.tpl"));
+	$bar->set("diet", file_get_contents("elements/form-diet.tpl"));
+	$bar->set("intolerances", file_get_contents("elements/form-intolerances.tpl"));
 	
 	$grid = new Template("elements/resultsGrid.tpl");
 
@@ -62,7 +29,7 @@
 				$recipe = $recipes[$i];
 	
 				$result = new Template("elements/searchResult.tpl");
-				$result->set("link", "redirect_to_recipe.php/?recipe_id=$recipe->id");
+				$result->set("link", "recipe.php/?recipe_id=$recipe->id");
 				$result->set("title", "$recipe->title");
 				$result->set("img", "$recipe->image");
 				$results = $results . $result->output();

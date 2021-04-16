@@ -8,13 +8,13 @@
 
 	echo($layout->output());
 
-    include("../DB/config.php");
-
     session_start();
 
     if($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = mysqli_real_escape_string($conn,$_POST['email']);
         $password = mysqli_real_escape_string($conn,$_POST['password']);
+
+        echo($email.$password);
 
         $user_check_query = "SELECT * FROM User WHERE email='$email' LIMIT 1";
         $result = mysqli_query($conn, $user_check_query);

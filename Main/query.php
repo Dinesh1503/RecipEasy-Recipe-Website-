@@ -1,42 +1,30 @@
 <?php
 
-$localSQL = true;
-if ($localSQL) {
-    $servername = "localhost";
-    $username   = "root";
-    $password   = "";
-    $database   = "recipeasy";
-} else {
-    $servername = "dbhost.cs.man.ac.uk";
-    $username   = "e95562sp";
-    $password   = "STORED_recipes+";
-    $database   = "2020_comp10120_y14";
-}
-$conn = mysqli_connect($servername, $username, $password, $database);
+$conn = getConnSQL();
 
-if(isset($_POST['id']) && isset($_POST['userId']) && isset($_POST['isChecked']) && isset($_POST['date']) && isset($_POST['mealTime'])) {
+if(isset($_POST['id']) && isset($_POST['userId']) && isset($_POST['isChecked']) && isset($_POST['date']) && isset($_POST['meal_time'])) {
 
 	$isChecked = intval($_POST['isChecked']);
 	$user_id = intval($_POST['userId']);
 	$recipe_id = intval($_POST['id']);
 	$date = $_POST['date'];
-	$mealTime = $_POST['mealTime'];
+	$meal_time = $_POST['meal_time'];
 
 	if($isChecked==1){
 		$check = mysqli_query($conn, "SELECT * FROM MealPlan WHERE recipe_id='$recipe_id' AND user_id='$user_id'");
 		if(mysqli_num_rows($check)==0) {
-			mysqli_query($conn, "INSERT INTO MealPlan(recipe_id, user_id, mealDate, mealTime) VALUES('$recipe_id', '$user_id', '$date', '$mealTime')");
+			mysqli_query($conn, "INSERT INTO MealPlan(recipe_id, user_id, meal_date, meal_time) VALUES('$recipe_id', '$user_id', '$date', '$meal_time')");
 		}
 		else{	
-			mysqli_query($conn, "UPDATE MealPlan SET mealTime='$mealTime', mealDate='$date' WHERE recipe_id='$recipe_id' AND user_id='$user_id'");
+			mysqli_query($conn, "UPDATE MealPlan SET meal_time='$meal_time', meal_date='$date' WHERE recipe_id='$recipe_id' AND user_id='$user_id'");
 		}
 		
 	}
 	else if($isChecked==2){
-		mysqli_query($conn, "UPDATE MealPlan SET mealDate='$date' WHERE recipe_id='$recipe_id' AND user_id='$user_id'");
+		mysqli_query($conn, "UPDATE MealPlan SET meal_date='$date' WHERE recipe_id='$recipe_id' AND user_id='$user_id'");
 	}
 	else{
-		mysqli_query($conn, "UPDATE MealPlan SET mealTime='', mealDate='' WHERE recipe_id='$recipe_id' AND user_id='$user_id'");
+		mysqli_query($conn, "UPDATE MealPlan SET meal_time='', meal_date='' WHERE recipe_id='$recipe_id' AND user_id='$user_id'");
 	}
 
 }
