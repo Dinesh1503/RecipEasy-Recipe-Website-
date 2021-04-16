@@ -138,8 +138,8 @@
 		$conn = getConnSQL();
 
 		$check = mysqli_query($conn, "SELECT * FROM Recipe WHERE recipe_id = $recipe_id");
-		echo("SELECT * FROM Recipe WHERE recipe_id = $recipe_id");
-		echo(mysqli_num_rows($check));
+		//echo("SELECT * FROM Recipe WHERE recipe_id = $recipe_id");
+		#echo(mysqli_num_rows($check));
 		// if not exist, store it first
 		if(mysqli_num_rows($check) == 0){
 
@@ -324,7 +324,7 @@
 
 
 			foreach($favRecipeId as $recipeId) {
-				echo($recipeId);
+				#echo($recipeId);
 
 				$query1 = mysqli_query($conn, "SELECT * FROM Recipe WHERE recipe_id='$recipeId'");
 
