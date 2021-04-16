@@ -632,19 +632,47 @@
 		$sql = "USE $database";
 		$conn->query($sql);
 
-		$query = $_GET['query'];
 
-		$recipe_check_query = "SELECT * FROM Recipe WHERE (`title` LIKE '%".$query."%')";
-		$result = mysqli_query($conn, $recipe_check_query);
-		$db_recipes = array();
-		while($recipe = mysqli_fetch_assoc($result)){
-			$db_recipe = new DBResult();
-			$db_recipe->link = "redirect_to_recipe.php/?db_id=" . $recipe['recipe_id'];
-			$db_recipe->title = $recipe['title'];
-			$db_recipe->image = $recipe['image_url'];
-
-			$db_recipes[] = $db_recipe;
+		$query = $_GET["query"];
+		$querySQL = "AND title LIKE %$query%";
+		$cuisineSQL = "";
+		if (isset($_GET["cuisine"])) {
+			$cuisine = $_GET["cuisine"];
+			$cuisineSQL = " AND cuisine_type LIKE %$cuisine%";
 		}
+		$mealSQL = "";
+		if (isset($_GET["meal"])) {
+			$meal= $_GET["meal"];
+			$mealSQL = " AND meal_type LIKE %$meal%";
+		}
+		$intolerancesSQL = "";
+		if (isset($_GET["intolerances"])) {
+			$intolerances = $_GET["intolerances"];
+			$intolerancesSQL = " AND  intls LIKE %$intolerances%";
+		}
+		$dietSQL = "";
+		if (isset($_GET["diet"])) {
+			$diet= $_GET["diet"];
+			$dietSQL = " AND diets LIKE %$diet%";
+		}
+
+
+		$recipe_check_query = "SELECT * FROM Recipe WHERE $querySQL $cuisineSQL $mealSQL $intolerancesSQL $dietSQL";
+		echo($recipe_check_query);
+		$result = mysqli_query($conn, $recipe_check_query);
+		echo($result);
+		$db_recipes = array();
+		if (!$result) {
+			while($recipe = mysqli_fetch_assoc($result)){
+				$db_recipe = new DBResult();
+				$db_recipe->link = "redirect_to_recipe.php/?db_id=" . $recipe['recipe_id'];
+				$db_recipe->title = $recipe['title'];
+				$db_recipe->image = $recipe['image_url'];
+
+				$db_recipes[] = $db_recipe;
+			}
+		}
+
 		return $db_recipes;
 	}
 
