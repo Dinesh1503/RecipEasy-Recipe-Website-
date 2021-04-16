@@ -1,7 +1,38 @@
 <link rel="stylesheet" type="text/css" href="css/upload.css">
+
+<script>
+	function validate(pictureInput,titleInput,diets[],servings,time,mealInput,cuisineInput,ingredientsInput,descriptionInput,intolerances[])
+	{
+		if(validateForm(titleInput) == true)
+			if(validateForm(diets[]) == true)
+				if(validateForm(servingInput) == true)
+					if(validateForm(timeInput) == true)
+						if(validateForm(mealInput) == true)
+							if(validateForm(cuisineInput) == true)
+								if(validateForm(ingredientsInput) == true)
+									if(validateForm(descriptionInput) == true)
+										if(validateForm(intolerances[]) == true)
+											return true;
+		else
+			return false;
+	}
+function validateForm(str) {
+  var x = document.forms["myForm"][str].value;
+  if (x == "" || x == null) {
+    alert(str + " must be filled out");
+    event.preventDefault();
+    return false;
+  }
+  else
+  	return true;
+}
+</script>
+
 <h1 >Upload Your Own Recipes!</h1>
 <div class="column">
-<form action='processing.php' method='POST' enctype='multipart/form-data'>
+<form action='processing.php' method='POST' enctype='multipart/form-data'
+onsubmit="validate('pictureInput',
+		'titleInput','diets[]','servingInput','timeInput','mealInput','cuisineInput','ingredientsInput','descriptionInput','intolerances[]')" required>
 
     <div class='form-group'>
         <label for='photo'>Your photo</label><br>
@@ -9,6 +40,7 @@
         class='form-control-file w-50' id='photo' name='pictureInput' required>
         <br><br>
     </div>
+
     <div class = 'row'>
 
         <div class='col'>
@@ -81,8 +113,11 @@
         </div>
 
         <div class='col'>
-            <label>Enter Diet Types</label>
+            
             <div class="grid-container">
+            <label>Enter Diet Types: </label>
+            <label></label>
+            <label></label>
                 <div>
                     <input type="checkbox" id="diet1" name="diets[]" value="Gluten Free" checked>Gluten Free</input>
                 </div>
@@ -115,10 +150,11 @@
                 </div>
             </div>
         </div>
-
         <div class='col'>
-            <label>Set Intolerances:</label>
             <div class="grid-container">
+            <label>Set Intolerances:</label>
+            <label></label>
+            <label></label>
                 <div>
                     <input type="checkbox" id="intolerance1" name="intolerances[]" value="Dairy">Dairy</input>
                 </div>
@@ -169,11 +205,12 @@
         <label for="ingredients-textbox">Ingredients (Comma Seperated):</label>
         <input class='form-control' type='text' placeholder='Ingredients' pattern = '(\w+)(,*\s*\w+)*' name='ingredientsInput' id="ingredients-textbox" required>
     </div>
+
     <div class='form-group'>
         <textarea class='textarea-control' style='resize: none;' placeholder='Instruction' name='instructionsInput' rows='10' required></textarea>
     </div>
     <div class='col text-center'>
-        <button type='submit' class='btn btn-primary' name='uploadButton'>Upload</button>
+        <button type='submit' class='btn btn-primary' name='uploadButton'>Upload</button><br><br>
     </div>
 
 </form>
