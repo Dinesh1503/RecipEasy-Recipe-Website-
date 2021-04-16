@@ -1,5 +1,4 @@
 <link rel="stylesheet" type="text/css" href="css/upload.css">
-
 <script>
 	function validate(pictureInput,titleInput,diets[],servings,time,mealInput,cuisineInput,ingredientsInput,descriptionInput,intolerances[])
 	{
@@ -27,12 +26,12 @@ function validateForm(str) {
   	return true;
 }
 </script>
-
 <h1 >Upload Your Own Recipes!</h1>
 <div class="column">
 <form action='processing.php' method='POST' enctype='multipart/form-data'
 onsubmit="validate('pictureInput',
-		'titleInput','diets[]','servingInput','timeInput','mealInput','cuisineInput','ingredientsInput','descriptionInput','intolerances[]')" required>
+        'titleInput','diets[]','servingInput','timeInput','mealInput','cuisineInput','ingredientsInput','descriptionInput','intolerances[]')" required>
+
 
     <div class='form-group'>
         <label for='photo'>Your photo</label><br>
@@ -78,7 +77,7 @@ onsubmit="validate('pictureInput',
                         <option value="Southern">Southern</option>
                     </select>
                 </div>
-                
+
                 <div>
                     <label class='form-label' for='meal-select'>Meal Type</label>
                     <select class='form-select' aria-label='Default select example' name='mealInput' id='meal-select' required>
@@ -98,7 +97,7 @@ onsubmit="validate('pictureInput',
                         <option name="type" value="drink">Drink</option>
                     </select>
                 </div>
-                
+
 
                 <div class='outline'>
                     <label class='form-label' for='serveNum'>Number of Servings</label>
@@ -113,11 +112,12 @@ onsubmit="validate('pictureInput',
         </div>
 
         <div class='col'>
-            
+
             <div class="grid-container">
-            <label>Enter Diet Types: </label>
-            <label></label>
-            <label></label>
+                <label>Enter Diet Types: </label>
+                <label></label>
+                <label></label>
+
                 <div>
                     <input type="checkbox" id="diet1" name="diets[]" value="Gluten Free" checked>Gluten Free</input>
                 </div>

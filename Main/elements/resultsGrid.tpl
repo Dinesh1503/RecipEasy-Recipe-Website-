@@ -1,12 +1,10 @@
 <div class="searchResults" >
-    <div class="grid-settings">
-    <form method = 'POST'>
-        <label for="number">Max Number of Results:</label>
+  <div class="grid-settings">
+	<form method = 'POST'>
+		<label for="number">Max Number of Results:</label>
 		<input type="number" id="quantity" name="number" min="1" max="100" value="10">
 		<label for="offset">Number Results to Skip:</label>
 		<input type="number" id="skips" name="offset" min="0" max="900" value="0">
-		<br>
-		<br>
 		<label for="sortDirection">Sort Order:</label>
 		<select name="sortDirection" id="sortDirection">
 			<option value="asc">Ascending</option>
@@ -40,8 +38,8 @@
 		</select>
 		<input type = 'submit' value = 'Save'>
 		</form>
-    </div>
-    <div class="results-grid">
-        [@results]
-    </div>
+  </div>
+  <div class="results-grid">
+      [@results]
+  </div>
 </div>
