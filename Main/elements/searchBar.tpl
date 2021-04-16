@@ -7,14 +7,8 @@
 			<!-- query -->
 			<input type="submit" name="searchBtn" class="submit" value="Search" style="width: 80%;"/>
 			<br>
-			<label for="query">Query:</label>
+			<label for="query">Enter Search Here:</label>
 			<input type="text" name="query" class="text"/>
-			<!-- ingredients list -->
-			<br>
-			<label for="ingrTextArea">Must Include Ingredients:</label>
-			<textarea id="ingrTextArea" name="includeIngredients" value=""></textarea>
-			<br>
-			<label for="ingrTextArea"><small>*comma seperated</small></label>
 		</div>
 
 		<!-- Meal Type -->
