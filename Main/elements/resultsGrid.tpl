@@ -5,8 +5,6 @@
 		<input type="number" id="quantity" name="number" min="1" max="100" value="10">
 		<label for="offset">Number Results to Skip:</label>
 		<input type="number" id="skips" name="offset" min="0" max="900" value="0">
-		<br>
-		<br>
 		<label for="sortDirection">Sort Order:</label>
 		<select name="sortDirection" id="sortDirection">
 			<option value="asc">Ascending</option>
