@@ -52,7 +52,7 @@
 
 
 		if (count($json) != 0) {
-			if(($offset > count($json) - $number_of_results) && ($json - $number_of_results >= 0)){
+			if(($offset > count($json) - $number_of_results) && (count($json) - $number_of_results >= 0)){
 				$offset = $json - $number_of_results;
 			}
 			for ($i = $offset; $i < $number_of_results + $offset && $i < count($json); $i++) {
