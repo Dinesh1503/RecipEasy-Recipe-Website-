@@ -14,7 +14,7 @@
 			<textarea id="ingrTextArea" name="includeIngredients" value=""></textarea>
 			<br>
 			<label for="fridgeCheckbox">Use your Fridge</label>
-			<input type="checkbox" id="fridgeCheckbox" name="useFridge" value="true">
+			<input type="checkbox" id="fridgeCheckbox" name="useFridge" value="true" [@UsePreferences]>
 		</div>
 
 		<!-- Meal Type -->

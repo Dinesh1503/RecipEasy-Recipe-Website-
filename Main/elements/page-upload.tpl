@@ -119,37 +119,34 @@ onsubmit="validate('pictureInput',
             <label></label>
             <label></label>
                 <div>
-                    <input type="checkbox" id="diet0" name="diets[]" value="Unrestricted">Unrestricted</input>
+                    <input type="checkbox" id="diet1" name="diets[]" value="Gluten Free" checked>Gluten Free</input>
                 </div>
                 <div>
-                    <input type="checkbox" id="diet1" name="diets[]" value="Gluten Free">Gluten Free</input>
+                    <input type="checkbox" id="diet2" name="diets[]" value="Ketogenic" checked>Ketogenic</input>
                 </div>
                 <div>
-                    <input type="checkbox" id="diet2" name="diets[]" value="Ketogenic">Ketogenic</input>
+                    <input type="checkbox" id="diet3" name="diets[]" value="Vegetarian" checked>Vegetarian</input>
                 </div>
                 <div>
-                    <input type="checkbox" id="diet3" name="diets[]" value="Vegetarian">Vegetarian</input>
+                    <input type="checkbox" id="diet4" name="diets[]" value="Lacto-Vegetarian" checked>Lacto-Vegetarian</input>
                 </div>
                 <div>
-                    <input type="checkbox" id="diet4" name="diets[]" value="Lacto-Vegetarian">Lacto-Vegetarian</input>
+                    <input type="checkbox" id="diet5" name="diets[]" value="Ovo-Vegetarian" checked>Ovo-Vegetarian</input>
                 </div>
                 <div>
-                    <input type="checkbox" id="diet5" name="diets[]" value="Ovo-Vegetarian">Ovo-Vegetarian</input>
+                    <input type="checkbox" id="diet6" name="diets[]" value="Vegan" checked>Vegan</input>
                 </div>
                 <div>
-                    <input type="checkbox" id="diet6" name="diets[]" value="Vegan">Vegan</input>
+                    <input type="checkbox" id="diet7" name="diets[]" value="Pescetarian" checked>Pescetarian</input>
                 </div>
                 <div>
-                    <input type="checkbox" id="diet7" name="diets[]" value="Pescetarian">Pescetarian</input>
+                    <input type="checkbox" id="diet8" name="diets[]" value="Paleo" checked>Paleo</input>
                 </div>
                 <div>
-                    <input type="checkbox" id="diet8" name="diets[]" value="Paleo">Paleo</input>
+                    <input type="checkbox" id="diet9" name="diets[]" value="Primal" checked>Primal</input>
                 </div>
                 <div>
-                    <input type="checkbox" id="diet9" name="diets[]" value="Primal">Prima</input>
-                </div>
-                <div>
-                    <input type="checkbox" id="diet10" name="diets[]" value="Whole30">Whole30</input>
+                    <input type="checkbox" id="diet10" name="diets[]" value="Whole30" checked>Whole30</input>
                 </div>
             </div>
         </div>
@@ -210,7 +207,7 @@ onsubmit="validate('pictureInput',
     </div>
 
     <div class='form-group'>
-        <textarea class='textarea-control' style='resize: none;' placeholder='Instruction' name='descriptionInput' rows='10' required></textarea>
+        <textarea class='textarea-control' style='resize: none;' placeholder='Instruction' name='instructionsInput' rows='10' required></textarea>
     </div>
     <div class='col text-center'>
         <button type='submit' class='btn btn-primary' name='uploadButton'>Upload</button><br><br>

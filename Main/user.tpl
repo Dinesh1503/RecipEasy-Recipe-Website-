@@ -26,13 +26,6 @@
 		</div>
 	<main>
 		[@content]
-		<br>
-		<a href="signUp.php">Sign Up</a>
-		<br>
-		<a href="resetPassword.php">Reset Password</a>
-		<br>
-		<a href="index.php">Return to Main Page</a>
-		<br>
 	</main>
 		<div class="footer">
  			<div class="contact_us">

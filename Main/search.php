@@ -3,12 +3,45 @@
 	session_regenerate_id();
 
 	require_once("main.php");
+
+	$intolerances_layout = new Template("elements/form-intolerances.tpl");
+	$diets_layout = new Template("elements/form-diet.tpl");
 	
 	$bar = new Template("elements/searchBar.tpl");
+
+	if (isset($_SESSION)) {
+		$user = getUserDB();
+
+		$intls = array();
+		if (isset($user["intls"])) {
+			$intls = preg_split("/(\s*),(\s*)/", $user["intls"], -1, PREG_SPLIT_NO_EMPTY);
+		}
+		foreach ($intls as $intl) {
+			$intolerances_layout->set($intl, "checked");
+		}
+
+		$diet = "Unrestricted";
+		if (isset($user["diets"])) {
+			$diet = $user["diets"];
+		}
+		$diets_layout->set($diet, "checked");
+
+		$usePref = 1;
+		if (isset($user["use_fridge"])) {
+			$usePref = $user["use_fridge"];
+		}
+
+		if ($usePref == 1) {
+			$bar->set("UsePreferences", "checked");
+		}
+
+		$bar->set("intolerances", $intolerances_layout->output());
+		$bar->set("diet", $diets_layout->output());
+		
+	}
+
 	$bar->set("cuisine", file_get_contents("elements/form-cuisine.tpl"));
 	$bar->set("meal", file_get_contents("elements/form-meal.tpl"));
-	$bar->set("diet", file_get_contents("elements/form-diet.tpl"));
-	$bar->set("intolerances", file_get_contents("elements/form-intolerances.tpl"));
 	
 	$grid = new Template("elements/resultsGrid.tpl");
 
@@ -20,30 +53,52 @@
 		$json = json_decode($json_string);
 		console_log("$json_string");
 		
+		if(isset($_POST['number'])){
+			$number_of_results = $_POST['number'];
+		}
+		else{
+			$number_of_results = 10;
+		}
+		if(isset($_POST['offset'])){
+			$offset = $_POST['offset'];
+		}
+		else{
+			$offset = 0;
+		}
+
+		$shown_recipes = array();
 		$results = "";
 		$db_results = db_search();
 
 		if ($json->totalResults != 0) {
 			$recipes = $json->results;
-			for ($i = 0; $i < count($recipes); $i++) {
+			if($offset > $json->totalResults - $number_of_results){
+				$offset = $json->totalResults - $number_of_results;
+			}
+			for ($i = $offset; $i < $number_of_results + $offset && $i < count($recipes); $i++) {
 				$recipe = $recipes[$i];
-	
-				$result = new Template("elements/searchResult.tpl");
-				$result->set("link", "recipe.php/?recipe_id=$recipe->id");
-				$result->set("title", "$recipe->title");
-				$result->set("img", "$recipe->image");
-				$results = $results . $result->output();
+				if(!in_array($recipe->title, $shown_recipes)){
+					array_push($shown_recipes, $recipe->title);
+					$result = new Template("elements/searchResult.tpl");
+					$result->set("link", "redirect_to_recipe.php/?recipe_id=$recipe->id");
+					$result->set("title", "$recipe->title");
+					$result->set("img", "$recipe->image");
+					$results = $results . $result->output();
+				}
 			}
 		}
 
 		if (count($db_results) != 0) {
 			for ($i = 0; $i < count($db_results); $i++) {
 				$db_recipe = $db_results[$i];
-				$result = new Template("elements/searchResult.tpl");
-				$result->set("link", $db_recipe->link);
-				$result->set("title", $db_recipe->title);
-				$result->set("img", $db_recipe->image);
-				$results = $results . $result->output();
+				if(!in_array($db_recipe->title, $shown_recipes)){
+					array_push($shown_recipes, $db_recipe->title);
+					$result = new Template("elements/searchResult.tpl");
+					$result->set("link", $db_recipe->link);
+					$result->set("title", $db_recipe->title);
+					$result->set("img", $db_recipe->image);
+					$results = $results . $result->output();
+				}
 			}
 		}
 		

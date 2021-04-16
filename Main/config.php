@@ -1,12 +1,8 @@
 <?php
-	const localSQL = false;
+	const localSQL = true;
 	const SAM = false;
 
 	$conn = getConnSQL();
-
-	$database = getDatabase();
-	$sql = "USE $database";
-	$conn->query($sql);
 
 	$sql = 
 		"CREATE TABLE User(
@@ -14,7 +10,9 @@
 			first_name VARCHAR(30) NOT NULL,
 			last_name VARCHAR(30) NOT NULL,
 			email VARCHAR(50) NOT NULL,
-			password VARCHAR(128) NOT NULL
+			password VARCHAR(128) NOT NULL,
+			intls SET('Dairy','Egg','Gluten','Grain','Peanut','Seafood','Sesame','Shellfish', 'Soy','Sulfite','Tree Nut','Wheat'),
+			diets SET('Gluten Free', 'Ketogenic', 'Vegetarian','Lacto-Vegetarian', 'Ovo-Vegetarian', 'Vegan', 'Pescetarian', 'Paleo', 'Primal', 'Whole30')
 		)
 	";
 	$conn->query($sql);
@@ -24,16 +22,18 @@
 			recipe_id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 			title VARCHAR(256) NOT NULL,
 			cuisine_type VARCHAR(128) NOT NULL,
+			meal_type VARCHAR(128) NOT NULL,
 			image_url TEXT NOT NULL,
 			number_of_servings INT NOT NULL,
 			ready_in_minutes INT NOT NULL,
 			instructions TEXT NOT NULL,
-			intls SET('Dairy','Egg','Gluten','Grain','Peanut','Seafood','Sesame','Shellfish', 'Soy','Sulfite','Tree','Wheat'),
+			intls SET('Dairy','Egg','Gluten','Grain','Peanut','Seafood','Sesame','Shellfish', 'Soy','Sulfite','Tree Nut','Wheat'),
 			diets SET('Gluten Free', 'Ketogenic', 'Vegetarian','Lacto-Vegetarian', 'Ovo-Vegetarian', 'Vegan', 'Pescetarian', 'Paleo', 'Primal', 'Whole30'),
-			user_id INT NOT NULL REFERENCES User(id),
+			user_id INT NOT NULL REFERENCES User(id)
 		)
 	";
 	$conn->query($sql);
+	
 
 	$sql = 
 	"CREATE TABLE Ingredients(
@@ -81,14 +81,18 @@
 				$password = "";
 			}
 			$database   = "recipeasy";
-			echo("how");
 		} else {
 			$servername = "dbhost.cs.man.ac.uk";
 			$username   = "e95562sp";
 			$password   = "5+recipes";
 			$database   = "e95562sp";
-			echo("brugh");
 		}
+		
+		$conn = mysqli_connect($servername, $username, $password);
+		$sql = "CREATE DATABASE IF NOT EXISTS $database";
+		$conn->query($sql);
+		$sql = "USE $database";
+		$conn->query($sql);
 		return mysqli_connect($servername, $username, $password, $database);
 	}
 

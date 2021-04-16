@@ -1,5 +1,5 @@
 <?php
 	session_start();
-	$_SESSION['recipe_id'] = strval($_GET["db_id"]);
+	$_SESSION['recipe_id'] = strval($_GET["recipe_id"]);
 	header("Location: ../recipe.php");
 ?>
