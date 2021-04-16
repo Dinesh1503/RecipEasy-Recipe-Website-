@@ -6,7 +6,7 @@
 
 	$bar = new Template("elements/searchIngredientBar.tpl");
 
-	if (isset($_SESSION)) {
+	if (isset($_SESSION) && !isset($_GET["searchBtn"])) {
 		$user = getUserDB();
 
 		$usePref = 1;
@@ -17,11 +17,19 @@
 		if ($usePref == 1) {
 			$bar->set("UsePreferences", "checked");
 		}
-
+	} elseif (isset($_GET["searchBtn"])) {
+		if (isset($_GET["useFridge"])) {
+			$bar->set("UsePreferences", "checked");
+		} else {
+			$bar->set("UsePreferences", "");
+		}
 	}
 
-	$bar->set("cuisine", file_get_contents("elements/form-cuisine.tpl"));
-	$bar->set("meal", file_get_contents("elements/form-meal.tpl"));
+	if (isset($_GET["includeIngredients"])) {
+		$bar->set("includeIngredients", $_GET["includeIngredients"]);
+	} else {
+		$bar->set("includeIngredients", "");
+	}
 
 
 	$grid = new Template("elements/resultsGrid.tpl");

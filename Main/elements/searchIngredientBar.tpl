@@ -10,7 +10,7 @@
 			<!-- ingredients list -->
 			<br>
 			<label for="ingrTextArea">Add Search Ingredients:</label>
-			<textarea id="ingrTextArea" name="includeIngredients" value=""></textarea>
+			<textarea id="ingrTextArea" name="includeIngredients" value="">[@includeIngredients]</textarea>
 			<br>
 			<label for="ingrTextArea"><small>*comma seperated</small></label>
 			<br>
