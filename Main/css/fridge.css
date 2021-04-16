@@ -4,26 +4,52 @@
 }
 
 .fridge-list {
-    display: inline-table;
+    /* display: inline-table; */
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    /* border-style: solid; */
+    width: 60%;
+    top: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    grid-gap: 20px;
+    justify-content: center;
+    /* border-top-style: solid;
+    border-bottom-style: solid; */
+    /* border-color: #444444; */
+
+}
+.fridge-item{
+  display: inline-block;
+  border-style: solid;
+  border-width: 5px;
+  border-color: #444444;
+
+
 }
 
-.fridge-item {
+.fridge-name {
+    float: left;
     font-size: 20px;
     display: grid;
-	grid-template-columns: auto auto auto;
+	  grid-template-columns: auto auto auto;
     grid-column-gap: 12px;
+    border-color: #444444;
 }
 
 
 .fridge-minus {
+    float: right;
     color: red;
     font-size: 20px;
     display: grid;
 	grid-template-columns: auto auto auto;
     grid-column-gap: 12px;
+    border-color: #444444;
 }
 
 .fridge-minus a{
+  float: right;
     color: red;
     display: block;
     height: 100%;
@@ -34,18 +60,35 @@
     display: grid;
     grid-template-columns: auto auto;
     grid-column-gap: 12px;
-    width: 800px;
+    width: 1000px;
     margin: auto;
-    background-color: #444444;
+    align-self: center;
+    justify-content: center;
+    /* background-color: #444444; */
+    /* padding-left: 10px;
+    padding-right: 22px;
+    padding-bottom: 10px; */
+    grid-gap: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    top: 50%;
+    /* border-style: solid;
+    border-width: thick; */
 }
 
 .column{
     background-color: #eaeaea;
-    width: 400px;
+    width: 500px;
     display: block;
     text-align: left;
     overflow:auto;
-    margin: auto;
+    margin: 0px;
+    border-style: solid;
+    border-width: thick;
+    border-color: #444444;
+    border-width: 20px;
+    border-top-width: 10px;
+
 }
 
 .column-title{
@@ -53,6 +96,7 @@
     color: white;
     height: auto;
     width: 100%;
+    margin: 0;
 }
 
 .grid-container {
@@ -61,4 +105,8 @@
     grid-gap: 10px;
     padding: 10px;
     width: ;
+
   }
+.h5 {
+  margin: 0px;
+}
