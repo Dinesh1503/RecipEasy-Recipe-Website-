@@ -35,7 +35,6 @@
 		console_log("$json_string");
 
 		$results = "";
-		$db_results = db_search();
 
 		if ($json->totalResults != 0) {
 			$recipes = $json->results;
@@ -46,17 +45,6 @@
 				$result->set("link", "recipe.php/?recipe_id=$recipe->id");
 				$result->set("title", "$recipe->title");
 				$result->set("img", "$recipe->image");
-				$results = $results . $result->output();
-			}
-		}
-
-		if (count($db_results) != 0) {
-			for ($i = 0; $i < count($db_results); $i++) {
-				$db_recipe = $db_results[$i];
-				$result = new Template("elements/searchResult.tpl");
-				$result->set("link", $db_recipe->link);
-				$result->set("title", $db_recipe->title);
-				$result->set("img", $db_recipe->image);
 				$results = $results . $result->output();
 			}
 		}
