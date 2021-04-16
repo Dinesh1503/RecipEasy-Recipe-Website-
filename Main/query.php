@@ -1,5 +1,5 @@
 <?php
-
+require_once("config.php");
 $conn = getConnSQL();
 
 if(isset($_POST['id']) && isset($_POST['userId']) && isset($_POST['isChecked']) && isset($_POST['date']) && isset($_POST['meal_time'])) {
