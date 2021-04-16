@@ -1,7 +1,7 @@
 <div class="searchResults" >
   <div class="grid-settings">
 	<form method = 'POST'>
-    <div class="settings-container">
+		<div class="settings-container">
 			<label for="number" class="number">Max Number of Results:</label>
 			<br>
 			<input type="number" id="quantity" name="number" min="1" max="100" value="10">
