@@ -6,10 +6,12 @@
 
 	$intolerances_layout = new Template("elements/form-intolerances.tpl");
 	$diets_layout = new Template("elements/form-diet.tpl");
+	$meal_layout = new Template("elements/form-meal.tpl");
+	$cuisine_layout = new Template("elements/form-cuisine.tpl");
 
 	$bar = new Template("elements/searchBar.tpl");
 
-	if (isset($_SESSION)) {
+	if (isset($_SESSION) && !isset($_GET["searchBtn"])) {
 		$user = getUserDB();
 
 		$intls = array();
@@ -29,10 +31,34 @@
 		$bar->set("intolerances", $intolerances_layout->output());
 		$bar->set("diet", $diets_layout->output());
 
+	} elseif (isset($_GET["searchBtn"])) {
+		$intls = array();
+		if (isset($_GET["intolerances"])) {
+			$intls = $_GET["intolerances"];
+		}
+		foreach ($intls as $intl) {
+			$intolerances_layout->set($intl, "checked");
+		}
+
+		$diet = "Unrestricted";
+		if (isset($_GET["diet"])) {
+			$diet = $_GET["diet"];
+		}
+		$diets_layout->set($diet, "checked");
+
+		$bar->set("intolerances", $intolerances_layout->output());
+		$bar->set("diet", $diets_layout->output());
 	}
 
-	$bar->set("cuisine", file_get_contents("elements/form-cuisine.tpl"));
-	$bar->set("meal", file_get_contents("elements/form-meal.tpl"));
+	if (isset($_GET["meal"])) {
+		$meal_layout->set($_GET["meal"], "selected='selected'");
+	}
+	if (isset($_GET["cuisine"])) {
+		$cuisine_layout->set($_GET["cuisine"], "selected='selected'");
+	}
+
+	$bar->set("cuisine", $cuisine_layout->output());
+	$bar->set("meal", $meal_layout->output());
 
 	$grid = new Template("elements/resultsGrid.tpl");
 

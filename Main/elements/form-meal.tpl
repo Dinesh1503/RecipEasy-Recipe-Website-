@@ -1,17 +1,17 @@
 <select name="meal" id="mealList">
     <option value=""></option>
-    <option value="main course">Main Course</option>
-    <option value="side dish">Side Dish</option>
-    <option value="dessert">Dessert</option>
-    <option value="appetizer">Appetizer</option>
-    <option value="salad">Salad</option>
-    <option value="bread">Bread</option>
-    <option value="breakfast">Breakfast</option>
-    <option value="soup">Soup</option>
-    <option value="beverage">Beverage</option>
-    <option value="sauce">Sauce</option>
-    <option value="marinade">Marinade</option>
-    <option value="snack">Snack</option>
-    <option value="drink">Drink</option>
-    <option value="fingerfood">Fingerfood</option>
+    <option value="main course" [@main course]>Main Course</option>
+    <option value="side dish" [@side dish]>Side Dish</option>
+    <option value="dessert" [@dessert]>Dessert</option>
+    <option value="appetizer" [@appetizer]>Appetizer</option>
+    <option value="salad" [@salad]>Salad</option>
+    <option value="bread" [@bread]>Bread</option>
+    <option value="breakfast" [@breakfast]>Breakfast</option>
+    <option value="soup" [@soup]>Soup</option>
+    <option value="beverage" [@beverage]>Beverage</option>
+    <option value="sauce" [@sauce]>Sauce</option>
+    <option value="marinade" [@marinade]>Marinade</option>
+    <option value="snack" [@snack]>Snack</option>
+    <option value="drink" [@drink]>Drink</option>
+    <option value="fingerfood" [@fingerfood]>Fingerfood</option>
 </select>
