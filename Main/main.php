@@ -251,7 +251,6 @@
 
 			$outputPlan = mysqli_query($conn, "SELECT * FROM MealPlan WHERE user_id='$user_id' AND recipe_id = '$id' AND meal_date!=''");
 
-<<<<<<< HEAD
 			if($outputPlan != null && mysqli_num_rows($outputPlan)!=1){
 				$date2 = date('Y-m-d');
 			$elements = $elements . "
@@ -272,22 +271,6 @@
 				;
 			}
 			else if ($outputPlan != null){
-=======
-			if(mysqli_num_rows($outputPlan)!=1){
-				$date2 = date('Y-m-d');
-			$elements = $elements . "<input onchange='mealPlan(`$b`,`$userId`,``, `1`)' id='date' value='$date2' type='date'>" .
-			"<input onchange='mealPlan(`$b`,`$userId`,`breakfast`, `0`)' id='breakfast' type='checkbox'>
-				<label for='breakfast'>breakfast</label>" . 
-				"<input onchange='mealPlan(`$b`,`$userId`,`lunch`, `0`)' id='lunch' type='checkbox'>
-				<label for='lunch'>lunch</label>" .
-				"<input onchange='mealPlan(`$b`,`$userId`,`dinner`, `0`)' id='dinner' type='checkbox'>
-				<label for='dinner'>dinner</label>"
-				;
-			}
-			else{
-				$elements = $elements . "<input onchange='fav(" .strval($id).",".$userId.")' name='checkbox' class='checkbox' id='checkbox' type='checkbox'>
-				<label for='checkbox'></label>";
->>>>>>> c3c20af68aa0843516821aa6f3cb212de9afd49f
 				$isBreakfast;
 				$isLunch;
 				$isDinner;
@@ -305,7 +288,6 @@
 				else{
 					$isDinner='checked';
 				}
-<<<<<<< HEAD
 				$elements = $elements . "
 				<label for='date'>Select Date</label>
 				<input onchange='mealPlan(`$b`,`$userId`,``, `1`)' id='date' value='$mealDate' type='date'>" .
@@ -324,16 +306,6 @@
 			}
 
 			$elements = $elements . "</div>";
-=======
-				$elements = $elements . "<input onchange='mealPlan(`$b`,`$userId`,``, `1`)' id='date' value='$mealDate' type='date'>" .
-				"<input onchange='mealPlan(`$b`,`$userId`,`breakfast`, `0`)' id='breakfast' ".$isBreakfast." type='checkbox'>
-				<label for='breakfast'>breakfast</label>" . 
-				"<input onchange='mealPlan(`$b`,`$userId`,`lunch`, `0`)' id='lunch' " . $isLunch . " type='checkbox'>
-				<label for='lunch'>lunch</label>" .
-				"<input onchange='mealPlan(`$b`,`$userId`,`dinner`, `0`)' id='dinner' " . $isDinner . " type='checkbox'>
-				<label for='dinner'>dinner</label>" ;
-			}
->>>>>>> c3c20af68aa0843516821aa6f3cb212de9afd49f
 
 
 
