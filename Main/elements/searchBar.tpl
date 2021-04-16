@@ -10,11 +10,11 @@
 			<label for="query">Query:</label>
 			<input type="text" name="query" class="text"/>
 			<!-- ingredients list -->
-			<label for="ingrTextArea">List of Ingredients:  <br><small>*comma seperated</small></label>
+			<br>
+			<label for="ingrTextArea">Must Include Ingredients:</label>
 			<textarea id="ingrTextArea" name="includeIngredients" value=""></textarea>
 			<br>
-			<label for="fridgeCheckbox">Use your Fridge</label>
-			<input type="checkbox" id="fridgeCheckbox" name="useFridge" value="true" [@UsePreferences]>
+			<label for="ingrTextArea"><small>*comma seperated</small></label>
 		</div>
 
 		<!-- Meal Type -->
@@ -44,6 +44,6 @@
 				[@intolerances]
 			</div>
 		</div>
-		
+
 	</form>
 </div>

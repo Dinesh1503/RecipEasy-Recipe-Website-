@@ -1,10 +1,10 @@
 <?php
-	const localSQL = true;
+	const localSQL = false;
 	const SAM = false;
 
 	$conn = getConnSQL();
 
-	$sql = 
+	$sql =
 		"CREATE TABLE User(
 			id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 			first_name VARCHAR(30) NOT NULL,
@@ -17,7 +17,7 @@
 	";
 	$conn->query($sql);
 
-	$sql = 
+	$sql =
 		"CREATE TABLE Recipe(
 			recipe_id INT(8) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 			title VARCHAR(256) NOT NULL,
@@ -33,9 +33,9 @@
 		)
 	";
 	$conn->query($sql);
-	
 
-	$sql = 
+
+	$sql =
 	"CREATE TABLE Ingredients(
 		ingr_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 		recipe_id INT REFERENCES Recipe(id),
@@ -45,7 +45,7 @@
 	)";
 	$conn->query($sql);
 
-	$sql = 
+	$sql =
 		"CREATE TABLE Fridge(
 			fridge_id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 			user_id INT NOT NULL REFERENCES User(id),
@@ -54,7 +54,7 @@
 	";
 	$conn->query($sql);
 
-	$sql = 
+	$sql =
 		"CREATE TABLE FavRecipes (
   			fav_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
   			fav_recipe_id INT NOT NULL,
@@ -62,7 +62,7 @@
 		)";
 	$conn->query($sql);
 
-	$sql = 
+	$sql =
 		"CREATE TABLE MealPlan (
 		  meal_id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
 		  recipe_id INT NOT NULL REFERENCES Recipe(recipe_id),
@@ -87,7 +87,7 @@
 			$password   = "5+recipes";
 			$database   = "e95562sp";
 		}
-		
+
 		$conn = mysqli_connect($servername, $username, $password);
 		$sql = "CREATE DATABASE IF NOT EXISTS $database";
 		$conn->query($sql);
