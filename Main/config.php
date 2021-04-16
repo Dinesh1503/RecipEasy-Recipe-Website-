@@ -14,7 +14,9 @@
 			first_name VARCHAR(30) NOT NULL,
 			last_name VARCHAR(30) NOT NULL,
 			email VARCHAR(50) NOT NULL,
-			password VARCHAR(128) NOT NULL
+			password VARCHAR(128) NOT NULL,
+			intls SET('Dairy','Egg','Gluten','Grain','Peanut','Seafood','Sesame','Shellfish', 'Soy','Sulfite','Tree Nut','Wheat'),
+			diets SET('Gluten Free', 'Ketogenic', 'Vegetarian','Lacto-Vegetarian', 'Ovo-Vegetarian', 'Vegan', 'Pescetarian', 'Paleo', 'Primal', 'Whole30')
 		)
 	";
 	$conn->query($sql);
@@ -29,7 +31,7 @@
 			number_of_servings INT NOT NULL,
 			ready_in_minutes INT NOT NULL,
 			instructions TEXT NOT NULL,
-			intls SET('Dairy','Egg','Gluten','Grain','Peanut','Seafood','Sesame','Shellfish', 'Soy','Sulfite','Tree','Wheat'),
+			intls SET('Dairy','Egg','Gluten','Grain','Peanut','Seafood','Sesame','Shellfish', 'Soy','Sulfite','Tree Nut','Wheat'),
 			diets SET('Gluten Free', 'Ketogenic', 'Vegetarian','Lacto-Vegetarian', 'Ovo-Vegetarian', 'Vegan', 'Pescetarian', 'Paleo', 'Primal', 'Whole30'),
 			user_id INT NOT NULL REFERENCES User(id)
 		)
