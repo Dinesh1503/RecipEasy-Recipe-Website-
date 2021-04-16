@@ -54,16 +54,15 @@
         $diet = $user["diets"];
     }
     $diets_layout->set($diet, "checked");
-    
+
     $usePref = 1;
     if (isset($user["use_fridge"])) {
         $usePref = $user["use_fridge"];
     }
-    
     if ($usePref == 1) {
         $form->set("UsePreferences", "checked");
     }
-    
+
     $form->set("intolerances", $intolerances_layout->output());
     $form->set("diet", $diets_layout->output());
     $form->set("items", $itemList);

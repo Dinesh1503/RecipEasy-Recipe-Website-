@@ -9,7 +9,7 @@
 			<br>
 			<!-- ingredients list -->
 			<br>
-			<label for="ingrTextArea">Must Include Ingredients:</label>
+			<label for="ingrTextArea">Add Search Ingredients:</label>
 			<textarea id="ingrTextArea" name="includeIngredients" value=""></textarea>
 			<br>
 			<label for="ingrTextArea"><small>*comma seperated</small></label>
@@ -17,6 +17,6 @@
 			<label for="fridgeCheckbox">Use your Fridge</label>
 			<input type="checkbox" id="fridgeCheckbox" name="useFridge" value="true" [@UsePreferences]>
 		</div>
-		
+
 	</form>
 </div>

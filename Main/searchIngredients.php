@@ -36,10 +36,10 @@
 
 		$results = "";
 
-		if ($json->totalResults != 0) {
-			$recipes = $json->results;
-			for ($i = 0; $i < count($recipes); $i++) {
-				$recipe = $recipes[$i];
+
+		if (count($json) != 0) {
+			for ($i = 0; $i < count($json); $i++) {
+				$recipe = $json[$i];
 
 				$result = new Template("elements/searchResult.tpl");
 				$result->set("link", "recipe.php/?recipe_id=$recipe->id");
@@ -47,9 +47,12 @@
 				$result->set("img", "$recipe->image");
 				$results = $results . $result->output();
 			}
+			$grid->set("results", $results);
+		} else {
+			$grid->set("results", "No results found.");
 		}
 
-		$grid->set("results", $results);
+
 	}
 
 	$page = new Template("elements/page-search.tpl");
