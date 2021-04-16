@@ -72,7 +72,7 @@
 
 		if ($json->totalResults != 0) {
 			$recipes = $json->results;
-			if($offset > $json->totalResults - $number_of_results){
+			if(($offset > $json->totalResults - $number_of_results) && ($json->totalResults - $number_of_results >= 0)){
 				$offset = $json->totalResults - $number_of_results;
 			}
 			for ($i = $offset; $i < $number_of_results + $offset && $i < count($recipes); $i++) {
