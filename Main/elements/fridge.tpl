@@ -33,7 +33,7 @@
 
     <div>
       <label for="usePreferences">Use preferences by default</label>
-      <input type="checkbox" id="usePreferences" name="usePreferences" value="true"></input>
+      <input type="checkbox" id="usePreferences" name="usePreferences" value="true" [@UsePreferences]></input>
       <br>
       <input type="submit" id="updateBtn" name="updateBtn" value="Update Preferences"></input>
     </div>
