@@ -60,25 +60,26 @@
 	 padding-top: 20px;
    }
 
-.searchBar{
-	width: 25%;
-}
+	 .searchBar{
+	 	width: 25%;
+	 }
 
-.searchResults{
-	width: 75%;
-}
+	 .searchResults{
+	 	width: 75%;
+	 }
 
-.searchResults .settings-container{
-	float: left;
- 	width: 25%;
-}
+	 .searchResults .settings-container{
+	 	float: left;
+	  	width: 25%;
+	 }
 
-.searchResults .settings-container label, #skip, #number, select{
-	width: 90%;
-	margin-left:5%;
-	margin-right: 5%; 
-	margin-bottom: 10px;
-}
+	 .searchResults .settings-container label, #skip, #number, select{
+	 	width: 90%;
+	 	margin-left:5%;
+	 	margin-right: 5%;
+	 	margin-bottom: 10px;
+	 }
+
 
 .searchBar, .searchResults {
 	display:table-cell;
