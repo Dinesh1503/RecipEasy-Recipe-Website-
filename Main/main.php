@@ -7,7 +7,8 @@
 		echo("<script>console.log(\"$msg\");</script>");
 	}
 
-	const API_KEY = "apiKey=8e545c9e5dd0403485f5b74f1c43622f";
+	#const API_KEY = "apiKey=8e545c9e5dd0403485f5b74f1c43622f";
+	const API_KEY = "apiKey=fe7fe2e4a56344fdbde2f14b8d05b5b3";
 
 	function getSearch() {
 		$API = "https://api.spoonacular.com/recipes/complexSearch";
