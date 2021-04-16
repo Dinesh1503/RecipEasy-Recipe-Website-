@@ -215,7 +215,9 @@
 			<div class=\"searchResults\">";
 
 			$elements = $elements . "<h1>".$title1."</h1>";
-			$userId = strval($_SESSION['id']);
+			if(isset($_SESSION['id'])){
+				$userId = strval($_SESSION['id']);
+			}	
 			$a = strval(uniqid());
 			$b = strval($id);
 
