@@ -75,4 +75,4 @@
 	$layout->set("user", getUserElements());
 	$layout->set("content", $content);
 	echo($layout->output());
-?>	
+?>
