@@ -50,8 +50,7 @@
 				$INGRS = $INGRS . ", " . $items[$i];
 			}
 		}
-
-		return str_replace(" ", "%20", $API . "?" . API_KEY . $ARGS . $INGRS . $INSTRUCTIONS . $RECIPE_INFO . $NUTRITION_INFO);
+		return str_replace(" ", "%20", $API . "?" . API_KEY . "&fillIngredients=true" . $ARGS . $INGRS . $INSTRUCTIONS . $RECIPE_INFO . $NUTRITION_INFO);
 	}
 
 	function makeCURL($URL) {
@@ -432,180 +431,6 @@
 	FRIDGE
 	*/
 
-	function AddIngr(){
-		$conn = getConnSQL();
-
-		if (!$conn) {
-			die("Connection failed: " . mysqli_connect_error());
-		}
-
-		  echo "Connected successfully";
-		  $id = $_SESSION["id"];
-		  $ingredients = $_GET["addIngrList"];
-			$ingredients = explode(",", $ingredients);
-      $ingredientslength = count($ingredients);
-
-
-			for ($i = 0; $i < $ingredientslength; $i++) {
-				$sql = "INSERT INTO fridge2 (user_id, INGREDIENT)
-								VALUES ('$id','$ingredients[$i]')
-								";
-								if ($conn->query($sql))
-								{
-									echo ("Record created successfully");
-								}
-								else
-								{
-									echo("Error: " . $conn->error);
-								}
-			}
-
-			$sql = "SELECT INGREDIENT FROM fridge2 where user_id = $id";
-			$result = $conn->query($sql);
-
-			if ($result->num_rows > 0) {
-				// output data of each row
-
-				$output = "<table border = '2'>
-										<th>Ingredient</th>
-										";
-				while($row = $result->fetch_assoc()) {
-					$output .= "<tr>
-												<td>$row[INGREDIENT]</td>
-
-												</tr>";
-				}
-				$output .="</table>";
-				echo ($output); }
-				$conn->close();
-
-		return $output;
-	  }
-
-	  function RemoveIngr(){
-	  }
-
-		function showFridge(){
-			$conn = getConnSQL();
-
-			if (!$conn) {
-				die("Connection failed: " . mysqli_connect_error());
-			}
-
-			//echo "Connected successfully";
-
-			$userid = $_SESSION["id"];
-
-			$sql ="SELECT * FROM fridge2 WHERE user_id = $userid";
-			$result = $conn->query($sql);
-
-			$output = "";
-			if ($result->num_rows > 0) {
-			// output data of each row
-
-				$output = "<form><table border = '2'>
-
-				<th>Ingredient</th>
-
-				</form>
-				";
-				while($row = $result->fetch_assoc()) {
-					$output .= "<tr>
-
-				<td>$row[INGREDIENT]</td>
-
-				</tr>";
-
-				}
-				$output .="</table>";
-				echo ($output);
-
-			} else {
-				$output = "0 results";
-			}
-			$conn->close();
-			return $output;
-		}
-
-	  	function changeFridge(){
-			$conn = getConnSQL();
-
-			$userid = $_SESSION["id"];
-
-			$sql = "SELECT * FROM fridge2 WHERE user_id = $userid";
-			$result = $conn->query($sql);
-
-
-			$ingredients=$result->fetch_assoc();
-			$ingredients = implode(",",$ingredients);
-			$ingredients = str_replace(">","",$ingredients);
-			$ingredients = explode(",", $ingredients);
-
-
-			$ingredients = $_GET["ChangeIngrList"];
-			$ingredients  = explode( ',', $ingredients);
-			$length = count($ingredients);
-
-			for ($i = 0; $i < $length; $i++) {
-				$change = explode( '->', $ingredients[$i]);
-				$orignal = $change[0];
-				$new = $change[1];
-
-				// if($new = "remove"){
-				// 	$sql = "DELETE FROM fridge2 WHERE (user_id = $userid AND INGREDIENT = '$orignal')";
-				// 	if ($conn->query($sql))
-				// 	{
-				// 		echo ("Record deleted successfully");
-				// 	}
-				// }
-				// else{
-				$sql = "UPDATE fridge2 SET INGREDIENT = '$new' WHERE (user_id = $userid AND INGREDIENT = '$orignal')";
-					if (!$conn->query($sql)) {
-						echo("Error: " . $conn->error);
-					}
-			}
-
-			if (!$conn->query($sql)) {
-				echo("Error: " . $conn->error);
-			}
-
-			$conn->close();
-	  }
-
-		function parseFridge() {
-			$conn = getConnSQL();
-			if (!$conn) {
-				die("Connection failed: " . mysqli_connect_error());
-			}
-
-			$userid = $_SESSION["id"];
-
-			$sql = "
-			WITH cte AS (
-				SELECT
-					user_id,
-					INGREDIENT,
-					ROW_NUMBER() OVER (
-						PARTITION BY
-							user_id,
-							INGREDIENT
-						ORDER BY
-							user_id,
-							INGREDIENT
-					) row_num
-				FROM
-					fridge2
-			)
-			DELETE FROM cte
-			WHERE row_num > 1";
-
-			$result = $conn->query($sql);
-			if (!$result) {
-				echo "Error deleting record: " . mysqli_error($conn);
-			}
-			$conn->close();
-		}
-
 	function addFridge($item) {
 		$conn = getConnSQL();
 		if (!$conn) {
@@ -614,7 +439,7 @@
 
 		$userid = $_SESSION["id"];
 
-		$sql ="INSERT INTO fridge2 (user_id, INGREDIENT) VALUES ($userid, '$item')";
+		$sql ="INSERT INTO Fridge (user_id, ingredient) VALUES ($userid, '$item')";
 
 		$result = $conn->query($sql);
 		if (!$result) {
@@ -631,12 +456,8 @@
 
 		$userid = $_SESSION["id"];
 
-		$sql ="DELETE FROM fridge2 WHERE user_id = $userid AND INGREDIENT = '$item'";
-
+		$sql ="DELETE FROM Fridge WHERE user_id = $userid AND INGREDIENT = '$item'";
 		$result = $conn->query($sql);
-		if (!$result) {
-			echo "Error deleting record: " . mysqli_error($conn);
-		}
 		$conn->close();
 	}
 
@@ -647,15 +468,74 @@
 		}
 		$userid = $_SESSION["id"];
 
-		$sql ="SELECT * FROM fridge WHERE user_id = $userid";
+		$sql ="SELECT * FROM Fridge WHERE user_id = $userid";
 		$result = $conn->query($sql);
 		$items = array();
-		if ($result->num_rows > 0) {
-			while($row = $result->fetch_assoc()) {
-				$items[] = $row["ingredient"];
+		if ($result) {
+			if ($result->num_rows > 0) {
+				while($row = $result->fetch_assoc()) {
+					$items[] = $row["ingredient"];
+				}
 			}
 		}
+		
 		$conn->close();
 		return $items;
 	}
+
+	function getUserDB() {
+		if (!isset($_SESSION)) {
+			return NULL;
+		}
+		$conn = getConnSQL();
+
+		$user_id = $_SESSION["id"];
+		$query = "SELECT * FROM User WHERE id = $user_id";
+		$result = mysqli_query($conn, $query);
+		$user = mysqli_fetch_assoc($result);
+		return $user;
+	}
+
+	function updateUserDB() {
+		if (!isset($_SESSION)) {
+			return NULL;
+		}
+		$user_id = $_SESSION["id"];
+
+		$intolerances = "NULL";
+		if (isset($_GET["intolerances"])) {
+			$intls_array = $_GET["intolerances"];
+			$intolerances = "";
+			if (count($intls_array) > 0) {
+				$intolerances = $intls_array[0];
+			}
+			for ($i = 1; $i < count($intls_array); $i++) {
+				$intolerances = $intolerances . "," . $intls_array[$i];
+			}
+			$intolerances = "'" . $intolerances . "'";
+		}
+		$diet = "NULL";
+		if (isset($_GET["diet"])) {
+			if ($_GET["diet"] != "Unrestricted") {
+				$diet = $_GET["diet"];
+				$diet = "'" . $diet . "'";
+			}
+		}
+	
+		$usePref = 0;
+		if (isset($_GET["usePreferences"])) {
+			$usePref = 1;
+		}
+
+		$conn = getConnSQL();
+		$query = 
+			"UPDATE User
+			SET intls = $intolerances,
+		 	diets = $diet,
+			use_fridge = $usePref
+			WHERE
+			id = $user_id";
+		$result = mysqli_query($conn, $query);
+	}
+
 ?>
