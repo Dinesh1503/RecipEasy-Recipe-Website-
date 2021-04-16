@@ -76,12 +76,12 @@
 	}
 
 	function getUserElements() {
-		if(isset($_SESSION['user'])) {
+		if(isset($_SESSION['user'])) {     
 			return "
 				<a href='#.php'>" . $_SESSION['user'] . "</a>
 				<a href=\"fridge.php\">My Fridge</a>
 				<a href=\"fav.php\">Favorites</a>
-				<a href=\"#\">Meal Plan</a>
+				<a href=\"mealplan.php\">Meal Plan</a>
 				<a href='logout.php' class ='login'>Logout</a>
 			";
 		} else {
@@ -97,12 +97,12 @@
 		/**
 		 * Store it if not exist, and display it directly from db
 		 * Add a column "api_id" for table Recipe to check whether exists
-		 * Add a new table to store relation between user and fav recipes
+		 * Add a new table to store relation between user and fav recipes 
 		 */
-
+		$user_id = $_SESSION['id'];
 		$conn = getConnSQL();
 
-		$check = mysqli_query($conn, "SELECT * FROM Recipe WHERE id='$recipe_id'");
+		$check = mysqli_query($conn, "SELECT * FROM Recipe WHERE api_id='$recipe_id'");
 
 		// if not exist, store it first
 		if(mysqli_num_rows($check)==0){
@@ -112,8 +112,8 @@
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($ch, CURLOPT_URL, $URL);
 			$response = curl_exec ($ch);
-			curl_close ($ch);
-
+			curl_close ($ch);        
+			
 			$data = json_decode($response, true);
 
 			$originalId = $data['id'];
@@ -123,9 +123,11 @@
 			$dairyFree = $data['dairyFree']=="true" ? true: false;
 			$veryHealthy = ($data['veryHealthy']=="true") ? true: false;
 			$cheap = $data['cheap']=="true" ? true: false;
+			// $calories = intval($data['calories']);
+			$ketogenic = $data['ketogenic']=="true" ? true: false;
 			$sustainable = $data['sustainable']=="true" ? true: false;
 			$veryPopular = $data['veryPopular']=="true" ? true: false;
-
+			
 			$price_per_serving = intval($data['pricePerServing']);
 			$health_score = intval($data['healthScore']);
 			$aggregate_lies = intval($data['aggregateLikes']);
@@ -140,53 +142,52 @@
 			$readyTime = $data['readyInMinutes'];
 			$source_url = $data['sourceUrl'];
 			$instruction = strip_tags($data['instructions']);
-			$instruction1 = str_replace("'", "''", $instruction);
-
-			$result = mysqli_query($conn, "INSERT IGNORE INTO Recipe(id, vegetarian, vegan, gluten_free, dairy_free, very_healthy, cheap, sustainable, very_popular, price_per_serving, health_score, aggregate_lies, license, image_type, cuisine_type, title, image_url, source_site_url, number_of_servings, ready_in_minutes, description)
-			VALUES('$originalId', '$vegetarian', '$vegan', '$glutenFree','$dairyFree','$veryHealthy' , '$cheap', '$sustainable' , '$veryPopular', '$price_per_serving', '$health_score', '$aggregate_lies', '$license', '$image_type', '$cuisine_type',
+			$instruction1 = str_replace("'", "''", $instruction);    
+	
+			$result = mysqli_query($conn, "INSERT IGNORE INTO Recipe(api_id, vegetarian, vegan, gluten_free, dairy_free, very_healthy, cheap, ketogenic, sustainable, very_popular, calories, price_per_serving, health_score, aggregate_lies, license, image_type, cuisine_type, title, image_url, source_site_url, number_of_servings, ready_in_minutes, description)
+			VALUES('$originalId', '$vegetarian', '$vegan', '$glutenFree','$dairyFree','$veryHealthy' , '$cheap', '$ketogenic', '$sustainable' , '$veryPopular', '0', '$price_per_serving', '$health_score', '$aggregate_lies', '$license', '$image_type', '$cuisine_type',
 			'$title', '$img_url', '$source_url', '$servings', '$readyTime', '$instruction1')");
-
+	
 			$id = mysqli_insert_id($conn);
-
-			// add a new table FavRecipes with columns id, fav_recipe_id(store recipe id), fav_by(store user id)
-			mysqli_query($conn, "INSERT IGNORE INTO FavRecipes(fav_recipe_id, fav_by) VALUES('$id', '')");
+			
+			// add a new table FavRecipes with columns id, favRecipeId(store recipe id), favBy(store user id)
 
 			foreach($data['extendedIngredients'] as $d){
-
+	
 				$nm = $d['name'];
 				$amount = $d['amount'];
 				$original = str_replace("'", "''", $d['original']);
 				$unit = $d['unit'];
 				$recipeId = $id;
 				$image = $d['image'];
-
+	
 				mysqli_query($conn, "INSERT IGNORE INTO ExtendedIngredient(name, amount, original, unit, recipe_id)
 				VALUES('$nm', '$amount', '$original', '$unit', '$recipeId')")or die(mysqli_error($conn));
-
+				
 				// seems api doesn't provide images for ingredients
 				$id_ = mysqli_insert_id($conn);
 				mysqli_query($conn, "INSERT IGNORE INTO ingredient(name, image, extended_ingredient_id) VALUES('$nm', '$image', '$id_')");
-
+				
 			}
 		}
 
 		// otherwise, display it directly from db
 		else{
-			$id = mysqli_fetch_array($check)['id'];
+			$id = mysqli_fetch_assoc($check)['id'];
 		}
 
 		$output = mysqli_query($conn, "SELECT * FROM Recipe WHERE id='$id'");
-		$row = mysqli_fetch_array($output);
+		$row = mysqli_fetch_assoc($output);
 		$title1 = $row['title'];
 		$img_url1 = $row['image_url'];
 		$servings1 = $row['number_of_servings'];
 		$readyTime1 = $row['ready_in_minutes'];
 		$instructions1 = $row['description'];
 
-		$outputFav = mysqli_query($conn, "SELECT * FROM FavRecipes WHERE fav_recipe_id='$id'");
+		$outputFav = mysqli_query($conn, "SELECT * FROM FavRecipes WHERE favRecipeId='$id'");
 
 		if(mysqli_num_rows($outputFav)!=0){
-			$fav = mysqli_fetch_array($outputFav)['fav_by'];
+			$fav = mysqli_fetch_assoc($outputFav)['favBy'];
 		}
 		else{
 			$fav = '';
@@ -195,7 +196,7 @@
 		$outputIngr = mysqli_query($conn, "SELECT * FROM ExtendedIngredient WHERE recipe_id = '$id' ");
 
 		$ingr = array();
-		while ($row = mysqli_fetch_array($outputIngr)) {
+		while ($row = mysqli_fetch_assoc($outputIngr)) {
 			array_push($ingr, $row['original']);
 		}
 
@@ -206,50 +207,96 @@
 			<div class=\"searchResults\">";
 
 			$elements = $elements . "<h1>".$title1."</h1>";
-
-			if(isset($_SESSION['id'])){
 			$userId = strval($_SESSION['id']);
+			$a = strval(uniqid());
+			$b = strval($id);
 
-				if($fav == $_SESSION['id']){
-					$elements = $elements . "<input onchange='fav(" .strval($id).",".$userId.")' name='checkbox' class='checkbox' id='checkbox' type='checkbox' checked='checked'>
-					<label for='checkbox'></label>";
-				}
-				else{
-					$elements = $elements . "<input onchange='fav(" .strval($id).",".$userId.")' name='checkbox' class='checkbox' id='checkbox' type='checkbox'>
-					<label for='checkbox'></label>";
-				}
+			if($fav == $userId ){
+				$elements = $elements . "<input onchange='fav(`$b`,`$userId`,`$a`)' id='$a' name='checkbox' class='checkbox' type='checkbox' checked='checked'>
+				<label id='heart' for='$a'></label>";
+			}
+			else{
+				$elements = $elements . "<input onchange='fav(`$b`,`$userId`,`$a`)' id='$a' name='checkbox' class='checkbox' type='checkbox'>
+				<label id='heart' for='$a'></label>";
 			}
 
+			$outputPlan = mysqli_query($conn, "SELECT * FROM MealPlan WHERE user_id='$user_id' AND recipe_id = '$id' AND mealDate!=''");
+
+			if(mysqli_num_rows($outputPlan)!=1){
+				$date2 = date('Y-m-d');
+			$elements = $elements . "<input onchange='mealPlan(`$b`,`$userId`,``, `1`)' id='date' value='$date2' type='date'>" .
+			"<input onchange='mealPlan(`$b`,`$userId`,`breakfast`, `0`)' id='breakfast' type='checkbox'>
+				<label for='breakfast'>breakfast</label>" . 
+				"<input onchange='mealPlan(`$b`,`$userId`,`lunch`, `0`)' id='lunch' type='checkbox'>
+				<label for='lunch'>lunch</label>" .
+				"<input onchange='mealPlan(`$b`,`$userId`,`dinner`, `0`)' id='dinner' type='checkbox'>
+				<label for='dinner'>dinner</label>"
+				;
+			}
+			else{
+				$isBreakfast;
+				$isLunch;
+				$isDinner;
+
+				while($row=mysqli_fetch_assoc($outputPlan)){
+					$mealDate = $row['mealDate'];
+					$mealTime = $row['mealTime'];
+				}
+				if($mealTime=='breakfast'){
+					$isBreakfast='checked';
+				}
+				else if($mealTime=='lunch'){
+					$isLunch='checked';
+				}
+				else{
+					$isDinner='checked';
+				}
+				$elements = $elements . "<input onchange='mealPlan(`$b`,`$userId`,``, `1`)' id='date' value='$mealDate' type='date'>" .
+				"<input onchange='mealPlan(`$b`,`$userId`,`breakfast`, `0`)' id='breakfast' ".$isBreakfast." type='checkbox'>
+				<label for='breakfast'>breakfast</label>" . 
+				"<input onchange='mealPlan(`$b`,`$userId`,`lunch`, `0`)' id='lunch' " . $isLunch . " type='checkbox'>
+				<label for='lunch'>lunch</label>" .
+				"<input onchange='mealPlan(`$b`,`$userId`,`dinner`, `0`)' id='dinner' " . $isDinner . " type='checkbox'>
+				<label for='dinner'>dinner</label>" ;
+			}
+			
+			
 			$elements = $elements . "<div id='image_container'><img src='".$img_url1."'></div>";
 			$elements = $elements . "<p><b>Ingredients: </b></p>";
 			foreach($ingr as $ingredient1){
 				$elements = $elements . "<p>".$ingredient1."</p>";
 			}
-
+			
 			$elements = $elements . "<p><b>Number of servings: </b>".$servings1."</p>
 			<p><b>Ready in minutes: </b>".$readyTime1."</p>
-			<p><b>Instructions: </b></br>".$instructions1."</p></div>" ."</div>";
+			<p><b>Instructions: </b></br>".$instructions1."</p></div>" ."</div>"; 
 
 			return $elements;
-
 	}
 
+
 	function showFav() {
+
 		$conn = getConnSQL();
 
 		$userId = $_SESSION['id'];
-		$query = mysqli_query($conn, "SELECT * FROM FavRecipes WHERE fav_by='$userId'");
+		$query = mysqli_query($conn, "SELECT * FROM FavRecipes WHERE favBy='$userId'");
 
-		$fav_recipe_id = array();
-		while($row=mysqli_fetch_array($query)) {
-			array_push($fav_recipe_id, $row['fav_recipe_id']);
+		$favRecipeId = array();
+		while($row=mysqli_fetch_assoc($query)) {
+			array_push($favRecipeId, $row['favRecipeId']);
 		}
 
-		$elements = "<div>";
-		foreach($fav_recipe_id as $recipeId) {
+		$elements = "
+				<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+				<script src='script.js'></script>
+				<link rel=\"stylesheet\" type=\"text/css\" href=\"css/search.css\">
+				<div class=\"searchResults\">";
+
+		foreach($favRecipeId as $recipeId) {
 			$query1 = mysqli_query($conn, "SELECT * FROM Recipe WHERE id='$recipeId'");
 
-			while($row = mysqli_fetch_array($query1)){
+			while($row = mysqli_fetch_assoc($query1)){
 
 				$id = $row['id'];
 				$title = $row['title'];
@@ -258,25 +305,264 @@
 				$readyTime = $row['ready_in_minutes'];
 				$instructions = $row['description'];
 
+				$a = uniqid();
+				$b = strval($id);
+
+				$elements = $elements . "<input id='$a' onchange='fav(`$b`, `$userId` , `$a`)' name='checkbox' class='checkbox'  type='checkbox' checked='checked'>"
+				."<label for='$a'></label>";
+
 			$elements = $elements . "<h1>".$title."</h1>";
 			$elements = $elements . "<div id='image_container'><img src='".$image."'></div>";
 			// $elements = $elements . "<p><b>Ingredients: </b></p>";
-
 			$outputIngr = mysqli_query($conn, "SELECT * FROM ExtendedIngredient WHERE recipe_id = '$id' ");
 
 			$ingr = array();
-			while ($row = mysqli_fetch_array($outputIngr)) {
+			while ($row = mysqli_fetch_assoc($outputIngr)) {
 				array_push($ingr, $row['original']);
 			}
 
 			$elements = $elements . "<p><b>Number of servings: </b>".$servings."</p>
 			<p><b>Ready in minutes: </b>".$readyTime."</p>
-			<p><b>Instructions: </b></br>".$instructions."</p></div>" ;
+			<p><b>Instructions: </b></br>".$instructions."</p></div>" ; 
 		}
 	}
 		$elements = $elements ."</div>";
 		return $elements;
 	}
+	
+	function mealPlan($date) {
+
+		$conn = getConnSQL();
+    
+		$query = mysqli_query($conn, "SELECT * FROM MealPlan WHERE user_id = '$user_id' AND meal_date = '$date' ");
+		
+		$breakfast = array();
+		$lunch = array();
+		$dinner = array();
+		while($row = mysqli_fetch_assoc($query)){
+			if($row['meal_time']=='breakfast'){
+				array_push($breakfast, $row['recipe_id']);
+			}
+			else if($row['meal_time']=='lunch') {
+				array_push($lunch, $row['recipe_id']);
+			}
+			else {
+				array_push($dinner, $row['recipe_id']);
+			}
+		}
+		$breakfast_id = $breakfast[0];
+		$select1 = mysqli_query($conn, "SELECT * FROM Recipe WHERE id = '$breakfast_id'");
+		$row1 = mysqli_fetch_assoc($select1);
+		$img1 = $row1['image_url'];
+		$time1 = $row1['ready_in_minutes'];
+		$title1 = $row1['title'];
+		$price1 = $row1['price_per_serving'] * 0.73 ;
+		$b_api_id1 = $row1['api_id'];
+
+		$breakfast_id_1 = $breakfast[1];
+		$select1_1 = mysqli_query($conn, "SELECT * FROM Recipe WHERE id = '$breakfast_id_1'");
+		$row1_1 = mysqli_fetch_assoc($select1_1);
+		$img1_1 = $row1_1['image_url'];
+		$time1_1 = $row1_1['ready_in_minutes'];
+		$title1_1 = $row1_1['title'];
+		$price1_1 = $row1_1['price_per_serving'] * 0.73;
+		$b_api_id1_1 = $row1_1['api_id'];
+
+		$lunch_id = $lunch[0];
+		$select2 = mysqli_query($conn, "SELECT * FROM Recipe WHERE id = '$lunch_id'");
+		$row2 = mysqli_fetch_assoc($select2);
+		$img2 = $row2['image_url'];
+		$time2 = $row2['ready_in_minutes'];
+		$title2 = $row2['title'];
+		$price2 = $row2['price_per_serving'] * 0.73;
+		$b_api_id2 = $row2['api_id'];
+
+		$lunch_id_1 = $lunch[1];
+		$select2_1 = mysqli_query($conn, "SELECT * FROM Recipe WHERE id = '$lunch_id_1'");
+		$row2_1 = mysqli_fetch_assoc($select2_1);
+		$img2_1 = $row2_1['image_url'];
+		$time2_1 = $row2_1['ready_in_minutes'];
+		$price2_1 = $row2_1['price_per_serving'] * 0.73;
+		$b_api_id2_1 = $row2_1['api_id'];
+
+		$dinner_id = $dinner[0];
+		$select3 = mysqli_query($conn, "SELECT * FROM Recipe WHERE id = '$dinner_id'");
+		$row3 = mysqli_fetch_assoc($select3);
+		$img3 = $row3['image_url'];
+		$time3 = $row3['ready_in_minutes'];
+		$title3 = $row3['title'];
+		$price3 = $row3['price_per_serving'] * 0.73;
+		$b_api_id3 = $row3['api_id'];
+
+		$dinner_id_1 = $dinner[1];
+		$select3_1 = mysqli_query($conn, "SELECT * FROM Recipe WHERE id = '$dinner_id_1'");
+		$row3_1 = mysqli_fetch_assoc($select3_1);
+		$img3_1 = $row3_1['image_url'];
+		$time3_1 = $row3_1['ready_in_minutes'];
+		$title3_1 = $row3_1['title'];
+		$price3_1 = $row3_1['price_per_serving'] * 0.73;
+		$b_api_id3_1 = $row3_1['api_id'];
+
+		$element = '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+		<script src="script.js"></script>
+		<link rel="stylesheet" href="mealplan.css">
+		<link rel="stylesheet" type="text/css" href="css/search.css">
+		<title>MealPlan</title><p id="mealplan_title">Meal Plan</p>';
+
+		$element .= '
+		<p id="date_p">
+			<input onchange="refresh()" id="mealDate" value="' .  $date . '" type="date">
+		</p>';
+        
+		if($breakfast_id!=null) {
+			$element.='<table id="mealplan_brekfast">
+			<tr>
+			<td id="breakfast" rowspan="0">Breakfast</td>
+				<td>
+				<a href="recipe.php?recipe_id=' . $b_api_id1 . '">
+					<img id="recipe_image" src="' .  $img1 . '" alt="">
+					</a>
+						<p id="recipe_name">'.$title1.'</p>
+						<p id="recommend">Recommend</p>
+						<p id="calorie">Time :</p>
+						<p id="calorie_num">'.$time1.' min</p>
+						<p id="expected_cost_num">£ '.$price1.'</p>
+						<p id="uploader">Uploader</p>
+				</td>
+			</tr>';
+		}
+		else {
+			$element.='<table id="mealplan_brekfast">
+			<tr>
+			<td id="breakfast" rowspan="0">Breakfast</td>
+				<td>
+				</td>
+			</tr>';
+		}
+		if($breakfast_id_1!=null) {
+			$element.='<tr>
+			<td>
+				<a href="recipe.php?recipe_id=' . $b_api_id1_1 . '">
+					<img id="recipe_image" src="' .  $img1_1 . '" alt="">
+					</a>
+					<p id="recipe_name">'.$title1_1.'</p>
+					<p id="recommend">Recommend</p>
+					<p id="calorie">Time :</p>
+					<p id="calorie_num">'.$time1_1.' min</p>
+					<p id="expected_cost_num">£ '.$price1_1.'</p>
+					<p id="uploader">Uploader</p>
+				
+			</td>
+		</tr>
+		</table>';
+		}
+		else {
+			$element.='<tr>
+			<td>
+			</td>
+		</tr>
+		</table>';
+		}
+		if($lunch_id!=null) {
+			$element.='<table id="mealplan_lunch">
+			<tr>
+			<td id="lunch" rowspan="0">Lunch</td>
+			<td>
+				<a href="recipe.php?recipe_id=' . $b_api_id2 .'">
+					<img id="recipe_image" src="' . $img2 . '" alt="">
+					</a>
+					<p id="recipe_name">'.$title2.'</p>
+					<p id="recommend">Recommend</p>
+					<p id="calorie">Time :</p>
+					<p id="calorie_num">'.$time2.' min</p>
+					<p id="expected_cost_num">£ '.$price2.'</p>
+					<p id="uploader">Uploader</p>
+			</td>
+		</tr>';
+		}
+		else {
+			$element.='<table id="mealplan_lunch">
+			<tr>
+			<td id="lunch" rowspan="0">Lunch</td>
+			<td>
+			</td>
+		</tr>';
+		}
+		if($lunch_id_1!=null) {
+			$element.='<tr>
+			<td>
+				<a href="recipe.php?recipe_id=' . $b_api_id2_1 .'">
+					<img id="recipe_image" src="' . $img2_1 . '" alt="">
+					</a>
+					<p id="recipe_name">'.$title2_1.'</p>
+					<p id="recommend">Recommend</p>
+					<p id="calorie">Time :</p>
+					<p id="calorie_num">'.$time2_1.' min</p>
+					<p id="expected_cost_num">£ '.$price2_1.'</p>
+					<p id="uploader">Uploader</p>
+			</td>
+		</tr>
+		</table>';
+		}
+		else {
+			$element.='<tr>
+			<td>
+			</td>
+		</tr>
+		</table>';
+		}
+		if($dinner_id!=null) {
+			$element.='<table id="mealplan_dinner">
+			<tr>
+				<td id="dinner" rowspan="0">Dinner</td>
+				<td>
+					<a href="recipe.php?recipe_id=' . $b_api_id3 .'">
+						<img id="recipe_image" src="' . $img3 . '" alt="">
+					</a>
+						<p id="recipe_name">'.$title3.'</p>
+						<p id="recommend">Recommend</p>
+						<p id="calorie">Time :</p>
+						<p id="calorie_num">'.$time3.' min</p>
+						<p id="expected_cost_num">£ '.$price3.'</p>
+						<p id="uploader">Uploader</p>
+				</td>
+			</tr>';
+		}
+		else {
+			$element.='<table id="mealplan_dinner">
+			<tr>
+				<td id="dinner" rowspan="0">Dinner</td>
+				<td>
+				</td>
+			</tr>';
+		}
+		if($dinner_id_1!=null) {
+			$element.='<tr>
+			<td>
+			<a href="recipe.php?recipe_id=' . $b_api_id3_1 .'">
+					<img id="recipe_image" src="' . $img3_1 . '" alt="">
+			</a>
+					<p id="recipe_name">'.$title3_1.'</p>
+					<p id="recommend">Recommend</p>
+					<p id="calorie">Time :</p>
+					<p id="calorie_num">'.$time3_1.' min</p>
+					<p id="expected_cost_num">£ '.$price3_1.'</p>
+					<p id="uploader">Uploader</p>
+			</td>
+		</tr>
+	</table>';
+		}
+		else {
+			$element.='<tr>
+			<td>
+			</td>
+		</tr>
+	</table>';
+		}
+
+	return $element;
+	}
+	
 
 	// simple data structure for db search result
 	class DBResult {
