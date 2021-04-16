@@ -49,27 +49,30 @@
 
 		$shown_recipes = array();
 		$results = "";
-
-
-		if (count($json) != 0) {
-			if(($offset > count($json) - $number_of_results) && (count($json) - $number_of_results >= 0)){
-				$offset = $json - $number_of_results;
-			}
-			for ($i = $offset; $i < $number_of_results + $offset && $i < count($json); $i++) {
-				$recipe = $json[$i];
-				if(!in_array($recipe->title, $shown_recipes)){
-					array_push($shown_recipes, $recipe->title);
-					$result = new Template("elements/searchResult.tpl");
-					$result->set("link", "redirect_to_recipe.php/?recipe_id=$recipe->id");
-					$result->set("title", "$recipe->title");
-					$result->set("img", "$recipe->image");
-					$results = $results . $result->output();
+		if (is_countable($json)) {
+			if (count($json) != 0) {
+				if(($offset > count($json) - $number_of_results) && (count($json) - $number_of_results >= 0)){
+					$offset = $json - $number_of_results;
 				}
+				for ($i = $offset; $i < $number_of_results + $offset && $i < count($json); $i++) {
+					$recipe = $json[$i];
+					if(!in_array($recipe->title, $shown_recipes)){
+						array_push($shown_recipes, $recipe->title);
+						$result = new Template("elements/searchResult.tpl");
+						$result->set("link", "redirect_to_recipe.php/?recipe_id=$recipe->id");
+						$result->set("title", "$recipe->title");
+						$result->set("img", "$recipe->image");
+						$results = $results . $result->output();
+					}
+				}
+				$grid->set("results", $results);
+			} else {
+				$grid->set("results", "No results found.");
 			}
-			$grid->set("results", $results);
 		} else {
 			$grid->set("results", "No results found.");
 		}
+
 
 
 	}

@@ -5,7 +5,7 @@
 	require_once("main.php");
 
     $recipe_id = $_SESSION['recipe_id'];
-    
+
 	// only if not exist, call api
 	$content = show_recipe($recipe_id);
 
@@ -13,7 +13,6 @@
 	$layout->set("title", "TEMPLATE");
 	$layout->set("user", getUserElements());
 	$layout->set("content", $content);
-	
-	echo($layout->output());
-?>	
 
+	echo($layout->output());
+?>

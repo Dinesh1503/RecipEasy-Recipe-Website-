@@ -9,7 +9,8 @@
 
 	#const API_KEY = "apiKey=8e545c9e5dd0403485f5b74f1c43622f";
 	#const API_KEY = "apiKey=fe7fe2e4a56344fdbde2f14b8d05b5b3";
-	const API_KEY = "apiKey=4f5732b2a1c24bfea274555e78744731";
+	#const API_KEY = "apiKey=4f5732b2a1c24bfea274555e78744731";
+	const API_KEY = "apiKey=5512797434f64eb58976be4cacd5b6f1";
 
 	function getSearch() {
 		$API = "https://api.spoonacular.com/recipes/complexSearch";
@@ -136,10 +137,11 @@
 
 		$conn = getConnSQL();
 
-		$check = mysqli_query($conn, "SELECT * FROM Recipe WHERE recipe_id='$recipe_id'");
-
+		$check = mysqli_query($conn, "SELECT * FROM Recipe WHERE recipe_id = $recipe_id");
+		echo("SELECT * FROM Recipe WHERE recipe_id = $recipe_id");
+		echo(mysqli_num_rows($check));
 		// if not exist, store it first
-		if(mysqli_num_rows($check)==0){
+		if(mysqli_num_rows($check) == 0){
 
 			$URL = "https://api.spoonacular.com/recipes/" . $recipe_id . "/information" . "?" . API_KEY;
 			$ch = curl_init();
@@ -151,21 +153,6 @@
 			$data = json_decode($response, true);
 
 			$originalId = $data['id'];
-			$vegetarian = $data['vegetarian']=="true" ? true: false;
-			$vegan = $data['vegan']=="true" ? true: false;
-			$glutenFree = $data['glutenFree']=="true" ? true: false;
-			$dairyFree = $data['dairyFree']=="true" ? true: false;
-			$veryHealthy = ($data['veryHealthy']=="true") ? true: false;
-			$cheap = $data['cheap']=="true" ? true: false;
-			// $calories = intval($data['calories']);
-			//$ketogenic = $data['ketogenic']=="true" ? true: false;
-			$sustainable = $data['sustainable']=="true" ? true: false;
-			$veryPopular = $data['veryPopular']=="true" ? true: false;
-
-			$price_per_serving = intval($data['pricePerServing']);
-			$health_score = intval($data['healthScore']);
-			$aggregate_lies = intval($data['aggregateLikes']);
-			$license = str_replace("'", "''", $data['license']);
 			$image_type = $data['imageType'];
 			if($data['cuisines']){
 				$cuisine_type = $data['cuisines'][0];
@@ -334,10 +321,12 @@
 					<link rel=\"stylesheet\" type=\"text/css\" href=\"css/search.css\">
 					<div class=\"searchResults\">";
 
-			foreach($favRecipeId as $recipeId) {
-				$query1 = mysqli_query($conn, "SELECT * FROM Recipe WHERE recipe_id='$recipeId'");
-				while($row = mysqli_fetch_assoc($query1)){
 
+
+			foreach($favRecipeId as $recipeId) {
+				echo($recipeId);
+				$query1 = mysqli_query($conn, "SELECT * FROM Recipe WHERE recipe_id='$recipeId'");
+				while($row = mysqli_fetch_assoc($query1)) {
 					$id = $row['recipe_id'];
 					$title = $row['title'];
 					$image = $row['image_url'];
@@ -674,7 +663,7 @@
 		if ($result) {
 			while($recipe = mysqli_fetch_assoc($result)){
 				$db_recipe = new DBResult();
-				$db_recipe->link = "redirect_to_recipe.php/?db_id=" . $recipe['recipe_id'];
+				$db_recipe->link = "redirect_to_recipe.php/?recipe_id=" . $recipe['recipe_id'];
 				$db_recipe->title = $recipe['title'];
 				$db_recipe->image = $recipe['image_url'];
 

@@ -5,10 +5,10 @@
 
     $content = showFav();
 	$layout = new Template("index.tpl");
-	$layout->set("title", "TEMPLATE");
+	$layout->set("title", "Favourites");
 	$layout->set("user", getUserElements());
 	$layout->set("content", $content);
-	
+
 	echo($layout->output());
 
 ?>
