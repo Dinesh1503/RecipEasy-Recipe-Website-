@@ -335,7 +335,7 @@
 					<div class=\"searchResults\">";
 
 			foreach($favRecipeId as $recipeId) {
-				$query1 = mysqli_query($conn, "SELECT * FROM Recipe WHERE recipe_id='$recipeId'");
+				$query1 = mysqli_query($conn, "SELECT * FROM Recipe WHERE recipe_id=$recipeId");
 
 				while($row = mysqli_fetch_assoc($query1)){
 

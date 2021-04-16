@@ -36,17 +36,17 @@ $favBy = intval($_POST['userId']);
 $id = intval($_POST['id']);
 
 	if($isChecked==1){
-		$check = mysqli_query($conn, "SELECT * FROM FavRecipes WHERE favBy = '$favBy' AND favRecipeId='$id'");
+		$check = mysqli_query($conn, "SELECT * FROM FavRecipes WHERE fav_by = '$favBy' AND fav_recipe_id='$id'");
 		if(mysqli_num_rows($check)==0){
-			mysqli_query($conn, "INSERT INTO FavRecipes(favRecipeId, favBy) VALUES('$id', '$favBy')");
+			mysqli_query($conn, "INSERT INTO FavRecipes(fav_recipe_id, fav_by) VALUES('$id', '$favBy')");
 		}
 		else{
-			mysqli_query($conn, "UPDATE FavRecipes SET favBy='$favBy' WHERE favRecipeId='$id'");
+			mysqli_query($conn, "UPDATE FavRecipes SET fav_by='$favBy' WHERE fav_recipe_id='$id'");
 		}
 		
 	}
 	else{
-		mysqli_query($conn, "UPDATE FavRecipes SET favBy='0' WHERE favRecipeId='$id'");
+		mysqli_query($conn, "UPDATE FavRecipes SET fav_by='0' WHERE fav_recipe_id='$id'");
 	}
 
 }
