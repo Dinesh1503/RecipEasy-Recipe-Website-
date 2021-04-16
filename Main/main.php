@@ -242,7 +242,7 @@
 			<script src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
 			<script src='script.js'></script>
 			<link rel=\"stylesheet\" type=\"text/css\" href=\"css/search.css\">
-			<div class=\"searchResults\">";
+			<div class=\"recipe_infomations\">";
 
 			$elements = $elements . "<h1>".$title1."</h1>";
 			if(isset($_SESSION['id'])){
@@ -336,7 +336,6 @@
 
 			foreach($favRecipeId as $recipeId) {
 				$query1 = mysqli_query($conn, "SELECT * FROM Recipe WHERE recipe_id='$recipeId'");
-
 				while($row = mysqli_fetch_assoc($query1)){
 
 					$id = $row['recipe_id'];
@@ -634,35 +633,40 @@
 
 
 		$query = $_GET["query"];
-		$querySQL = "AND title LIKE %$query%";
+		$querySQL = "title LIKE '$query'";
 		$cuisineSQL = "";
 		if (isset($_GET["cuisine"])) {
-			$cuisine = $_GET["cuisine"];
-			$cuisineSQL = " AND cuisine_type LIKE %$cuisine%";
+			if ($_GET["cuisine"] != "") {
+				$cuisine = $_GET["cuisine"];
+				$cuisineSQL = " AND cuisine_type LIKE '%$cuisine%''";
+			}
 		}
 		$mealSQL = "";
 		if (isset($_GET["meal"])) {
-			$meal= $_GET["meal"];
-			$mealSQL = " AND meal_type LIKE %$meal%";
+			if ($_GET["meal"] != "") {
+				$meal= $_GET["meal"];
+				$mealSQL = " AND meal_type LIKE '$meal'";
+			}
 		}
 		$intolerancesSQL = "";
 		if (isset($_GET["intolerances"])) {
-			$intolerances = $_GET["intolerances"];
-			$intolerancesSQL = " AND  intls LIKE %$intolerances%";
+				$intolerances = $_GET["intolerances"];
+				$intolerancesSQL = " AND  intls NOT LIKE '%$intolerances%'";
 		}
 		$dietSQL = "";
 		if (isset($_GET["diet"])) {
-			$diet= $_GET["diet"];
-			$dietSQL = " AND diets LIKE %$diet%";
+			if ($_GET["diet"] != "" && $_GET["diet"] != "Unrestricted") {
+				$diet= $_GET["diet"];
+				$dietSQL = " AND diets LIKE '%$diet%'";
+			}
 		}
 
 
 		$recipe_check_query = "SELECT * FROM Recipe WHERE $querySQL $cuisineSQL $mealSQL $intolerancesSQL $dietSQL";
 		echo($recipe_check_query);
 		$result = mysqli_query($conn, $recipe_check_query);
-		echo($result);
 		$db_recipes = array();
-		if (!$result) {
+		if ($result) {
 			while($recipe = mysqli_fetch_assoc($result)){
 				$db_recipe = new DBResult();
 				$db_recipe->link = "redirect_to_recipe.php/?db_id=" . $recipe['recipe_id'];
