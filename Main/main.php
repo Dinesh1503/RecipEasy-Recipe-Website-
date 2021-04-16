@@ -651,7 +651,12 @@
 		$intolerancesSQL = "";
 		if (isset($_GET["intolerances"])) {
 				$intolerances = $_GET["intolerances"];
-				$intolerancesSQL = " AND  intls NOT LIKE '%$intolerances%'";
+				if (count($intolerances) > 0) {
+					for ($i = 0; $i < count($intolerances); $i++) {
+						$intl = $intolerances[$i];
+						$intolerancesSQL = $intolerancesSQL . " AND  intls NOT LIKE '%$intl%'";
+					}
+				}
 		}
 		$dietSQL = "";
 		if (isset($_GET["diet"])) {
@@ -663,7 +668,7 @@
 
 
 		$recipe_check_query = "SELECT * FROM Recipe WHERE $querySQL $cuisineSQL $mealSQL $intolerancesSQL $dietSQL";
-		echo($recipe_check_query);
+		#echo($recipe_check_query);
 		$result = mysqli_query($conn, $recipe_check_query);
 		$db_recipes = array();
 		if ($result) {
