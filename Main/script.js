@@ -4,7 +4,7 @@ function fav(id, userId, elementId) {
     var elementName = elementId;
     var checkbox = document.getElementById(elementName);
     var isChecked = 0;
-    
+
     if (checkbox.checked) {
         isChecked = 1;
     }
@@ -20,30 +20,32 @@ function fav(id, userId, elementId) {
                 }
                 else{
                     alert("Cancel Favorite");
-                }  
+                }
         }
     });
 }
 
 function mealPlan(id, userId, elementId, isChangeDate) {
 
-    
-    var checkbox = document.getElementById(elementId);
 
-    var date = document.getElementById('date').value;
+    var checkbox = document.getElementById(elementId);
     
+    var date = document.getElementById('date').value;
+
     var isChangeD = parseInt(isChangeDate);
+
+    var isChecked = 1;
 
     if(isChangeD == 1) {
         isChecked = 2;
-    } 
+    }
 
     else {
 
         if (checkbox.checked) {
             isChecked = 1;
         }
-    
+
         if(checkbox.checked) {
             if(elementId=='breakfast'){
                 document.getElementById("dinner").checked = false;
@@ -58,7 +60,7 @@ function mealPlan(id, userId, elementId, isChangeDate) {
                 document.getElementById("lunch").checked = false;
             }
     }
-    
+
     }
 
     $.ajax({
@@ -80,7 +82,7 @@ function mealPlan(id, userId, elementId, isChangeDate) {
                 }
                 else{
                     alert("cancel!");
-                }  
+                }
         }
     });
 }
@@ -89,12 +91,12 @@ function mealPlan(id, userId, elementId, isChangeDate) {
 function refresh() {
     var date = document.getElementById('mealDate').value;
     console.log(date);
-    
+
     $.ajax({
         type: "POST",
         url: 'mealplan.php',
         data: { 'date' : date},
     });
     location.reload();
-    
+
 }
